@@ -1,0 +1,2211 @@
+/*j1nh0.c*/
+if(strcmp(applet,"j1nh0")==0){
+ printf("\nj1nh0\n\n");
+/*mk.c*/
+}else if(strcmp(applet,"mk")==0){
+ void usage(){printf("\nUSAGE: mk ${c|cl|dj|h|i|jc|k|p|q|sh|vc|bldsol|j1nh0|usage}\n\n");};
+ if(argc==1){
+  system("make -j$(nproc)");
+ }else if(strcmp(sel,"c")==0){
+  if(argc!=3){
+   printf("\nUSAGE: mk c ${C PROGRAM}\n\n");
+  }else{
+   char *mkc[125]={
+    "#include<stdio.h>",
+    "#include<stdlib.h>",
+    "int main(int argc,char *argv[]){",
+    " /**/",
+    "return(0);};"
+   };
+   sprintf(cmd,"touch %s%s;echo '/*%s%s*/'>>%s%s",sell,ec,sell,ec,sell,ec);
+   system(cmd);
+   while(mkc[i]!=NULL){
+    sprintf(cmd,"echo '%s'>>%s%s",mkc[i],sell,ec);
+    system(cmd);
+    i++;
+   };
+   sprintf(cmd,"nano -ic %s%s",sell,ec);
+   system(cmd);
+  };
+ }else if(strcmp(sel,"cl")==0){
+  system("make clobber");
+  system("make clean");
+ }else if(strcmp(sel,"d")==0){
+  char *dir[100]={"/etc/skel/.bin/","/iso/","/j1nh0/","/mnt/BLK/","/mnt/BRN/","/mnt/GRY/","/mnt/PLT/","/mnt/SLV/"};
+  while(dir[i]!=NULL){
+   sprintf(cmd,"mkdir -vp %s",dir[i]);
+   system(cmd);
+   i++;
+  };
+ }else if(strcmp(sel,"dj")==0){
+  char *dirj[150]={
+   "/iso/",
+   "/j1nh0/",
+   "/mnt/BLK/",
+   "/mnt/BRN",
+   "/mnt/PLT",
+   "/mnt/SLV",
+   "/mnt/GLD"
+  };
+  while(dirj[i]!=NULL){
+   sprintf(cmd,"mkdir -vp %s",dirj[i]);
+   system(cmd);
+   i++;
+  }
+ }else if(strcmp(sel,"h")==0){
+  if(argc!=3){
+   printf("\nUSAGE: mk h ${FILE}\n\n");
+  }else{
+   sprintf(cmd,"sha512sum %s > %s-$(date +%%Y%%m%%d).sha512",sell,sell);
+   system(cmd);
+  };
+ }else if(strcmp(sel,"i")==0){
+  if(argc!=4){
+   printf("\nUSAGE: mk i ${IMAGE FILE} ${SIZE IN GB}\n\n");
+  }else{
+   sprintf(cmd,"dd if=/dev/urandom of=./%s.img bs=512 count=$(echo %s*2097152|bc) status=progress",sell,selll);
+   system(cmd);
+  };
+
+ }else if(strcmp(sel,"jc")==0){
+  if(argc!=3){
+   printf("\nUSAGE: mk jc ${C PROGRAM}\n\n");
+  }else{
+   sprintf(cmd,"touch %s%s;echo '/*%s.c*/'>>%s%s",sell,ec,sell,sell,ec);
+   system(cmd);
+   sprintf(cmd,"echo '}else if(strcmp(applet,\"%s\")==0){'>>%s%s",sell,sell,ec);
+   system(cmd);
+   sprintf(cmd,"nano -ic %s%s",sell,ec);
+   system(cmd);
+  };
+
+ }else if(strcmp(sel,"k")==0){
+  if(argc!=3){
+   printf("\nUSAGE: mk k ${KEY NAME}\n\n");
+  }else{
+   sprintf(cmd,"openssl genrsa -out %s.piv 16384",sell);
+   system(cmd);
+   sprintf(cmd,"openssl rsa -in %s.piv -pubout -out %s.pub",sell,sell);
+   system(cmd);
+   sprintf(cmd,"openssl req -new -key %s.piv -out %s.csr -subj '/C=US/ST=CO/L=COLO SPGS/O=PRIVATE/OU=PRIVATE/CN=j1nh0m3lqu1st@gmail'",sell,sell);
+   system(cmd);
+   sprintf(cmd,"openssl x509 -req -in %s.csr -signkey %s.piv -out %s.crt",sell,sell,sell);
+   system(cmd);
+   sprintf(cmd,"ssh-keygen -y -f %s.piv>%s.ssh",sell,sell);
+   system(cmd);
+  };
+ }else if(strcmp(sel,"p")==0){
+  if(argc!=3){
+   system("tr -cd [:alnum:]</dev/urandom|head -c 32;echo");
+   waitcls();
+  }else{
+   sprintf(cmd,"tr -cd [:alnum:]</dev/urandom|head -c %s;echo",sell);
+   system(cmd);
+   waitcls();
+  };
+ }else if(strcmp(sel,"q")==0){
+  if(argc!=3){
+   printf("\nUSAGE: mk q ${NAME}\n\n");
+  }else{
+   sprintf(cmd,"touch %s.txt",sell);
+   system(cmd);
+   char *qr[1000]={
+    "BEGIN:VCARD",
+    "VERSION:3.0",
+    "N:",
+    "FN:",
+    "TEL;TYPE=VOICE,CELL,PREF:",
+    "TITLE:",
+    "ORG:",
+    "EMAIL:",
+    "URL:",
+    "END:VCARD",
+    "EOF"
+   };
+   while(qr[i]!=NULL){
+    sprintf(cmd,"echo \"%s\" >> %s.txt",qr[i],sell);
+    system(cmd);
+    i++;
+   };
+   sprintf(cmd,"nano -ic %s.txt&&qrencode -l H -s 6 -o %s.png<%s.txt",sell,sell,sell);
+   system(cmd);
+  };
+ }else if(strcmp(sel,"sh")==0){
+  if(argc!=3){
+   printf("\nUSAGE: mk sh ${SHELL PROGRAM}\n\n");
+  }else{
+   sprintf(cmd,"touch %s%s;echo '#!/bin/bash -\n\nexit 0' >> %s%s",sell,esh,sell,esh);
+   system(cmd);
+   sprintf(cmd,"nano -ic %s%s",sell,esh);
+   system(cmd);
+  };
+ }else if(strcmp(sel,"vc")==0){
+  /*THIS NEEDS WORK*/
+  void usage(){printf("\nUSAGE: mk vc ${NAME}\n\n");};
+  if(argc==2){
+   usage();
+  }else{
+   system("dd if=/dev/urandom of=./random bs=512 count=2048 status=progress");
+   sync();
+   sprintf(cmd,"veracrypt --text --create %s.vc --volume-type normal --encryption AES-Twofish-Serpent --hash sha-512 --filesystem exfat --pim 7 --random-source ./random",sel);
+   system(cmd);
+   sync();
+   system("rm ./random");
+  };
+ }else if(strcmp(sel,"bldsol")==0){
+  system("cp -fv ../.bashrc ../.bashrc.bckp");
+  system("cat * > ../.bashrc");
+  system("sudo cat ../.bashrc > /etc/skel/.bashrc");
+  sync();
+ }else if(strcmp(sel,"j1nh0")==0){
+  system("cp -fv ../j1nh0.c ../j1nh0.c.bckp");
+  system("cat */* > ../j1nh0.c");
+  sync();
+ }else if(strcmp(sel,"usage")==0){
+  usage();
+ }else{
+  sprintf(cmd,"make -j$(nproc) %s",sel);
+  system(cmd);
+ };
+/*aptac.c*/
+}else if(strcmp(applet,"aptac")==0){
+ sprintf(cmd,"sudo apt autoclean");
+ system(cmd);
+/*aptar.c*/
+}else if(strcmp(applet,"aptar")==0){
+ system("sudo apt -y autoremove");
+/*aptc.c*/
+}else if(strcmp(applet,"aptc")==0){
+ system("sudo apt -y clean");
+/*aptdi.c*/
+}else if(strcmp(applet,"aptdi")==0){
+ char *aptdi[100]={
+  "update",
+  "dist-upgrade",
+  "upgrade"
+ };
+ while(aptdi[i]!=NULL){
+  sprintf(cmd,"%s %s",apt,aptdi[i]);
+  system(cmd);
+  i++;
+ };
+/*aptf.c*/
+}else if(strcmp(applet,"aptf")==0){
+ sprintf(cmd,"%s install -f",apt);
+ system(cmd);
+/*apti.c*/
+}else if(strcmp(applet,"apti")==0){
+ void usage(){printf("\nPlease provide a package to install!\n\n");};
+ if(argc==1){
+  usage();
+ }else{
+  aptu();
+  int o=1;
+  while(argv[o]!=NULL){
+   sprintf(cmd,"%s install %s",apt,argv[o]);
+   system(cmd);
+   o++;
+  };
+ };
+/*aptp.c*/
+}else if(strcmp(applet,"aptp")==0){
+ void usage(){printf("\nUSAGE: aptp ${PACKAGE(S)}\n\n");};
+ int o=1;
+ if(argc==1){
+  usage();
+ }else{
+  while(argv[o]!=NULL){
+   sprintf(cmd,"sudo apt purge %s",argv[o]);
+   system(cmd);
+   o++;
+  };
+ };
+/*aptu.c*/
+}else if(strcmp(applet,"aptu")==0){
+ aptu();
+/*aptinstall.c*/
+}else if(strcmp(applet,"aptinstall")==0){
+ char *pkg[5000]={
+  "afnix",
+  "algol68g",
+  "aplus-fsf",
+  "aspectj",
+  "asymptote",
+  "ats2-lang",
+  "bash",
+  "bc",
+  "bf",
+  "binutils-aarch64-linux-gnu",
+  "binutils-arm-linux-gnueabi",
+  "bison",
+  "bleachbit",
+  "bsdgames",
+  "bsh",
+  "build-essential",
+  "caffeine",
+  "ccache",
+  "clisp",
+  "clojure",
+  "cmake",
+  "codeblocks",
+  "coffeescript",
+  "crunch",
+  "cryptsetup",
+  "cubic",
+  "curl",
+  "dafny",
+  "dc",
+  "dhall",
+  "dislocker",
+  "docker.io",
+  "dosfstools",
+  "ecryptfs-utils",
+  "elixir",
+  "emacs-nox",
+  "erlang",
+  "f2c",
+  "ffmpeg",
+  "fish",
+  "flatpak",
+  "flex",
+  "fortune-mod",
+  "fp-compiler",
+  "fsharp",
+  "g++",
+  "gambas3-scripter",
+  "gap",
+  "gawk",
+  "gcc",
+  "gcc-aarch64-linux-gnu",
+  "gcc-arm-linux-gnueabi",
+  "gcc-multilib",
+  "gdb",
+  "gdc",
+  "generator-scripting-language",
+  "genius",
+  "gettext",
+  "gforth",
+  "gfortran",
+  "ghc",
+  "ghostscript",
+  "gimp",
+  "git",
+  "git-core",
+  "git-lfs",
+  "g++-multilib",
+  "gnat",
+  "gnucobol4",
+  "gnupg",
+  "gnuplot",
+  "gnu-smalltalk",
+  "gobjc",
+  "golang",
+  "golang-go",
+  "gpart",
+  "gparted",
+  "gperf",
+  "gpt",
+  "groovy",
+  "guile-3.0",
+  "gzip",
+  "haxe",
+  "htop",
+  "icont",
+  "iconx",
+  "idevicerestore",
+  "imagemagick",
+  "intercal",
+  "iverilog",
+  "jasmin-sable",
+  "jq",
+  "kotlin",
+  "ksh",
+  "lame",
+  "lib32ncurses5-dev",
+  "lib32readline-dev",
+  "lib32z1-dev",
+  "libgee-0.8-dev",
+  "libgmp-dev",
+  "libimage-exiftool-perl",
+  "libjson-glib-dev",
+  "liblz4-tool",
+  "liblzma-dev",
+  "libmp3lame0",
+  "libmpc-dev",
+  "libmpfr-dev",
+  "libncurses5",
+  "libncurses5-dev",
+  "libncursesw5-dev",
+  "libnlopt-dev",
+  "libpolyml-dev",
+  "libsdl1.2-dev",
+  "libssl-dev",
+  "libvte-2.91-dev",
+  "libxml2",
+  "libxml2-utils",
+  "libxmu-dev",
+  "lisaac",
+  "livescript",
+  "llvm",
+  "lr",
+  "lua5.3",
+  "lynx",
+  "lzip",
+  "lzop",
+  "m4",
+  "macchanger",
+  "make",
+  "maxima",
+  "mdadm",
+  "minizinc",
+  "mono-devel",
+  "mono-mcs",
+  "mono-vbnc",
+  "mtools",
+  "nasm",
+  "neko",
+  "nickle",
+  "nmap",
+  "nodejs",
+  "node-typescript",
+  "ocaml",
+  "octave",
+  "openjdk-11-jdk",
+  "osmctools",
+  "pari-gp",
+  "parser3-cgi",
+  "pdftk",
+  "perl",
+  "php-cli",
+  "pigz",
+  "pngcrush",
+  "polyml",
+  "python2",
+  "python2-dev",
+  "python3",
+  "python-dev-is-python3",
+  "qrencode",
+  "rakudo",
+  "ratfor",
+  "r-base",
+  "rc",
+  "regina-rexx",
+  "rpi-imager",
+  "rsync",
+  "ruby",
+  "ruby-mustache",
+  "rustc",
+  "scala",
+  "schedtool",
+  "scilab-cli",
+  "screen",
+  "sed",
+  "sendmail",
+  "slsh",
+  "solaar",
+  "spin",
+  "squashfs-tools",
+  "squirrel3",
+  "ssh",
+  "surgescript",
+  "swi-prolog",
+  "sysstat",
+  "tcl",
+  "tcsh",
+  "tree",
+  "valac",
+  "veracrypt",
+  "vim",
+  "virt-manager",
+  "virtualbox",
+  "vlc",
+  "wabt",
+  "x264",
+  "x265",
+  "xclip",
+  "xsltproc",
+  "xsltproc",
+  "yabasic",
+  "yorick",
+  "zip",
+  "zlib1g-dev",
+  "zoem",
+  "zsh"
+ };
+ sprintf(cmd,"%s update",apt);
+ system(cmd);
+ while(pkg[i]!=NULL){
+  sprintf(cmd,"%s install %s",apt,pkg[i]);
+  system(cmd);
+  i++;
+ };
+/*aptrepo.c*/
+}else if(strcmp(applet,"aptrepo")==0){
+ char *repo[1000]={
+  "universe",
+  "multiverse",
+  "restricted",
+  "ppa:cubic-wizard/release",
+  "ppa:unit193/encryption"
+ };
+ while(repo[i]!=NULL){
+  sprintf(cmd,"sudo add-apt-repository -y %s",repo[i]);
+  system(cmd);
+  i++;
+ };
+/*aptanydesk.c*/
+}else if(strcmp(applet,"aptanydesk")==0){
+ char *anydesk[1000]={
+  "sudo curl -s https://keys.anydesk.com/repos/DEB-GPG-KEY | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/anydesk-stable.gpg > /dev/null",
+  "sudo echo 'deb http://deb.anydesk.com/ all main' | sudo tee /etc/apt/sources.list.d/anydesk-stable.list",
+  "sudo ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive apt -y --install-recommends update",
+  "sudo ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive apt -y --install-recommends install anydesk"
+ };
+ sprintf(cmd,"%s update",apt);
+ system(cmd);
+ while(anydesk[i]!=NULL){
+  sprintf(cmd,"%s",anydesk[i]);
+  system(cmd);
+  i++;
+ };
+/*aptbinaries.c*/
+}else if(strcmp(applet,"aptbinaries")==0){
+ char *binaries[1000]={
+  "sudo wget https://github.com/LMMS/lmms/releases/download/v1.2.2/lmms-1.2.2-linux-x86_64.AppImage -O /etc/skel/.bin/lmms",
+  "sudo chmod 755 /etc/skel/.bin/lmms",
+  "sudo wget https://github.com/balena-io/etcher/releases/download/v1.18.4/balenaEtcher-1.18.4-x64.AppImage -O /etc/skel/.bin/balenaEtcher",
+  "sudo chmod 755 /etc/skel/.bin/balenaEtcher",
+  "sudo wget https://update.flipperzero.one/builds/qFlipper/1.3.0/qFlipper-x86_64-1.3.0.AppImage -O /etc/skel/.bin/qflipper",
+  "sudo chmod 755 /etc/skel/.bin/qflipper",
+  "sudo wget https://github.com/FreeCAD/FreeCAD/releases/download/0.20.2/FreeCAD_0.20.2-2022-12-27-conda-Linux-x86_64-py310.AppImage -O /etc/skel/.bin/FreeCAD",
+  "sudo chmod 755 /etc/skel/.bin/FreeCAD",
+  "sudo wget https://github.com/Ultimaker/Cura/releases/download/5.3.1/UltiMaker-Cura-5.3.1-linux-modern.AppImage -O /etc/skel/.bin/Cura",
+  "sudo chmod 755 /etc/skel/.bin/Cura",
+  "sudo wget https://assets.checkra.in/downloads/linux/cli/x86_64/dac9968939ea6e6bfbdedeb41d7e2579c4711dc2c5083f91dced66ca397dc51d/checkra1n -O /etc/skel/.bin/checkra1n",
+  "sudo chmod 755 /etc/skel/.bin/checkra1n",
+  "sudo wget https://github.com/BCN3D/Stratos/releases/download/v1.6.3/BCN3D_Stratos-1.6.3.AppImage -O /etc/skel/.bin/BCN3D",
+  "sudo chmod 755 /etc/skel/.bin/BCN3D",
+  "sudo wget https://github.com/unetbootin/unetbootin/releases/download/702/unetbootin-linux64-702.bin -O /etc/skel/.bin/unetbootin",
+  "sudo chmod 755 /etc/skel/.bin/unetbootin"
+ };
+ sprintf(cmd,"%s update",apt);
+ system(cmd);
+ while(binaries[i]!=NULL){
+  sprintf(cmd,"%s",binaries[i]);
+  system(cmd);
+  i++;
+ };
+/*aptjammy2focal.c*/
+}else if(strcmp(applet,"aptjammy2focal")==0){
+ char *aptjammy2focal[150]={
+  "cp -v /etc/apt/sources.list /etc/apt/sources.list.jammy",
+  "cp -v /etc/apt/sources.list /etc/apt/sources.list.focal",
+  "sed -i 's/jammy/focal/g' sources.list.focal",
+  "cat sources.list.jammy>sources.list",
+  "cat sources.list.focal>>sources.list"
+ };
+ while(aptjammy2focal!=NULL){
+  sprintf(cmd,"%s",aptjammy2focal[i]);
+  system(cmd);
+  i++;
+ };
+/*aptlibdvd-pkg.c*/
+}else if(strcmp(applet,"aptlibdvd-pkg")==0){
+ char *libdvd[100]={
+  "libdvdcss-dev",
+  "libdvdcss2",
+  "libdvdread-dev",
+  "libdvdread8",
+  "libdvdnav4",
+  "libdvd-pkg"
+ };
+ sprintf(cmd,"%s update",apt);
+ system(cmd);
+ while(libdvd[i]!=NULL){
+  sprintf(cmd,"%s install %s",apt,libdvd[i]);
+  system(cmd);
+  i++;
+ };
+ sprintf(cmd,"%s libdvd-pkg",dpkgreconf);
+ system(cmd);
+/*aptmega.c*/
+}else if(strcmp(applet,"aptmega")==0){
+ char *megapkg[1000]={
+  "megasync",
+  "nautilus-megasync",
+  "megacmd"
+ };
+ sprintf(cmd,"%s update",apt);
+ system(cmd);
+ while(megapkg[i]!=NULL){
+  sprintf(cmd,"wget https://mega.nz/linux/repo/xUbuntu_22.04/amd64/%s-xUbuntu_22.04_amd64.deb",megapkg[i]);
+  system(cmd);
+  sprintf(cmd,"%s install ./%s-xUbuntu_22.04_amd64.deb",apt,megapkg[i]);
+  system(cmd);
+  sprintf(cmd,"rm %s-xUbuntu_22.04_amd64.deb",megapkg[i]);
+  system(cmd);
+  i++;
+ };
+/*aptmssql.c*/
+}else if(strcmp(applet,"aptmssql")==0){
+ char *aptmssql[1000]={
+  "wget -qO- https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc",
+  "sudo add-apt-repository \"$(wget -qO- https://packages.microsoft.com/config/ubuntu/20.04/mssql-server-2022.list)\"",
+  "sudo ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive apt -y --install-recommends update",
+  "sudo ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive apt -y --install-recommends install mssql-server",
+  "sudo ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive apt -y --install-recommends install curl",
+  "sudo apt update",
+  "curl https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc",
+  "curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list | sudo tee /etc/apt/sources.list.d/msprod.list",
+  "sudo ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive apt -y --install-recommends update",
+  "sudo ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive apt -y --install-recommends install mssql-tools",
+  "sudo ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive apt -y --install-recommends install unixodbc-dev"
+ };
+ sprintf(cmd,"%s update",apt);
+ system(cmd);
+ while(aptmssql[i]!=NULL){
+  sprintf(cmd,"%s",aptmssql[i]);
+  system(cmd);
+  i++;
+ };
+ system("sudo /opt/mssql/bin/mssql-conf setup");
+ sync();
+/*aptnagoff.c*/
+}else if(strcmp(applet,"aptnagoff")==0){
+ char *aptnagoff[150]={
+  "mkdir -vp /etc/apt/apt.conf.d/off/",
+  "mv -vf /etc/apt/apt.conf.d/20apt-esm-hook.conf /etc/apt/apt.conf.d/off/"
+ };
+ while(aptnagoff[i]!=NULL){
+  sprintf(cmd,"sudo %s",aptnagoff[i]);
+  system(cmd);
+  i++;
+ };
+/*aptqemu.c*/
+}else if(strcmp(applet,"aptqemu")==0){
+ char *aptqemu[100]={
+  "qemu",
+  "qemubuilder",
+  "qemu-efi-aarch64",
+  "qemu-guest-agent",
+  "qemu-system-arm",
+  "qemu-system-mips",
+  "qemu-system-ppc",
+  "qemu-system-sparc",
+  "qemu-user",
+  "qemu-block-extra",
+  "qemu-efi",
+  "qemu-efi-arm",
+  "qemu-system",
+  "qemu-system-common",
+  "qemu-system-gui",
+  "qemu-system-misc",
+  "qemu-system-s390x",
+  "qemu-system-x86",
+  "qemu-user-binfmt",
+  "qemu-utils"
+ };
+ sprintf(cmd,"%s update",apt);
+ system(cmd);
+ while(aptqemu[i]!=NULL){
+  sprintf(cmd,"%s install %s",apt,aptqemu[i]);
+  system(cmd);
+  i++;
+ };
+/*aptunattended.c*/
+}else if(strcmp(applet,"aptunattended")==0){
+ aptu();
+ /*THIS NEEDS WORK*/
+ sprintf(cmd,"%s install unattended-upgrades",apt);
+ system(cmd);
+ sprintf(cmd,"%s unattended-upgrades",dpkgreconf);
+ system(cmd);
+/*gitc.c*/
+}else if(strcmp(applet,"gitc")==0){
+ if(argc==1){
+  printf("\nPlease provide a repo to clone!\n\n");
+ }else{
+  sprintf(cmd,"git clone %s",sel);
+  system(cmd);
+ };
+/*gitcommit.c*/
+}else if(strcmp(applet,"gitcommit")==0){
+ system("git commit -m $(date +%Y%m%d%H%M%S)");
+/*gitprune.c*/
+}else if(strcmp(applet,"gitprune")==0){
+ char *gitprune[1000]={
+  "gc --aggressive --prune=now",
+  "repack -Ad",
+  "prune",
+  "prune-packed"
+ };
+ while(gitprune[i]!=NULL){
+  sprintf(cmd,"git %s",gitprune[i]);
+  system(cmd);
+  i++;
+ };
+/*gitpull.c*/
+}else if(strcmp(applet,"gitpull")==0){
+ char *gitpull[100]={
+  "fetch",
+  "pull"
+ };
+ while(gitpull[i]!=NULL){
+  sprintf(cmd,"git %s",gitpull[i]);
+  system(cmd);
+  i++;
+ };
+/*gitpullmain.c*/
+}else if(strcmp(applet,"gitpullmain")==0){
+ char *gitpull[100]={
+  "fetch",
+  "pull origin main"
+ };
+ while(gitpull[i]!=NULL){
+  sprintf(cmd,"git %s",gitpull[i]);
+  system(cmd);
+  i++;
+ };
+/*gitpush.c*/
+}else if(strcmp(applet,"gitpush")==0){
+ char *gitpush[1000]={
+  "add .",
+  "commit -m $(date +%Y%m%d%H%M%S)",
+  "push"
+ };
+ while(gitpush[i]!=NULL){
+  sprintf(cmd,"git %s",gitpush[i]);
+  system(cmd);
+  i++;
+ };
+/*gitpushmain.c*/
+}else if(strcmp(applet,"gitpushmain")==0){
+ char *gitpush[1000]={
+  "add .",
+  "commit -m $(date +%Y%m%d%H%M%S)",
+  "push origin main"
+ };
+ while(gitpush[i]!=NULL){
+  sprintf(cmd,"git %s",gitpush[i]);
+  system(cmd);
+  i++;
+ };
+/*gitsubadd.c*/
+}else if(strcmp(applet,"gitsubadd")==0){
+ if(argc==1){
+  printf("\nPlease provide URL for git submodule add\n\nUSAGE: gitsubadd $URL\n");
+ }else{
+  sprintf(cmd,"git submodule add %s",sel);
+  system(cmd);
+ };
+/*gitsubupdate.c*/
+}else if(strcmp(applet,"gitsubupdate")==0){
+ char *gitsubupdate[1000]={
+  "init",
+  "update",
+  "foreach 'git fetch origin; git checkout $(git rev-parse --abbrev-ref HEAD); git reset --hard origin/$(git rev-parse --abbrev-ref HEAD); git submodule update --recursive; git clean -dfx'"
+ };
+ while(gitsubupdate[i]!=NULL){
+  sprintf(cmd,"git submodule %s",gitsubupdate[i]);
+  i++;
+ };
+/*gitinstall.c*/
+}else if(strcmp(applet,"gitinstall")==0){
+ void usage(){printf("\nUSAGE: gitinstall ${iptracer|all}\n\n");};
+ void iptracer(){
+  system("git clone https://github.com/rajkumardusad/IP-Tracer.git&&cd IP-Tracer&&bash install&&cd ..&&rm -rf IP-Tracer");
+ };
+ if(argc==1){
+  usage();
+ }else if(strcmp(sel,"all")==0){
+  iptracer();
+ }else if(strcmp(sel,"iptracer")==0){
+  iptracer();
+ }else{
+  usage();
+ };
+/*gitnisol.c*/
+}else if(strcmp(applet,"gitnisol")==0){
+/*THIS NEEDS WORK*/
+ char *gitnisol[1000]={
+  "> .gitnisolusage;> .gitnisollog;for GITNISOL in $(cat ./.gitnisol);do cd $GITNISOL;gitreset;sync;cd ..;du -sh $GITNISOL >> .gitnisolusage;sync;done"
+/* "if [ -f ./.gitnisol ];then clear;> .gitnisolusage;> .gitnisollog;for GITNISOL in $(cat ./.gitnisol);do cd $GITNISOL;gitreset && echo -e \n$GITNISOL push complete\n >> ../.gitnisollog || echo -e \n$GITNISOL push fail\n >> ../.gitnisollog;sync;cd ..;du $GITNISOL >> .gitnisolusage;sync;done;else echo -e \n\nNOT GIT NISOL REPO\n\n;fi;"*/
+ };
+ while(gitnisol[i]!=NULL){
+  sprintf(cmd,"%s",gitnisol[i]);
+  system(cmd);
+  i++;
+ };
+/*gitreset.c*/
+}else if(strcmp(applet,"gitreset")==0){
+ char *gitreset[1000]={
+  "init",
+  "branch -m main",
+  "remote add origin https://github.com/j1nh0/${PWD##*/}.git",
+  "add -A",
+  "commit -m $(date +%Y%m%d%H%M%S)",
+  "push -f -v origin main"
+ };
+ system("rm -rf ./.git/");
+ sync();
+ system("if [ ${PWD##*/} != 'j1nh0' ];then tree --du -h > README.md;fi");
+ sync();
+ while(gitreset[i]!=NULL){
+  sprintf(cmd,"git %s",gitreset[i]);
+  system(cmd);
+  i++;
+ };
+ 
+/*gitultra.c*/
+}else if(strcmp(applet,"gitultra")==0){
+ char *gitultra[1000]={
+  "https://github.com/ChrisRfr/Win10XPE.git",
+  "https://github.com/ssut/payload-dumper-go.git",
+  "https://github.com/LineageOS/scripts.git",
+  "https://github.com/INT3NSE07/better-adb-sync.git",
+  "https://github.com/MindTheGapps/vendor_gapps.git",
+  "https://github.com/TheMuppets/manifests.git",
+  "https://github.com/flipperdevices/flipperzero-firmware.git",
+  "https://github.com/neverfa11ing/FlipperMusicRTTTL.git",
+  "https://github.com/neverfa11ing/FlipperAmiibosNFC.git",
+  "https://github.com/neverfa11ing/ducky.git",
+  "https://github.com/RogueMaster/FlipperAmiibo",
+  "https://github.com/RogueMaster/RogueMaster",
+  "https://github.com/RogueMaster/awesome-flipperzero-withModules",
+  "https://github.com/RogueMaster/flippermaker.github.io",
+  "https://github.com/RogueMaster/flipperzero-firmware-wPlugins",
+  "https://github.com/UNC0V3R3D/Flipper_Zero-BadUsb.git",
+  "https://github.com/UNC0V3R3D/Flipper-Zero-BadUSB.git",
+  "https://github.com/logickworkshop/Flipper-IRDB.git",
+  "https://github.com/nonamecoder/FlipperZeroHondaFirmware.git",
+  "https://github.com/nonamecoder/ECE263.git",
+  "https://github.com/nonamecoder/CVE-2022-27254.git",
+  "https://github.com/hak5/usbrubberducky-payloads.git",
+  "https://github.com/CartoType/CartoType-Public.git"
+ };
+ void usage(){printf("\nUSAGE: gitultra ${l|c}\n\n");};
+ if(argc==1){
+  /*THIS NEEDS WORK*/
+  system("for GITULTRAUPDATE in $(ls -d */);do cd $GITULTRAUPDATE;echo $GITULTRAUPDATE;git fetch --all;git reset --hard origin;git pull origin;cd ..;done");
+ }else if(strcmp(sel,"l")==0){
+  while(gitultra[i]!=NULL){
+   printf("%s\n",gitultra[i]);
+   i++;
+  };
+ }else if(strcmp(sel,"c")==0){
+  while(gitultra[i]!=NULL){
+   sprintf(cmd,"git clone %s",gitultra[i]);
+   system(cmd);
+   i++;
+  };
+ }else{
+  usage();
+ };
+/*snapl.c*/
+}else if(strcmp(applet,"snapl")==0){
+ if(argc==1){
+  printf("\nPlease provide a package to list!\n\n");
+ }else{
+  sprintf(cmd,"sudo snap list %s",sel);
+  system(cmd);
+ };
+/*snapr.c*/
+}else if(strcmp(applet,"snapr")==0){
+ system("sudo snap refresh");
+/*snapre.c*/
+}else if(strcmp(applet,"snapre")==0){
+ if(argc==1){
+  printf("\nPlease provide a package to remove!\n\n");
+ }else{
+  sprintf(cmd,"sudo snap remove %s",sel);
+  system(cmd);
+ };
+/*snaps.c*/
+}else if(strcmp(applet,"snaps")==0){
+ system("sudo snap save");
+/*snapinstall.c*/
+}else if(strcmp(applet,"snapinstall")==0){
+ char *snap[1000]={
+  "signal-desktop"
+ };
+ while(snap[i]!=NULL){
+  sprintf(cmd,"sudo snap install %s",snap[i]);
+  system(cmd);
+  i++;
+ };
+/*fpfi.c*/
+}else if(strcmp(applet,"fpfi")==0){
+ void usage(){printf("\nUSAGE: fpfi ${FLATHUB FLATPAK PACKAGE}\n\n");};
+ if(argc==1){
+  usage();
+ }else{
+  sprintf(cmd,"sudo flatpak install flathub %s",sel);
+  system(cmd);
+ };
+/*fpi.c*/
+}else if(strcmp(applet,"fpi")==0){
+ void usage(){printf("\nUSAGE: fpi ${FLATPAK PACKAGE NAME}\n\n");};
+ if(argc==1){
+  usage();
+ }else{
+  sprintf(cmd,"sudo flatpak install %s",sel);
+  system(cmd);
+ };
+/*fpl.c*/
+}else if(strcmp(applet,"fpl")==0){
+ system("flatpak list");
+/*fpr.c*/
+}else if(strcmp(applet,"fpr")==0){
+ void usage(){printf("\nPlease provide a flatpak to run!\n\n");};
+ if(argc==1){
+  usage();
+ }else{
+  sprintf(cmd,"flatpak run %s",sel);
+  system(cmd);
+ };
+/*fpu.c*/
+}else if(strcmp(applet,"fpu")==0){
+ system("sudo flatpak update");
+/*fpinstall.c*/
+}else if(strcmp(applet,"fpinstall")==0){
+ char *fpinstall[2000]={
+  "--from https://dl.flathub.org/repo/appstream/org.qgis.qgis.flatpakref"
+ };
+ while(fpinstall[i]!=NULL){
+  sprintf(cmd,"flatpak install --noninteractive %s",fpinstall[i]);
+  system(cmd);
+  i++;
+ };
+/*update.c*/
+}else if(strcmp(applet,"update")==0){
+ void usage(){printf("\nUSAGE: update ${pf|rp|yt|all}\n\n");};
+ void pf(){
+  char *platform[1000]={
+   "sudo wget https://dl.google.com/android/repository/platform-tools-latest-linux.zip -O /tmp/platform-tools-latest-linux.zip",
+   "sudo unzip -o /tmp/platform-tools-latest-linux.zip -d /tmp/",
+   "sudo chmod -R 755 /tmp/platform-tools/",
+   "sudo chown -R root:root /tmp/platform-tools/",
+   "for PF in $(ls -A /tmp/platform-tools/);do mv -v /tmp/platform-tools/$PF /etc/skel/.bin/;done"
+  };
+  while(platform[i]!=NULL){
+   sprintf(cmd,"%s",platform[i]);
+   system(cmd);
+   i++;
+  };
+ };
+ void rp(){
+  char *repo[1000]={
+   "sudo wget https://storage.googleapis.com/git-repo-downloads/repo -O /etc/skel/.bin/repo",
+   "sudo chmod 755 /etc/skel/.bin/repo"
+  };
+  while(repo[j]!=NULL){
+   sprintf(cmd,"%s",repo[j]);
+   system(cmd);
+   j++;
+  };
+ };
+ void yt(){
+  char *youtube[1000]={
+   "sudo wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O /etc/skel/.bin/yt-dlp",
+   "sudo chmod 755 /etc/skel/.bin/yt-dlp"
+  };
+  while(youtube[k]!=NULL){
+   sprintf(cmd,"%s",youtube[k]);
+   system(cmd);
+   k++;
+  };
+ };
+ if(argc==1){
+  usage();
+ }else{
+  system("if [ ! -d /etc/skel/.bin/ ];then sudo mkdir '/etc/skel/.bin/';fi");
+  if(strcmp(sel,"all")==0){
+   pf();
+   rp();
+   yt();
+  }else if(strcmp(sel,"pf")==0){
+   pf();
+  }else if(strcmp(sel,"rp")==0){
+   rp();
+  }else if(strcmp(sel,"yt")==0){
+   yt();
+  }else{
+   usage();
+  };
+ };
+/*xconfigure32.c*/
+}else if(strcmp(applet,"xconfigure32")==0){
+ system("./configure --build x86_64-pc-linux-gnu --host arm-linux-gnueabi LDFLAGS='-static -pthread'");
+/*xconfigure.c*/
+}else if(strcmp(applet,"xconfigure")==0){
+ system("./configure --build x86_64-pc-linux-gnu --host aarch64-linux-gnu LDFLAGS='-static -pthread'");
+/*cip.c*/
+}else if(strcmp(applet,"cip")==0){
+ char *cip[1000]={
+  "ip addr"
+ };
+ cls();
+ while(cip[i]!=NULL){
+  sprintf(cmd,"%s",cip[i]);
+  system(cmd);
+  i++;
+ };
+/*dns.c*/
+}else if(strcmp(applet,"dns")==0){
+ char *dnsd[100]={
+  "quad9.net",
+  "cloudflare.com",
+  "google.com"
+ };
+ char *dnsi[100]={
+  "9.9.9.9",
+  "1.1.1.1",
+  "8.8.8.8"
+ };
+ void usage(){printf("\nUSAGE: dns ${s(set)|t(test) d(dns) || i(ip)}\n\n");};
+ void s(){
+  while(dnsi[i]!=NULL){
+   sprintf(cmd,"echo 'nameserver %s'|sudo tee -a /etc/resolv.conf",dnsi[i]);
+   system(cmd);
+   i++;
+  };
+ };
+ void t(){
+  if(argc!=3){
+   usage();
+  }else{
+   if(strcmp(sell,"d")==0){
+    while(dnsd[i]!=NULL){
+     printf("Testing %s\n",dnsd[i]);
+     sprintf(cmd,"ping -c 2 %s|grep 'packet loss'",dnsd[i]);
+     system(cmd);
+     printf("\n");
+     i++;
+    };
+   }else if(strcmp(sell,"i")==0){
+    while(dnsi[i]!=NULL){
+     printf("Testing %s\n",dnsi[i]);
+     sprintf(cmd,"ping -c 2 %s|grep 'packet loss'",dnsi[i]);
+     system(cmd);
+     printf("\n");
+     i++;
+    };
+   }else{
+    usage();
+   };
+  };
+ };
+ if(argc==1){
+  usage();
+ }else{
+  if(strcmp(sel,"s")==0){
+   s();
+  }else if(strcmp(sel,"t")==0){
+   t();
+  }else{
+   usage();
+  };
+ };
+/*fip.c*/
+}else if(strcmp(applet,"fip")==0){
+ void usage(){printf("\nUSAGE: fip ${IP ADDRESS}\n\n");};
+ if(argc==1){
+  usage();
+ }else{
+  cls();
+  sprintf(cmd,"trace -t %s|grep -e 'IP Address' -e 'Country' -e 'Region' -e 'City' -e 'Zip code' -e 'Time zone' -e 'ISP'",sel);
+  system(cmd);
+  printf("\n####\n\n");
+  sprintf(cmd,"curl https://db-ip.com/%s|grep -e 'ipAddress' -e 'continentCode' -e 'continentName' -e 'countryCode' -e 'countryName' -e 'stateProv' -e 'city'",sel);
+  system(cmd);
+  printf("\n####\n\n");
+  sprintf(cmd,"curl https://www.geolocation.com/?ip=%s | grep -e '\"ip\"' -e '\"country_code\"' -e '\"country_name\"' -e '\"region_name\"' -e '\"city_name\"' -e '\"latitude\"' -e '\"logitude\"' -e '\"zip_code\"' -e '\"time_zone\"' -e '\"asn\"' -e '\"as\"' -e '\"isp\"' -e '\"domain\"' -e '\"net_speed\"' -e '\"idd_code\"' -e '\"area_code\"' -e '\"weather_station_code\"' -e '\"weather_station_name\"' -e '\"mcc\"' -e '\"mnc\"' -e '\"mobile_brand\"' -e '\"elevation\"' -e '\"usage_type\"' -e '\"address_type\"'",sel);
+  system(cmd);
+  printf("\n####\n\n");
+ };
+/*ipdown.c*/
+}else if(strcmp(applet,"ipdown")==0){
+ if(argc==1){
+  system("for LINK in $(ip addr | grep ^[0-99] | awk '{print substr($2, 1, length($2)-1)}');do sudo ip link set down $LINK;done");
+ }else{
+  sprintf(cmd,"sudo ip link set down %s",sel);
+  system(cmd);
+ };
+/*ipup.c*/
+}else if(strcmp(applet,"ipup")==0){
+ if(argc==1){
+  system("for LINK in $(ip addr | grep ^[0-99] | awk '{print substr($2, 1, length($2)-1)}');do sudo ip link set up $LINK;done");
+ }else{
+  sprintf(cmd,"sudo ip link set up %s",sel);
+  system(cmd);
+ };
+/*mip.c*/
+}else if(strcmp(applet,"mip")==0){
+ char *mip[1000]={
+  "curl ifconfig.me",
+  "echo"
+ };
+ while(mip[i]!=NULL){
+  sprintf(cmd,"%s",mip[i]);
+  system(cmd);
+  i++;
+ };
+/*ufd.c*/
+}else if(strcmp(applet,"ufd")==0){
+ system("sudo ufw disable");
+/*ufdef.c*/
+}else if(strcmp(applet,"ufdef")==0){
+ char *ufdef[1000]={
+  "default deny incoming",
+  "default deny outgoing",
+  "allow 22",
+  "allow out 25",
+  "allow out 53",
+  "allow out 80",
+  "allow out 123",
+  "allow out 443",
+  "allow out 500",
+  "allow out 587",
+  "allow out 1433"
+ };
+ char *ufdefsystem[1000]={
+  "iptables -A OUTPUT -p icmp --icmp-type 8 -d 0/0 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT",
+  "iptables -A INPUT -p icmp --icmp-type 0 -s 0/0 -m state --state ESTABLISHED,RELATED -j ACCEPT"
+ };
+ while(ufdef[i]!=NULL){
+  sprintf(cmd,"sudo ufw %s",ufdef[i]);
+  system(cmd);
+  i++;
+ };
+ while(ufdefsystem[j]!=NULL){
+  sprintf(cmd,"%s",ufdefsystem[j]);
+  system(cmd);
+  j++;
+ };
+/*ufe.c*/
+}else if(strcmp(applet,"ufe")==0){
+ system("sudo ufw enable");
+/*ufr.c*/
+}else if(strcmp(applet,"ufr")==0){
+ system("sudo ufw reset");
+/*ufs.c*/
+}else if(strcmp(applet,"ufs")==0){
+ system("sudo ufw status verbose numbered");
+/*uftoggle.c*/
+}else if(strcmp(applet,"uftoggle")==0){
+ cls();
+ system("ufd");
+ system("ufr");
+ system("ufdef");
+ system("ufe");
+ system("ufs");
+/*imirror.c*/
+}else if(strcmp(applet,"imirror")==0){
+ system("rsync --archive --progress --human-readable --whole-file /iso/ /j1nh0/");
+ sync();
+/*merge.c*/
+}else if(strcmp(applet,"merge")==0){
+ if(argc!=3){
+  printf("\nUSAGE: merge ${SOURCE} ${DESTINATION}\n\n");
+ }else{
+  sprintf(cmd,"rsync --archive --progress --human-readable --whole-file --exclude=.* --exclude=studio --exclude=sdk %s %s",sel,sell);
+  system(cmd);
+  sync();
+ };
+/*mirror.c*/
+}else if(strcmp(applet,"mirror")==0){
+ if(argc!=3){
+  printf("\nUSAGE: mirror ${SOURCE} ${DESTINATION}\n\n");
+ }else{
+  sprintf(cmd,"rsync --archive --progress --human-readable --whole-file --delete %s %s",sel,sell);
+  system(cmd);
+  sync();
+ };
+/*ship.c*/
+}else if(strcmp(applet,"ship")==0){
+ if(argc!=3){
+  printf("\nUSAGE: ship ${SOURCE} ${DESTINATION}\n\n");
+ }else{
+  sprintf(cmd,"rsync --archive --progress --human-readable --whole-file --remove-source-files --exclude=.* --exclude=studio --exclude=sdk %s %s",sel,sell);
+  system(cmd);
+  sync();
+ };
+/*wmirror.c*/
+}else if(strcmp(applet,"wmirror")==0){
+ void usage(){printf("\nUSAGE: wmirror ${WEBSITE}\n\n");};
+ if(argc==1){
+  usage();
+ }else{
+  sprintf(cmd,"wget --random-wait -e robots=off --no-parent --page-requisites --mirror --convert-links --continue --recursive --user-agent='mozilla UCCS C++ UNOFFICIAL plugin' --show-progress %s",sel);
+  system(cmd);
+ };
+/*adbcontacts.c*/
+}else if(strcmp(applet,"adbcontacts")==0){
+ char *adbcontacts[1000]={
+  "adb start-server",
+  "sleep 5",
+  "adb root",
+  "adb pull /data/data/com.android.providers.contacts/databases/contacts2.db ./contacts2-$(date +%Y%m%d).db",
+  "db2vcf ./contacts2-$(date +%Y%m%d).db > Contacts-$(date +%Y%m%d).vcf",
+  "adb unroot"
+ };
+ while(adbcontacts[i]!=NULL){
+  sprintf(cmd,"%s",adbcontacts[i]);
+  system(cmd);
+  sync();
+  i++;
+ };
+/*adbd.c*/
+}else if(strcmp(applet,"adbd")==0){
+ system("adb devices");
+/*adbi.c*/
+}else if(strcmp(applet,"adbi")==0){
+ void usage(){printf("\nUSAGE: adbi ${APK INSTALL}\n\n");};
+ if(argc==1){
+  usage();
+ }else{
+  sprintf(cmd,"adb install %s",sel);
+  system(cmd);
+ };
+/*adbk.c*/
+}else if(strcmp(applet,"adbk")==0){
+ system("adb kill-server");
+/*adbr.c*/
+}else if(strcmp(applet,"adbr")==0){
+ system("adb root");
+/*adbreb.c*/
+}else if(strcmp(applet,"adbreb")==0){
+ if(argc==1){
+  system("adb reboot");
+ }else if(strcmp(sel,"b")==0){
+  system("adb reboot bootloader");
+ }else if(strcmp(sel,"d")==0){
+  system("adb reboot download");
+ }else if(strcmp(sel,"r")==0){
+  system("adb reboot recovery");
+ }else{
+  printf("\nUSAGE: adbreb ${b|d|r}\n\n");
+ };
+/*adbreverse.c*/
+}else if(strcmp(applet,"adbreverse")==0){
+ void usage(){printf("\nUSAGE: adbreverse ${FOLDER}\n\n");};
+ if(argc==1){
+  usage();
+ }else{
+  sprintf(cmd,"adb-sync --reverse /sdcard/%s %s",sel,sel);
+  system(cmd);
+  sync();
+ };
+/*adbs.c*/
+}else if(strcmp(applet,"adbs")==0){
+ system("adb start-server");
+/*adbsd.c*/
+}else if(strcmp(applet,"adbsd")==0){
+ char *adbsd[1000]={
+  "DCIM",
+  "Download",
+  "Pictures"
+ };
+ system("if [ ! -d ./sdcard/ ];then mkdir -vp ./sdcard/;fi");
+ while(adbsd[i]!=NULL){
+  sprintf(cmd,"adb pull /sdcard/%s ./sdcard/;if [ \"$?\" = '0' ];then sync;adb shell rm -rfv /sdcard/%s/*;else echo '%s not found!';fi",adbsd[i],adbsd[i],adbsd[i]);
+  system(cmd);
+  i++;
+ };
+/*adbsh.c*/
+}else if(strcmp(applet,"adbsh")==0){
+ system("adb shell");
+/*adbside.c*/
+}else if(strcmp(applet,"adbside")==0){
+ void usage(){printf("\nUSAGE: adbside ${SIDELOAD PACKAGE}\n\n");};
+ if(argc==1){
+  usage();
+ }else{
+  sprintf(cmd,"adb sideload %s",sel);
+  system(cmd);
+ };
+/*adbsync.c*/
+}else if(strcmp(applet,"adbsync")==0){
+ void usage(){printf("\nUSAGE: adbsync ${FOLDER}\n\n");};
+ if(argc==1){
+  usage();
+ }else{
+  sprintf(cmd,"adb-sync --delete %s /sdcard/%s",sel,sel);
+  system(cmd);
+  sync();
+ };
+/*adbur.c*/
+}else if(strcmp(applet,"adbur")==0){
+ system("adb unroot");
+/*fbreb.c*/
+}else if(strcmp(applet,"fbreb")==0){
+ void usage(){printf("\nUSAGE: fbreb ${STANDALONE OR b|d|r}\n\n");};
+ if(argc==1){
+  system("sudo fastboot reboot");
+ }else if(strcmp(sel,"b")==0){
+  system("sudo fastboot reboot bootloader");
+ }else if(strcmp(sel,"d")==0){
+  system("sudo fastboot reboot download");
+ }else if(strcmp(sel,"r")==0){
+  system("sudo fastboot reboot recovery");
+ }else{
+  usage();
+ };
+/*fbstock.c*/
+}else if(strcmp(applet,"fbstock")==0){
+ void usage(){printf("\nUSAGE: fbstock ${lemonadep|instantnoodle}\n\n");};
+ char *lemonadep[1000]={
+  "abl",
+  "aop",
+  "bluetooth",
+  "cpucp",
+  "devcfg",
+  "dsp",
+  "engineering_cdt",
+  "featenabler",
+  "hyp",
+  "imagefv",
+  "keymaster",
+  "modem",
+  "multiimgoem",
+  "oplus_sec",
+  "oplusstanvbk",
+  "qupfw",
+  "qweslicstore",
+  "shrm",
+  "splash",
+  "tz",
+  "uefisecapp",
+  "vm-bootsys",
+  "xbl_config",
+  "xbl"
+ };
+ char *instantnoodle[1000]={
+  "abl",
+  "aop",
+  "bluetooth",
+  "cmnlib64",
+  "cmnlib",
+  "devcfg",
+  "dsp",
+  "featenabler",
+  "hyp",
+  "imagefv",
+  "keymaster",
+  "logo",
+  "mdm_oem_stanvbk",
+  "modem",
+  "multiimgoem",
+  "qupfw",
+  "spunvm",
+  "storsec",
+  "tz",
+  "uefisecapp"
+ };
+ if(argc==1){
+  usage();
+ }else if(strcmp(sel,"lemonadep")==0){
+  while(lemonadep[i]!=NULL){
+   sprintf(cmd,"sudo fastboot flash --slot=all %s %s.img",lemonadep[i],lemonadep[i]);
+   system(cmd);
+   i++;
+  };
+ }else if(strcmp(sel,"instantnoodle")==0){
+  while(instantnoodle[j]!=NULL){
+   sprintf(cmd,"sudo fastboot flash --slot=all %s %s.img",instantnoodle[j],instantnoodle[j]);
+   system(cmd);
+   j++;
+  };
+ }else{
+  usage();
+ };
+/*sshkey.c*/
+}else if(strcmp(applet,"sshkey")==0){
+ void usage(){printf("\nUSAGE: sshkey ${SOMEONE}@${IP ADDR}\n\n");};
+ if(argc==1){
+  usage();
+ }else{
+  system("ssh-keygen");
+  sprintf(cmd,"ssh-copy-id %s",sel);
+  system(cmd);
+ };
+/*bleach.c*/
+}else if(strcmp(applet,"bleach")==0){
+ char *bleach[1000]={
+  "adobe_reader.cache",
+  "adobe_reader.mru",
+  "adobe_reader.tmp",
+  "amsn.cache",
+  "amsn.chat_logs",
+  "amule.backup",
+  "amule.known_clients",
+  "amule.known_files",
+  "amule.logs",
+  "amule.temp",
+  "apt.autoclean",
+  "apt.autoremove",
+  "apt.clean",
+  "apt.package_lists",
+  "audacious.cache",
+  "audacious.log",
+  "audacious.mru",
+  "bash.history",
+  "beagle.cache",
+  "beagle.index",
+  "beagle.logs",
+  "brave.cache",
+  "brave.cookies",
+  "brave.dom",
+  "brave.form_history",
+  "brave.history",
+  "brave.passwords",
+  "brave.search_engines",
+  "brave.session",
+  "brave.site_preferences",
+  "brave.sync",
+  "brave.vacuum",
+  "chromium.cache",
+  "chromium.cookies",
+  "chromium.dom",
+  "chromium.form_history",
+  "chromium.history",
+  "chromium.passwords",
+  "chromium.search_engines",
+  "chromium.session",
+  "chromium.site_preferences",
+  "chromium.sync",
+  "chromium.vacuum",
+  "d4x.history",
+  "deepscan.backup",
+  "deepscan.ds_store",
+  "deepscan.thumbs_db",
+  "deepscan.tmp",
+  "deepscan.vim_swap_root",
+  "deepscan.vim_swap_user",
+  "discord.cache",
+  "discord.cookies",
+  "discord.history",
+  "discord.vacuum",
+  "dnf.autoremove",
+  "dnf.clean_all",
+  "easytag.history",
+  "easytag.logs",
+  "elinks.history",
+  "emesene.cache",
+  "emesene.logs",
+  "epiphany.cache",
+  "epiphany.cookies",
+  "epiphany.dom",
+  "epiphany.passwords",
+  "epiphany.places",
+  "evolution.cache",
+  "exaile.cache",
+  "exaile.downloaded_podcasts",
+  "exaile.log",
+  "filezilla.mru",
+  "firefox.backup",
+  "firefox.cache",
+  "firefox.cookies",
+  "firefox.crash_reports",
+  "firefox.dom",
+  "firefox.forms",
+  "firefox.passwords",
+  "firefox.session_restore",
+  "firefox.site_preferences",
+  "firefox.url_history",
+  "firefox.vacuum",
+  "flash.cache",
+  "flash.cookies",
+  "gedit.recent_documents",
+  "gftp.cache",
+  "gftp.logs",
+  "gimp.tmp",
+  "gl-117.debug_logs",
+  "gnome.run",
+  "gnome.search_history",
+  "google_chrome.cache",
+  "google_chrome.cookies",
+  "google_chrome.dom",
+  "google_chrome.form_history",
+  "google_chrome.history",
+  "google_chrome.passwords",
+  "google_chrome.search_engines",
+  "google_chrome.session",
+  "google_chrome.site_preferences",
+  "google_chrome.sync",
+  "google_chrome.vacuum",
+  "google_earth.temporary_files",
+  "google_toolbar.search_history",
+  "gpodder.cache",
+  "gpodder.downloaded_podcasts",
+  "gpodder.logs",
+  "gpodder.vacuum",
+  "gwenview.recent_documents",
+  "hexchat.logs",
+  "hippo_opensim_viewer.cache",
+  "hippo_opensim_viewer.logs",
+  "java.cache",
+  "journald.clean",
+  "kde.cache",
+  "kde.recent_documents",
+  "kde.tmp",
+  "konqueror.cookies",
+  "konqueror.current_session",
+  "konqueror.url_history",
+  "libreoffice.history",
+  "liferea.cache",
+  "liferea.cookies",
+  "liferea.vacuum",
+  "links2.history",
+  "midnightcommander.history",
+  "miro.cache",
+  "miro.logs",
+  "nautilus.history",
+  "nexuiz.cache",
+  "octave.history",
+  "openofficeorg.cache",
+  "openofficeorg.recent_documents",
+  "opera.cache",
+  "opera.cookies",
+  "opera.dom",
+  "opera.form_history",
+  "opera.history",
+  "opera.passwords",
+  "opera.session",
+  "opera.site_preferences",
+  "opera.vacuum",
+  "palemoon.backup",
+  "palemoon.cache",
+  "palemoon.cookies",
+  "palemoon.crash_reports",
+  "palemoon.dom",
+  "palemoon.forms",
+  "palemoon.passwords",
+  "palemoon.session_restore",
+  "palemoon.site_preferences",
+  "palemoon.url_history",
+  "palemoon.vacuum",
+  "pidgin.cache",
+  "pidgin.logs",
+  "realplayer.cookies",
+  "realplayer.history",
+  "realplayer.logs",
+  "recoll.index",
+  "rhythmbox.cache",
+  "rhythmbox.history",
+  "screenlets.logs",
+  "seamonkey.cache",
+  "seamonkey.chat_logs",
+  "seamonkey.cookies",
+  "seamonkey.download_history",
+  "seamonkey.history",
+  "secondlife_viewer.Cache",
+  "secondlife_viewer.Logs",
+  "skype.chat_logs",
+  "skype.installers",
+  "slack.cache",
+  "slack.cookies",
+  "slack.history",
+  "slack.vacuum",
+  "sqlite3.history",
+  "system.cache",
+  "system.clipboard",
+  "system.custom",
+  "system.desktop_entry",
+  "system.localizations",
+  "system.recent_documents",
+  "system.rotated_logs",
+  "system.tmp",
+  "system.trash",
+  "thumbnails.cache",
+  "thunderbird.cache",
+  "thunderbird.cookies",
+  "thunderbird.index",
+  "thunderbird.passwords",
+  "thunderbird.sessionjson",
+  "thunderbird.vacuum",
+  "transmission.blocklists",
+  "transmission.history",
+  "transmission.torrents",
+  "tremulous.cache",
+  "vim.history",
+  "vlc.memory_dump",
+  "vlc.mru",
+  "vuze.backup",
+  "vuze.cache",
+  "vuze.logs",
+  "vuze.stats",
+  "vuze.temp",
+  "warzone2100.logs",
+  "waterfox.backup",
+  "waterfox.cache",
+  "waterfox.cookies",
+  "waterfox.crash_reports",
+  "waterfox.dom",
+  "waterfox.forms",
+  "waterfox.passwords",
+  "waterfox.session_restore",
+  "waterfox.site_preferences",
+  "waterfox.url_history",
+  "waterfox.vacuum",
+  "wine.tmp",
+  "winetricks.temporary_files",
+  "x11.debug_logs",
+  "xine.cache",
+  "yum.clean_all",
+  "yum.vacuum",
+  "zoom.cache",
+  "zoom.logs",
+  "zoom.recordings"
+ };
+ while(bleach[i]!=NULL){
+  sprintf(cmd,"bleachbit --clean --overwrite %s",bleach[i]);
+  system(cmd);
+  i++;
+ };
+/*drop.c*/
+}else if(strcmp(applet,"drop")==0){
+ char *drop[5]={
+  "1",
+  "2",
+  "3"
+ };
+ while(drop[i]!=NULL){
+  sync();
+  sprintf(cmd,"sudo echo %s > /proc/sys/vm/drop_caches",drop[i]);
+  system(cmd);
+  i++;
+ };
+/*obliviate.c*/
+}else if(strcmp(applet,"obliviate")==0){
+ system("rm -rfv $(ls -A .)");
+ sync();
+/*backup.c*/
+}else if(strcmp(applet,"backup")==0){
+ void usage(){printf("\nUSAGE: backup ${SOME FILE/FOLDER}\n\n");};
+ if(argc==1){
+  usage();
+ }else{
+  sprintf(cmd,"cp -rfv %s %s.bckp",sel,sel);
+  system(cmd);
+  sync();
+ };
+/*THIS NEEDS WORK*/
+/*bootconfig.c*/
+}else if(strcmp(applet,"bootconfig")==0){
+ char *grubcfg[10000]={
+  "if loadfont /boot/grub/font.pf2 ; then",
+  " set gfxmode=auto",
+  " insmod efi_gop",
+  " insmod efi_uga",
+  " insmod gfxterm",
+  " terminal_output gfxterm",
+  "fi",
+  "set menu_color_normal=green/black",
+  "set menu_color_highlight=black/green",
+  "set timeout=5",
+  "menuentry \"ramGUI\" {",
+  " set gfxpayload=keep",
+  " linux /casper/vmlinuz boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity toram quiet splash noprompt ---",
+  " initrd /casper/initrd.lz",
+  "}",
+  "menuentry \"vanillaGUI\" {",
+  " set gfxpayload=keep",
+  " linux /casper/vmlinuz  boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity quiet splash noprompt ---",
+  " initrd /casper/initrd.lz",
+  "}",
+  "menuentry \"ramGUISafeGraphics\" {",
+  " set gfxpayload=keep",
+  " linux /casper/vmlinuz nomodeset boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity toram quiet splash noprompt ---",
+  " initrd /casper/initrd.lz",
+  "}",
+  "menuentry \"vanillaGUISafeGraphics\" {",
+  " set gfxpayload=keep",
+  " linux /casper/vmlinuz nomodeset boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity maybe-ubiquity quiet splash noprompt ---",
+  " initrd /casper/initrd.lz",
+  "}",
+  "menuentry \"ramCLI\" {",
+  " set gfxpayload=keep",
+  " linux /casper/vmlinuz boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity toram quiet splash noprompt --- 3",
+  " initrd /casper/initrd.lz",
+  "}",
+  "menuentry \"vanillaCLI\" {",
+  " set gfxpayload=keep",
+  " linux /casper/vmlinuz boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity quiet splash noprompt --- 3",
+  " initrd /casper/initrd.lz",
+  "}",
+  "menuentry \"ramCLISafeGraphics\" {",
+  " set gfxpayload=keep",
+  " linux /casper/vmlinuz nomodeset boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity toram quiet splash noprompt --- 3",
+  " initrd /casper/initrd.lz",
+  "}",
+  "menuentry \"ramCLISafeGraphics\" {",
+  " set gfxpayload=keep",
+  " linux /casper/vmlinuz nomodeset boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity quiet splash noprompt --- 3",
+  " initrd /casper/initrd.lz",
+  "}",
+  "menuentry \"memtest86plus\" {",
+  " linux16 /install/mt86plus",
+  "}"
+ };
+ char *loopbackcfg[10000]={
+  "menuentry \"ramGUI\" {",
+  " set gfxpayload=keep",
+  " linux /casper/vmlinuz boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity iso-scan/filename=${iso_path} toram quiet splash noprompt ---",
+  " initrd /casper/initrd.lz",
+  "}",
+  "menuentry \"vanillaGUI\" {",
+  " set gfxpayload=keep",
+  " linux /casper/vmlinuz boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity iso-scan/filename=${iso_path} quiet splash noprompt ---",
+  " initrd /casper/initrd.lz",
+  "}",
+  "menuentry \"ramGUISafeGraphics\" {",
+  " set gfxpayload=keep",
+  " linux /casper/vmlinuz nomodeset boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity iso-scan/filename=${iso_path} toram quiet splash noprompt ---",
+  " initrd /casper/initrd.lz",
+  "}",
+  "menuentry \"vanillaGUISafeGraphics\" {",
+  " set gfxpayload=keep",
+  " linux /casper/vmlinuz nomodeset boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity iso-scan/filename=${iso_path} quiet splash noprompt ---",
+  " initrd /casper/initrd.lz",
+  "}",
+  "menuentry \"ramCLI\" {",
+  " set gfxpayload=keep",
+  " linux /casper/vmlinuz boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity iso-scan/filename=${iso_path} toram quiet splash noprompt --- 3",
+  " initrd	/casper/initrd.lz",
+  "}",
+  "menuentry \"vanillaCLI\" {",
+  " set gfxpayloa=keep",
+  " linux /casper/vmlinuz boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity iso-scan/filename=${iso_path} quiet splash noprompt --- 3",
+  " initrd /casper/initrd.lz",
+  "}",
+  "menuentry \"ramCLISafeGraphics\" {",
+  " set gfxpayload=keep",
+  " linux /casper/vmlinuz nomodeset boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity iso-scan/filename=${iso_path} toram quiet splash noprompt --- 3",
+  " initrd	/casper/initrd.lz",
+  "}",
+  "menuentry \"vanillaCLISafeGraphics\" {",
+  " set gfxpayloa=keep",
+  " linux /casper/vmlinuz nomodeset boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity iso-scan/filename=${iso_path} quiet splash noprompt --- 3",
+  " initrd /casper/initrd.lz",
+  "}",
+  "menuentry \"memtest86plus\" {",
+  " linux16 /install/mt86plus",
+  "}"
+ };
+ system("> grub.cfg");
+ system("> loopback.cfg");
+ while(grubcfg[i]!=NULL){
+  sprintf(cmd,"echo \"%s\">>grub.cfg",grubcfg[i]);
+  system(cmd);
+  i++;
+ };
+ while(loopbackcfg[j]!=NULL){
+  sprintf(cmd,"echo \"%s\">>loopback.cfg",loopbackcfg[j]);
+  system(cmd);
+  j++;
+ };
+/*catalog.c*/
+}else if(strcmp(applet,"catalog")==0){
+ void usage(){printf("\nUSAGE: catalog ${weblist|youtube|text2email}\n\n");};
+ char *weblist[1000]={
+  "https://apkpro.net",
+  "https://build.nethunter.com",
+  "https://curl.haxx.se",
+  "https://desktop.firmware.mobi",
+  "https://developer.android.com",
+  "https://doc.dev.md",
+  "https://download.lineageos.org/",
+  "https://eu.dl.twrp.me/",
+  "https://ftp.gnu.org",
+  "https://gcc.gnu.org",
+  "https://gparted.org/",
+  "https://guardianproject.info",
+  "https://guardianproject.info/releases/",
+  "https://handbrake.fr",
+  "https://http://alternativeto.net",
+  "https://http://mpesch3.de1.cc",
+  "https://https://audacityteam.org",
+  "https://https://lmms.io",
+  "https://https://www.fortinetguru.com",
+  "https://http://www.ocenaudio.com.br",
+  "https://http://www.wavosaur.com",
+  "https://ipsw.me/",
+  "https://java.com",
+  "https://linuxmint.com/",
+  "https://lubuntu.me/",
+  "https://mcversions.net",
+  "https://stats.lineageos.org/",
+  "https://tails.boum.org",
+  "https://twrp.me/",
+  "https://ubuntu.com/",
+  "https://www.allrecipes.com",
+  "https://www.ancient.eu.com",
+  "https://www.androidapk.ws",
+  "https://www.apkpro.net",
+  "https://www.biology.arizona.edu",
+  "https://www.bios-pw.org",
+  "https://www.busybox.net",
+  "https://www.cheatography.com",
+  "https://www.cyberciti.biz",
+  "https://www.dyne.org",
+  "https://www.easyphysics.net",
+  "https://www.freedos.org/",
+  "https://www.gemologyonline.com",
+  "https://www.gnu.org",
+  "https://www.gzip.org",
+  "https://www.invisible-island.net",
+  "https://www.kali.org/",
+  "https://www.kernel.org",
+  "https://www.learnchem.net",
+  "https://www.learn-c.org",
+  "https://www.learncpp.com",
+  "https://www.learncs.org",
+  "https://www.learningchineseonline.net",
+  "https://www.learninghowtocook.com",
+  "https://www.learnjavaonline.org",
+  "https://www.learn-js.org",
+  "https://www.learn-php.org",
+  "https://www.learnpython.org",
+  "https://www.learnshell.org",
+  "https://www.lineageos.org/",
+  "https://www.linuxcommand.org",
+  "https://www.linuxfromscratch.org",
+  "https://www.lyrics.net",
+  "https://www.magicermine.com",
+  "https://www.man7.org",
+  "https://www.mrcrab.net",
+  "https://www.organicgardening.com",
+  "https://www.parrotsec.org/",
+  "https://www.scripts.com",
+  "https://www.textfiles.com",
+  "https://www.themindunleashed.org",
+  "https://www.tinycorelinux.net",
+  "https://www.tinycorelinux.net",
+  "https://www.weedist.com",
+  "https://www.youtube-dl.org",
+  "https://youtube-dl.org"
+ };
+ char *youtube[1000]={
+  "AppAspect:user/AppAspect",
+  "AppAspect:user/GurpritSaini",
+  "BohoBeautiful:user/cexercize",
+  "Easy2BootTutorial:user/steve6375",
+  "EphemeralRift:user/EphemeralRift",
+  "ERB:user/ERB",
+  "GentleWhispering:user/GentleWhispering",
+  "Hak5:user/Hak5Darren",
+  "HDdubHERO:user/HDdubHERO",
+  "HDdubPANDA:user/HDdubPANDA",
+  "HDdubRAVE3:user/HDdubRAVE3",
+  "HDMusicNexus:user/HDMusicNexus",
+  "hiteshrohilla1987:user/hiteshrohilla1987",
+  "Hopsintv:user/Hopsintv",
+  "iTzAdam5X:user/iTzAdam5X",
+  "keleshevCOM:user/keleshevCOM",
+  "khanacademy:user/khanacademy",
+  "machinegunkellyAK:user/machinegunkellyAK",
+  "madhurbhatia89:user/madhurbhatia89",
+  "MrSuicideSheep:user/MrSuicideSheep",
+  "NightcoreGalaxy:channel/UC_OTXxqZn1F0vtqiCLRDEmQ",
+  "NightcoreLab:channel/UCVX4_aohMOOC5hbojezKpeQ",
+  "NightcoreReality:user/NightcoreReality",
+  "nyuualiaslucy:user/nyuualiaslucy",
+  "PuppyLinuxWorld:user/PuppyLinuxWorld",
+  "RSAConference:user/RSAConference",
+  "TastyNetwork:user/TastyNetwork",
+  "TheGumbyCollection:user/TheGumbyCollection",
+  "thenewboston:user/thenewboston",
+  "UDUBSTEPHD:user/UDUBSTEPHD",
+  "UKFDrumandBass:user/UKFDrumandBass",
+  "UKFDubstep:user/UKFDubstep"
+ };
+ char *text2email[1000]={
+  "AT&T:     phonenumber@txt.att.net",
+  "T-Mobile: phonenumber@tmomail.net",
+  "Sprint:   phonenumber@messaging.sprintpcs.com",
+  "Verizon:  phonenumber@vtext.com or phonenumber@vzwpix.com",
+  "Virgin:   phonenumber@vmobl.com"
+ };
+ if(argc!=2){
+  usage();
+ }else if(strcmp(sel,"weblist")==0){
+  while(weblist[i]!=NULL){
+   printf("%38s\t",weblist[i]);
+   i++;
+   printf("%38s\n",weblist[i]);
+   i++;
+  };
+ }else if(strcmp(sel,"youtube")==0){
+  while(youtube[i]!=NULL){
+   printf("%50s\t",youtube[i]);
+   i++;
+   printf("%50s\n",youtube[i]);
+   i++;
+  };
+ }else if(strcmp(sel,"text2email")==0){
+  while(text2email[i]){
+   printf("%s\n",text2email[i]);
+   i++;
+  };
+ }else{
+  usage();
+ };
+/*mountchroot.c*/
+}else if(strcmp(applet,"mountchroot")==0){
+ char *chroot[1000]={
+  "dev",
+  "dev/pts",
+  "dev/shm",
+  "sys",
+  "proc",
+  "run"
+ };
+ while(chroot[i]!=NULL){
+  sprintf(cmd,"sudo mount -o bind /%s/ ./%s/",chroot[i],chroot[i]);
+  system(cmd);
+  i++;
+ };
+ sync();
+ system("chroot .");
+/*pdfreduce.c*/
+}else if(strcmp(applet,"pdfreduce")==0){
+ system("for PDF in $(ls *pdf);do gs -sDEVICE=pdfwrite -dCompatabilityLevel=1.4 -dPDFSETTINGS=/ebook -dBATCH -dNOPAUSE -sOutputFile=$PDF.pdf $PDF;cat $PDF.pdf>$PDF;rm $PDF.pdf;done");
+/*ramdisk.c*/
+}else if(strcmp(applet,"ramdisk")==0){
+ void usage(){printf("\nUSAGE: ramdisk ${SIZE IN GIGABYTES}\n\n");};
+ if(argc==1){
+  usage();
+ }else{
+  system("if [ ! -d /ramdisk/ ];then sudo mkdir -vp /ramdisk/;fi");
+  sprintf(cmd,"sudo mount -t tmpfs -o size=$(echo %s*1024|bc)'M' tmpfs /ramdisk/ && echo $(echo %s*1024|bc)'M' pass || echo 'Ramdisk fail!'",sel,sel);
+  system(cmd);
+ };
+/*scrub.c*/
+}else if(strcmp(applet,"scrub")==0){
+ void usage(){printf("\nUSAGE: scrub ${SOME FILE/DIR}\n\n");};
+ if(argc==1){
+  usage();
+ }else{
+  ret=isDir(sel);
+  if(ret==0){
+   sprintf(cmd,"exiftool -recurse -overwrite_original -all= '%s'",sel);
+   system(cmd);
+  }else{
+   sprintf(cmd,"exiftool -overwrite_original -all= '%s'",sel);
+   system(cmd);
+  };
+ };
+/*unmountchroot.c*/
+}else if(strcmp(applet,"unmountchroot")==0){
+ char *unmountchroot[1000]={
+  "run",
+  "proc",
+  "sys",
+  "dev/shm",
+  "dev/pts",
+  "dev"
+ };
+ while(unmountchroot[i]!=NULL){
+  sprintf(cmd,"sudo umount ./%s/",unmountchroot[i]);
+  system(cmd);
+  i++;
+ };
+ sync();
+/*addgroups.c*/
+}else if(strcmp(applet,"addgroups")==0){
+ char *addgroups[100]={
+  "adm",
+  "tty",
+  "dialout",
+  "cdrom",
+  "floppy",
+  "sudo",
+  "audio",
+  "dip",
+  "video",
+  "plugdev",
+  "users",
+  "lpadmin",
+  "lxd",
+  "sambashare",
+  "libvirt"
+ };
+ while(addgroups[i]!=NULL){
+  sprintf(cmd,"sudo usermod -aG %s $(whoami)",addgroups[i]);
+  system(cmd);
+  i++;
+ };
+/*attribwalk.c*/
+}else if(strcmp(applet,"attribwalk")==0){
+ void usage(){printf("\nUSAGE: attribwalk ${DEV DEVICE}\n\n");};
+ if(argc==1){
+  usage();
+ }else{
+  sprintf(cmd,"sudo udevadm info --attribute-walk %s",sel);
+  system(cmd);
+ };
+/*perm.c*/
+}else if(strcmp(applet,"perm")==0){
+ void usage(){printf("\nUSAGE: perm ${r(755)|s(700)|u(777)} .\n\n");};
+ if(argc==1){
+  usage();
+ }else if(strcmp(sel,"r")==0){
+  system("find . -type d -exec chmod 755 {} \\;");
+  system("find . -type f -exec chmod 755 {} \\;");
+  system("find . -type d -exec chown $(whoami):$(whoami) {} \\;");
+  system("find . -type f -exec chown $(whoami):$(whoami) {} \\;");
+ }else if(strcmp(sel,"s")==0){
+  system("find . -type d -exec chmod 700 {} \\;");
+  system("find . -type f -exec chmod 700 {} \\;");
+  system("find . -type d -exec chown $(whoami):$(whoami) {} \\;");
+  system("find . -type f -exec chown $(whoami):$(whoami) {} \\;");
+ }else if(strcmp(sel,"u")==0){
+  system("find . -type d -exec chmod 777 {} \\;");
+  system("find . -type f -exec chmod 777 {} \\;");
+  system("find . -type d -exec chown $(whoami):$(whoami) {} \\;");
+  system("find . -type f -exec chown $(whoami):$(whoami) {} \\;");
+ }else{
+  usage();
+ };
+/*remount.c*/
+}else if(strcmp(applet,"remount")==0){
+ void usage(){printf("\nUSAGE: remount ${l(read only)|u(read/write)} ${SOME LOCATION}\n\n");};
+ if(argc!=3){
+  usage();
+ }else{
+  if(strcmp(sel,"l")==0){
+   sprintf(cmd,"sudo mount -o ro,remount,ro %s&&echo 'Remount pass!'||echo 'Remount fail!'",sell);
+   system(cmd);
+  }else if(strcmp(sel,"u")==0){
+   sprintf(cmd,"sudo mount -o rw,remount,rw %s&&echo 'Remount pass!'||echo 'Remount fail!'",sell);
+   system(cmd);
+  }else{
+   usage();
+  };
+ };
+/*repoinitlist.c*/
+}else if(strcmp(applet,"repoinitlist")==0){
+ char *repoinitlist[1000]={
+  "repo init -u https://github.com/LineageOS/android.git -b lineage-20.0",
+  "repo init -u https://github.com/LineageOS/android.git -b lineage-19.1",
+  "repo init -u https://github.com/LineageOS/android.git -b lineage-19.0",
+  "repo init -u https://github.com/LineageOS/android.git -b lineage-18.1",
+  "repo init -u https://github.com/LineageOS/android.git -b lineage-18.0",
+  "repo init -u https://github.com/LineageOS/android.git -b lineage-17.1",
+  "repo init -u https://github.com/LineageOS/android.git -b lineage-17.0",
+  "repo init -u https://github.com/LineageOS/android.git -b lineage-16.0",
+  "repo init -u https://github.com/LineageOS/android.git -b lineage-15.1",
+  "repo init -u https://github.com/LineageOS/android.git -b lineage-15.0",
+  "repo init -u https://github.com/LineageOS/android.git -b cm-14.1",
+  "repo init -u https://github.com/LineageOS/android.git -b cm-14.0",
+  "repo init -u https://github.com/LineageOS/android.git -b cm-13.0",
+  "repo init -u https://github.com/LineageOS/android.git -b cm-12.1",
+  "repo init -u https://github.com/LineageOS/android.git -b cm-12.0",
+  "repo init -u https://github.com/LineageOS/android.git -b cm-11.0"
+ };
+ while(repoinitlist[i]!=NULL){
+  printf("%s\n",repoinitlist[i]);
+  i++;
+ };
+/*rootlock.c*/
+}else if(strcmp(applet,"rootlock")==0){
+ void usage(){printf("\nUSAGE: rootlock ${l|u}\n\n");};
+ if(argc==1){
+  usage();
+ }else if(strcmp(sel,"l")==0){
+  system("sudo usermod -L root");
+ }else if(strcmp(sel,"u")==0){
+  system("sudo usermod -U root");
+ }else{
+  usage();
+ };
+/*tear.c*/
+}else if(strcmp(applet,"tear")==0){
+ void usage(){printf("\nUSAGE: te ${FILE}\n\n");};
+ if(argc==1){
+  usage();
+ }else{
+  sprintf(cmd,"split --verbose -b 1024M %s %s.&&rm -vf %s||echo 'Something went wrong with split!'",sel,sel,sel);
+  system(cmd);
+  sync();
+ };
+/*tstart.c*/
+}else if(strcmp(applet,"tstart")==0){
+ system("python3 /bin/torghost.py --start");
+/*tstop.c*/
+}else if(strcmp(applet,"tstop")==0){
+ system("python3 /bin/torghost.py --stop");
+/*tswitch.c*/
+}else if(strcmp(applet,"tswitch")==0){
+ system("python3 /bin/torghost.py --switch");
+/*tupdate.c*/
+}else if(strcmp(applet,"tupdate")==0){
+ system("python3 /bin/torghost.py --update");
+/*xmlviewer.c*/
+}else if(strcmp(applet,"xmlviewer")==0){
+ void usage(){printf("\nUSAGE: xmlviewer ${XML FILE}\n\n");};
+ if(argc==1){
+  usage();
+ }else{
+  sprintf(cmd,"xmllint --format %s|highlight --syntax=xml --out-format=xterm256|less -RN",sel);
+  system(cmd);
+ };
+/*fileextensions.c*/
+}else if(strcmp(applet,"fileextensions")==0){
+ char *showfileextensions[1000]={
+  "",
+  "FILE=example.tar.gz",
+  "",
+  " echo ${FILE%%.*}",
+  "   example",
+  "",
+  " echo ${FILE%.*}",
+  "   example.tar",
+  "",
+  " echo ${FILE#*.}",
+  "   tar.gz",
+  "",
+  " echo ${FILE##*.}",
+  "   gz",
+  ""
+ };
+ while(showfileextensions[i]!=NULL){
+  printf("%s",showfileextensions[i]);
+  printf("\n");
+  i++;
+ };
+/*get.c*/
+}else if(strcmp(applet,"get")==0){
+ void usage(){printf("\nUSAGE: get ${b(bios)|p(path)}\n\n");};
+ if(argc==1){
+  usage();
+ }else if(strcmp(sel,"b")==0){
+  system("sudo dmidecode -s system-serial-number");
+ }else if(strcmp(sel,"p")==0){
+  system("echo $PATH|tr ':' '\n'");
+ }else{
+  usage();
+ };
+/*removespaces.c*/
+}else if(strcmp(applet,"removespaces")==0){
+ system("find . -type d -print0|sort -rz|while read -d $'\0' f;do mv -v \"$f\" \"$(dirname \"$f\")/$(basename \"${f// /_}\")\";done");
+ system("find . -type f -print0|sort -rz|while read -d $'\0' f;do mv \"$f\" \"${f// /_}\";done");
+/*closinglink.c*/
+}else{
+ char *link[1000]={
+  "j1nh0",
+  "mk",
+  "aptac",
+  "aptar",
+  "aptc",
+  "aptdi",
+  "aptf",
+  "apti",
+  "aptp",
+  "aptu",
+  "aptinstall",
+  "aptrepo",
+  "aptanydesk",
+  "aptbinaries",
+  "aptjammy2focal",
+  "aptlibdvd-pkg",
+  "aptmega",
+  "aptmssql",
+  "aptnagoff",
+  "aptqemu",
+  "aptunattended",
+  "gitc",
+  "gitcommit",
+  "gitprune",
+  "gitpull",
+  "gitpullmain",
+  "gitpush",
+  "gitpushmain",
+  "gitsubadd",
+  "gitsubupdate",
+  "gitinstall",
+  "gitnisol",
+  "gitreset",
+  "gitultra",
+  "snapl",
+  "snapr",
+  "snapre",
+  "snaps",
+  "snapinstall",
+  "fpfi",
+  "fpi",
+  "fpl",
+  "fpr",
+  "fpu",
+  "fpinstall",
+  "update",
+  "xconfigure32",
+  "xconfigure",
+  "cip",
+  "dns",
+  "fip",
+  "ipdown",
+  "ipup",
+  "mip",
+  "ufd",
+  "ufdef",
+  "ufe",
+  "ufr",
+  "ufs",
+  "uftoggle",
+  "imirror",
+  "merge",
+  "mirror",
+  "ship",
+  "wmirror",
+  "adbcontacts",
+  "adbd",
+  "adbi",
+  "adbk",
+  "adbr",
+  "adbreb",
+  "adbreverse",
+  "adbs",
+  "adbsd",
+  "adbsh",
+  "adbside",
+  "adbsync",
+  "adbur",
+  "fbreb",
+  "fbstock",
+  "sshkey",
+  "bleach",
+  "drop",
+  "obliviate",
+  "backup",
+  "bootconfig",
+  "catalog",
+  "mountchroot",
+  "pdfreduce",
+  "ramdisk",
+  "scrub",
+  "unmountchroot",
+  "addgroups",
+  "attribwalk",
+  "perm",
+  "remount",
+  "repoinitlist",
+  "rootlock",
+  "tear",
+  "tstart",
+  "tstop",
+  "tswitch",
+  "tupdate",
+  "xmlviewer",
+  "fileextensions",
+  "get",
+  "removespaces",
+  "closinglink"
+ };
+ while(link[i]!=NULL){
+  sprintf(cmd,"ln -sf j1nh0 %s",link[i]);
+  system(cmd);
+  i++;
+ };
+};
