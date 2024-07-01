@@ -1,0 +1,36 @@
+#mirror.sh
+~/.bin/mirror)
+ export USAGE='USAGE: mirror ${ i(so) | m(erge) | o(utline) | s(hip) | w(ebsite) } ${SOURCE} ${DEST}'
+ case "$1" in
+  i|iso)
+   rsync --recursive --whole-file --human-readable --verbose --update --delete /iso/ /j1nh0/
+  ;;
+  m|merge)
+   if [ ! -z $3 ];then
+    rsync --recursive --whole-file --human-readable --verbose --update "$2" "$3"
+   else usage;fi
+  ;;
+  o|outline)
+   if [ ! -z $2 ];then
+    tree -dfi --noreport .|cut -c3-|xargs -I{} mkdir -vp "$2{}"
+   else usage;fi
+  ;;
+  s|ship)
+   if [ ! -z $3 ];then
+    rsync --recursive --whole-file --human-readable --verbose --update --remove-source-files "$2" "$3"
+   else usage;fi
+  ;;
+  w|website)
+   if [ ! -z $2 ];then
+    wget --random-wait -e robots=off --no-parent --page-requisites --mirror --convert-links --continue --recursive --user-agent='RIPPER PLUGIN' --show-progress "$2"
+   else usage;fi
+  ;;
+  usage)usage;;
+  *)
+   if [ ! -z $2 ];then
+    rsync --recursive --whole-file --human-readable --verbose --update --delete "$1" "$2"
+   else usage;fi
+  ;;
+ esac
+ sync
+;;
