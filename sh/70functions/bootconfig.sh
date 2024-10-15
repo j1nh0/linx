@@ -1,0 +1,105 @@
+#bootconfig.sh
+~/.bin/bootconfig)
+#grub.cfg#
+ cat<<EOF>grub.cfg
+if loadfont /boot/grub/font.pf2 ; then
+ set gfxmode=auto
+ insmod efi_gop
+ insmod efi_uga
+ insmod gfxterm
+ terminal_output gfxterm
+fi
+set menu_color_normal=green/black
+set menu_color_highlight=black/green
+set timeout=5
+menuentry "ramGUI" {
+ set gfxpayload=keep
+ linux /casper/vmlinuz boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity toram quiet splash noprompt ---
+ initrd /casper/initrd.gz
+}
+menuentry "vanillaGUI" {
+ set gfxpayload=keep
+ linux /casper/vmlinuz  boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity quiet splash noprompt ---
+ initrd /casper/initrd.gz
+}
+menuentry "ramGUISafeGraphics" {
+ set gfxpayload=keep
+ linux /casper/vmlinuz nomodeset boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity toram quiet splash noprompt ---
+ initrd /casper/initrd.gz
+}
+menuentry "vanillaGUISafeGraphics" {
+ set gfxpayload=keep
+ linux /casper/vmlinuz nomodeset boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity maybe-ubiquity quiet splash noprompt ---
+ initrd /casper/initrd.gz
+}
+menuentry "ramCLI" {
+ set gfxpayload=keep
+ linux /casper/vmlinuz boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity toram quiet splash noprompt --- 3
+ initrd /casper/initrd.gz
+}
+menuentry "vanillaCLI" {
+ set gfxpayload=keep
+ linux /casper/vmlinuz boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity quiet splash noprompt --- 3
+ initrd /casper/initrd.gz
+}
+menuentry "ramCLISafeGraphics" {
+ set gfxpayload=keep
+ linux /casper/vmlinuz nomodeset boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity toram quiet splash noprompt --- 3
+ initrd /casper/initrd.gz
+}
+menuentry "vanillaCLISafeGraphics" {
+ set gfxpayload=keep
+ linux /casper/vmlinuz nomodeset boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity quiet splash noprompt --- 3
+ initrd /casper/initrd.gz
+}
+menuentry "memtest86plus" {
+ linux16 /install/mt86plus
+}
+EOF
+#loopback.cfg#
+ cat<<EOF>loopback.cfg
+menuentry "ramGUI" {
+ set gfxpayload=keep
+ linux /casper/vmlinuz boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity iso-scan/filename=${iso_path} toram quiet splash noprompt ---
+ initrd /casper/initrd.gz
+}
+menuentry "vanillaGUI" {
+ set gfxpayload=keep
+ linux /casper/vmlinuz boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity iso-scan/filename=${iso_path} quiet splash noprompt ---
+ initrd /casper/initrd.gz
+}
+menuentry "ramGUISafeGraphics" {
+ set gfxpayload=keep
+ linux /casper/vmlinuz nomodeset boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity iso-scan/filename=${iso_path} toram quiet splash noprompt ---
+ initrd /casper/initrd.gz
+}
+menuentry "vanillaGUISafeGraphics" {
+ set gfxpayload=keep
+ linux /casper/vmlinuz nomodeset boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity iso-scan/filename=${iso_path} quiet splash noprompt ---
+ initrd /casper/initrd.gz
+}
+menuentry "ramCLI" {
+ set gfxpayload=keep
+ linux /casper/vmlinuz boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity iso-scan/filename=${iso_path} toram quiet splash noprompt --- 3
+ initrd	/casper/initrd.gz
+}
+menuentry "vanillaCLI" {
+ set gfxpayloa=keep
+ linux /casper/vmlinuz boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity iso-scan/filename=${iso_path} quiet splash noprompt --- 3
+ initrd /casper/initrd.gz
+}
+menuentry "ramCLISafeGraphics" {
+ set gfxpayload=keep
+ linux /casper/vmlinuz nomodeset boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity iso-scan/filename=${iso_path} toram quiet splash noprompt --- 3
+ initrd	/casper/initrd.gz
+}
+menuentry "vanillaCLISafeGraphics" {
+ set gfxpayloa=keep
+ linux /casper/vmlinuz nomodeset boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity iso-scan/filename=${iso_path} quiet splash noprompt --- 3
+ initrd /casper/initrd.gz
+}
+menuentry "memtest86plus" {
+ linux16 /install/mt86plus
+}
+EOF
+;;

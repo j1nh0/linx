@@ -1,0 +1,5 @@
+#adbside.sh
+~/.bin/adbside)
+ export USAGE='USAGE: adbside ${SIDELOAD PACKAGE}'
+ if [ ! -z $1 ];then adb sideload "$1";else usage;fi
+;;
