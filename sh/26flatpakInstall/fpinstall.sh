@@ -1,0 +1,9 @@
+#fpinstall.sh
+~/.bin/fpinstall)
+ for FPINSTALL in\
+  'https://dl.flathub.org/repo/appstream/org.qgis.qgis.flatpakref'\
+  'https://flathub.org/repo/appstream/fr.handbrake.ghb.flatpakref'\
+ ;do\
+  flatpak install --noninteractive --from "$FPINSTALL"
+ done
+;;

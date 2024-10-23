@@ -1,0 +1,5 @@
+#adbpush.sh
+~/.bin/adbpush)
+ export USAGE='USAGE: adbpush ${FOLDER}'
+ if [ ! -z $1 ];then adb-sync --delete "$1" /sdcard/"$1";else usage;fi
+;;

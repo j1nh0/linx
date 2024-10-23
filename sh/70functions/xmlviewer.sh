@@ -1,0 +1,5 @@
+#xmlviewer.sh
+~/.bin/xmlviewer)
+ export USAGE='USAGE: xmlviewer ${XML FILE}'
+ if [ ! -z $1 ];then xmllint --format "$1"|highlight --syntax=xml --out-format=xterm256|less -RN;else usage;fi
+;;
