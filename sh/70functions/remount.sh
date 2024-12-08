@@ -1,0 +1,9 @@
+#remount.sh
+~/.bin/remount)
+ export USAGE='USAGE: remount ${ c|drom s|ystem }'
+ case "$1" in
+  c|cdrom)sudo mount -o rw,remount,rw /cdrom;;
+  s|system)sudo mount -o rw,remount,rw /;;
+  *)usage;;
+ esac
+;;
