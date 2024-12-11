@@ -1,0 +1,6 @@
+#ramdisk.sh
+~/.bin/ramdisk)
+ export USAGE='USAGE: ramdisk ${SIZE IN GIGABYTES}'
+ if [ ! -d /ramdisk/ ];then sudo mkdir -vp /ramdisk/;fi
+ if [ ! -z $1 ];then sudo mount -t tmpfs -o size=$(echo "$1"*1024|bc)'M' tmpfs /ramdisk/&&echo $(echo "$1"*1024|bc)'M' pass||echo 'Ramdisk fail!';else usage;fi
+;;

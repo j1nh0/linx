@@ -1,0 +1,9 @@
+#aptsysu.sh
+~/.bin/aptsysu)
+ ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive apt -y --install-recommends -qq update&>/dev/null
+ ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive apt -y --install-recommends -qq upgrade&>/dev/null
+ ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive apt -y --install-recommends -qq dist-upgrade&>/dev/null
+ ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive apt -y --install-recommends -qq full-upgrade&>/dev/null
+ ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive apt -y --install-recommends -qq autoremove&>/dev/null
+ ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive apt -y --install-recommends -qq clean&>/dev/null
+;;

@@ -1,0 +1,10 @@
+#gitpull.sh
+~/.bin/gitpull)
+ export USAGE='USAGE: gitpull ${ m(ain) | f(orce) }'
+ case "$1" in
+  m|main)git fetch --all;git pull origin main;;
+  f|force)git checkout $(git remote show origin|grep 'HEAD'|cut -d':' -f2)&&git pull --force;;
+  usage)usage;;
+  *)git fetch --all;git pull;;
+ esac
+;;
