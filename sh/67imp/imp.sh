@@ -1,0 +1,20 @@
+#imp.sh
+#this was written by my beautiful girlfriend
+~/.bin/imp)
+ export USAGE='USAGE: imp ${ p(ack) | u(npack) }'
+ case "$1" in
+  p|pack)
+####THIS NEEDS WORK####
+   for ISO in $(ls -d */);do
+    sync
+   done
+####THIS NEEDS WORK####
+  ;;
+  u|unpack)
+   for ISO in $(ls *.iso);do mkdir ${ISO%%.*}
+    sudo mount "$ISO" "/mnt/"&&cp -ruv /mnt/* ./"${ISO%%.*}"&&sync&&sudo umount "/mnt/"&&rm -v "$ISO"
+   done
+  ;;
+  *)usage;;
+ esac
+;;

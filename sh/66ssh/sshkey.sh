@@ -1,0 +1,5 @@
+#sshkey.sh
+~/.bin/sshkey)
+ export USAGE='USAGE: sshkey ${SOMEONE}@${IP ADDR}'
+ if [ ! -z $1 ];then ssh-keygen;ssh-copy-id "$1";else usage;fi
+;;
