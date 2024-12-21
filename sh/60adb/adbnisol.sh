@@ -1,0 +1,9 @@
+#adbnisol.sh
+~/.bin/adbnisol)
+ export USAGE='USAGE: adbnisol ${push|pull}'
+ case "$1" in
+  push)adb-sync ./0N1SL/ /sdcard/0N1SL/;;
+  pull)adb-sync --reverse /sdcard/0N1SL/ ./0N1SL/;;
+  *)usage;;
+ esac
+;;

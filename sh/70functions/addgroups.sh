@@ -1,0 +1,22 @@
+#addgroups.sh
+~/.bin/addgroups)
+ export USAGE='USAGE: addgroups ${SOME USER}'
+ read -r -d '' ADDGROUPS<<EOM
+adm
+audio
+cdrom
+dialout
+dip
+floppy
+libvirt
+lpadmin
+lxd
+plugdev
+sambashare
+sudo
+tty
+users
+video
+EOM
+ for GROUPS in "$ADDGROUPS";do if [ ! -z $1 ];then sudo usermad -aG "$GROUPS" "$1"; else sudo usermod -aG "$GROUPS" $(whoami);fi;done
+;;
