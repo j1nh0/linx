@@ -1,0 +1,5 @@
+#scrub.sh
+~/.bin/scrub)
+ export USAGE='USAGE: scrub ${SOME FILE/DIR}'
+ if [ ! -z $1 ];then exiftool -recurse -overwrite_original -all= "$1";else usage;fi
+;;

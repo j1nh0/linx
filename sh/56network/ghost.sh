@@ -1,0 +1,12 @@
+#ghost.sh
+~/.bin/ghost)
+ export USAGE='USAGE: ghost ${ s(tart) | st(op) | sw(itch) | u(pdate) }'
+ case "$1" in
+  s)export FLAG='--start';;
+  st)export FLAG='--stop';;
+  sw)export FLAG='--switch';;
+  u)export FLAG='--update';;
+  *)usage;;
+ esac
+ torghost.py "$FLAG"
+;;

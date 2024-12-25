@@ -1,0 +1,9 @@
+#xconfigure.sh
+~/.bin/xconfigure)
+ export USAGE='USAGE: xconfigure ${32} ${SOME CROSS CONFIGURE SCRIPT}'
+ case "$1" in
+  usage)usage;;
+  32)./configure --build x86_64-pc-linux-gnu --host arm-linux-gnueabi LDFLAGS='-static -pthread';;
+  *)./configure --build x86_64-pc-linux-gnu --host aarch64-linux-gnu LDFLAGS='-static -pthread';;
+ esac
+;;
