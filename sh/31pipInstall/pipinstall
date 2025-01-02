@@ -1,0 +1,5 @@
+#!/bin/bash -
+ for PIP in\
+  'payload-dumper'\
+ ;do pip install --break-system-packages "$PIP";done
+exit 0

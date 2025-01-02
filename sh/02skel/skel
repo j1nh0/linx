@@ -1,0 +1,4 @@
+#!/bin/bash -
+ if [ $(id -u) != 'root' ];then if [ ! -d /etc/skel/.bin/ ];then mkdir -vp /etc/skel/.bin/&&chmod -R 755 /etc/skel/.bin/&&chown -R root:root /etc/skel/.bin/;fi;fi
+ if [ -d /etc/skel/.bin/ ];then if [ ! -d ~/.bin/ ];then mkdir -vp ~/.bin/&&rsync --recursive --whole-file --human-readable --verbose --update /etc/skel/.bin/ ~/.bin/;fi;fi
+exit 0

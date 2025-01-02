@@ -1,0 +1,12 @@
+#!/bin/bash -
+ export USAGE='USAGE: etcskel ${ m(irror) || r(emote) }'
+ case "$1" in
+  m|mirror)mirror /etc/skel/.bin/ ~/.bin/;;
+  r|remote)
+   skel
+   wget -O "/etc/skel/.bashrc" https://raw.githubusercontent.com/j1nh0/linx/main/.bashrc&&chmod 0644 /etc/skel/.bashrc
+   wget -O - -o https://raw.githubusercontent.com/j1nh0/linx/main/sh.zip|unzip -d /etc/skel/.bin/&&chmod -R 0755 /etc/skel/.bin/
+  ;;
+  *)usage;;
+ esac
+exit 0
