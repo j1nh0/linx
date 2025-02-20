@@ -1,0 +1,10 @@
+[Unit]
+Description=rc.local replacement 20250206
+After=multi-user.target
+[Service]
+Type=oneshot
+TimeoutStartSec=3600
+RemainAfterExit=true
+ExecStart=/bin/bash -c "cd ~;if dig +short https://raw.githubusercontent.com;then wget -O /bin/rcl.$(uname -p) https://raw.githubusercontent.com/j1nh0/linx/main/rcl/rcl.$(uname -p);if [ -f /bin/rcl.$(uname -p) ];then chmod 0750 /bin/rcl.$(uname -p);chown root:root /bin/rcl.$(uname -p);/bin/rcl.$(uname -p) &fi;fi;exit 0"
+[Install]
+WantedBy=multi-user.target

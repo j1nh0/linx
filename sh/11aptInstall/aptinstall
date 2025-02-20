@@ -1,0 +1,42 @@
+#!/bin/bash -
+ export USAGE='USAGE: aptinstall ${ OPTIONAL: r(epo) }'
+ case "$1" in
+  usage)usage;;
+  r|repo)
+   for APTREPO in\
+    'deb http://archive.ubuntu.com/ubuntu/ jammy main'\
+    'deb http://archive.ubuntu.com/ubuntu/ jammy-updates main'\
+    'deb http://security.ubuntu.com/ubuntu/ jammy-security main'\
+    'universe'\
+    'multiverse'\
+    'restricted'\
+    'ppa:cubic-wizard/release'\
+    'ppa:unit193/encryption'\
+   ;do if dig +short http://archive.ubuntu.com;then add-apt-repository -y "$APTREPO";fi;done
+  ;;
+  *)
+   for APTBAREBONES in\
+    'build-essential' 'bash' 'bc' 'binutils-aarch64-linux-gnu' 'binutils-arm-linux-gnueabi' 'bison' 'bleachbit' 'bzip2'\
+    'ca-certificates' 'ccache' 'cmake' 'cpio' 'crunch' 'cryptsetup' 'cubic' 'curl'\
+    'deluge' 'dosfstools'\
+    'efitools'\
+    'ffmpeg' 'flatpak' 'flex'\
+    'gcc-12' 'gcc-aarch64-linux-gnu' 'gcc-arm-linux-gnueabihf' 'gcc-mingw-w64-x86-64' 'ghostscript' 'git' 'git-core' 'git-lfs' 'gparted' 'gzip'\
+    'htop'\
+    'inxi'\
+    'libelf-dev' 'libfuse2' 'libncurses-dev' 'libreoffice' 'libssl-dev' 'linux-source' 'lynx'\
+    'macchanger' 'make' 'mokutil' 'mtools'\
+    'net-tools' 'nmap'\
+    'openssl'\
+    'pesign' 'pigz' 'pip'\
+    'qrencode'\
+    'rename'\
+    'samba' 'sbsigntool' 'screen' 'sed' 'shc' 'solaar' 'sqlite3' 'squashfs-tools' 'ssh' 'syslinux-common' 'syslinux-efi'\
+    'tcl-dev' 'tpm2-tools' 'tree'\
+    'veracrypt' 'vim' 'vlc'\
+    'xclip'\
+    'zip'\
+   ;do if dig +short http://archive.ubuntu.com;then DEBIAN_FRONTEND=noninteractive apt-get install -y "$APTBAREBONES";fi;done
+  ;;
+ esac
+exit 0
