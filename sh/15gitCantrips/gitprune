@@ -1,0 +1,6 @@
+#!/bin/bash -
+ git gc --aggressive --prune=now
+ git repack -Ad
+ git prune
+ git prune-packed
+exit 0
