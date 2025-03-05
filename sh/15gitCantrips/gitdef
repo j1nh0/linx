@@ -1,0 +1,13 @@
+#!/bin/bash -
+ for GITDEF in\
+  "credential.usageer 'cache --timeout=28800'"\
+  "fetch.prune true"\
+  "http.postBuffer 2097152000"\
+  "init.defaultBranch main"\
+  "diff.submodule log"\
+  "pull.rebase false"\
+  "pack.threads $NPROC"\
+ ;do
+  git config --global $GITDEF
+ done
+exit 0

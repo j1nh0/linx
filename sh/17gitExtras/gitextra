@@ -1,0 +1,14 @@
+#!/bin/bash -
+ export USAGE='USAGE: gitextra ${ lfs(uninstall) | l(icense) | r(eadme) }'
+ case "$1" in
+  lfs|lfsuninstall)
+   git lfs uninstall
+   git rm -r --cached *
+   if [ -f ./.gitattributes ];then sudo rm -f ./.gitattributes;fi
+   if [ -d ./.git/ ];then sudo rm -rf ./.git/*;fi
+  ;;
+  l|license)wget -O LICENSE https://raw.githubusercontent.com/j1nh0/j1nh0/main/LICENSE;;
+  r|readme)tree --du -h>README.md;;
+  *)usage;;
+ esac
+exit 0
