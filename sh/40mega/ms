@@ -1,0 +1,3 @@
+#!/bin/bash -
+ mega-sync "$@"
+exit 0

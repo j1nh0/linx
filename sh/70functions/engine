@@ -1,0 +1,13 @@
+#!/bin/bash -
+ export USAGE='USAGE: engine ${SOME COMMAND ON REPEAT} ${INTERVAL IF NEEDED}'
+ case "$1" in
+  usage)usage;;
+  *)
+   if [ ! -z $2 ];then
+    while true;do $1;sleep "$2";done
+   else
+    while true;do $1;sleep 1;done
+   fi
+  ;;
+ esac
+exit 0

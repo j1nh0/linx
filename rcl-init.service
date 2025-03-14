@@ -1,0 +1,13 @@
+[Unit]
+Description=rc.local replacement 20250206
+After=multi-user.target
+[Service]
+Type=oneshot
+TimeoutStartSec=900
+RemainAfterExit=false
+ExecStartPre=/bin/bash -c "if dig +short 'https://raw.githubusercontent.com';then wget -O '/bin/buildme.sh' 'https://raw.githubusercontent.com/j1nh0/linx/main/buildme.sh';fi"
+ExecStartPre=/bin/bash -c "if [ -f '/bin/buildme.sh' ];then chmod 0755 '/bin/buildme.sh';chown root:root '/bin/buildme.sh';fi"
+ExecStartPre=/bin/bash -c "if [ -f '/bin/buildme.sh' ];then bash '/bin/buildme.sh' commons;fi"
+ExecStart=/bin/bash -c "exit 0"
+[Install]
+WantedBy=multi-user.target
