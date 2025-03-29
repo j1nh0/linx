@@ -1,0 +1,3 @@
+#!/bin/bash -
+ while true;do mega-sync;date;sleep 1;clear;done
+exit 0

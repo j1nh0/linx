@@ -1,0 +1,3 @@
+#!/bin/bash -
+ for APTDI in update dist-upgrade full-upgrade upgrade;do apt-get "$APTDI";done
+exit 0
