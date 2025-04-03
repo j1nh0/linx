@@ -1,0 +1,3 @@
+#!/bin/bash -
+ apt-get update
+exit 0
