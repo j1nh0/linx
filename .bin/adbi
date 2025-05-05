@@ -1,0 +1,4 @@
+#!/bin/bash -
+ export USAGE='USAGE: adbi ${APK INSTALL}'
+ if [ ! -z $1 ];then adb install "$1";else usage;fi
+exit 0

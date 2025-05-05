@@ -1,0 +1,18 @@
+#UNIT, INSTALL, AND SERVICE MAIN
+[Unit]
+After=multi-user.target
+[Install]
+WantedBy=multi-user.target
+[Service]
+Type=oneshot
+TimeoutStartSec=600
+RemainAfterExit=true
+#MAIN LOGIC
+ExecStartPre=/bin/bash -c "if mount|grep /$SAMBA;then umount -v /samba;fi"
+ExecStartPre=/bin/bash -c "if [ -b /$DEV/$MAPPER/$PRIMSOL ];then cryptsetup close $PRIMSOL;fi"
+ExecStartPre=/bin/bash -c "if [ ! -b /$DEV/$MAPPER/$SAMBA ];then cat /$ETC/pswd.txt|cryptsetup luksOpen /$DEV/$MD/0p1 $SAMBA;fi"
+ExecStartPre=/bin/bash -c "if [ -b /$DEV/$MAPPER/$SAMBA ];then if [ -d /$SAMBA/ ];then mount /$DEV/$MAPPER/$SAMBA /$SAMBA/;fi;fi"
+ExecStartPre=/bin/bash -c "if [ -d /$SAMBA/ ];then find /$SAMBA/ -exec chmod -R 0777 {} \\;;fi"
+ExecStartPre=/bin/bash -c "if [ -d /$SAMBA/ ];then find /$SAMBA/ -exec chown nobody:nogroup {} \\;;fi"
+#MAIN EXIT
+ExecStart=/bin/bash -c "exit 0"

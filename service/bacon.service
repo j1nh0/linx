@@ -1,0 +1,25 @@
+#UNIT, INSTALL, AND SERVICE MAIN
+[Unit]
+After=multi-user.target
+[Install]
+WantedBy=multi-user.target
+[Service]
+Type=oneshot
+TimeoutStartSec=600
+RemainAfterExit=true
+#MAIN LOGIC
+ExecStartPre=/bin/bash -c "echo 'PasswordAuthentication no'>/$ETC/$SSH/sshd_config.d/50-cloud-init.conf" 
+ExecStartPre=/bin/bash -c "sed -i 's/#DNSMASQ_EXCEPT=\"lo\"/DNSMASQ_EXCEPT=\"lo\"/g' /$ETC/$DEFAULT/$DNSMASQ"
+ExecStartPre=/bin/bash -c "iptables -F"
+ExecStartPre=/bin/bash -c "iptables -t $NAT -F"
+ExecStartPre=/bin/bash -c "iptables -t $NAT -A $POSTROUTING -o $WLAN0 -j $MASQUERADE"
+ExecStartPre=/bin/bash -c "iptables -A $FORWARD -i $WLAN0 -m $STATE --state $RELATED,$ESTABLISHED -j $ACCEPT"
+ExecStartPre=/bin/bash -c "iptables -A $FORWARD -i $ETH0 -o $WLAN0 -j $ACCEPT"
+ExecStartPre=/bin/bash -c "echo '1'>/$PROC/$SYS/$NET/$IPV4/$IPFORWARD"
+ExecStartPre=/bin/bash -c "sed -i 's/#net.ipv4.ip_forward = 1/net.ipv4.ip_forward = 1/g' /$ETC/$SYSCTL.$CONF"
+ExecStartPre=/bin/bash -c "systemctl $STOP $DNSMASQSERVICE"
+ExecStartPre=/bin/bash -c "echo -e 'interface=eth0\nbind-interfaces\nserver=1.1.1.1\ndomain-needed\nbogus-priv'>/$ETC/$DNSMASQD/$DNSMASQ.$CONF"
+ExecStartPre=/bin/bash -c "systemctl $START $DNSMASQSERVICE"
+ExecStartPre=/bin/bash -c "date>>/$ETC/$BACON.$SERVICE.$LOG"
+#MAIN EXIT
+ExecStart=/bin/bash -c "exit 0"

@@ -1,0 +1,4 @@
+[Match]
+Name=ens20
+[Network]
+Address=10.10.10.69/28

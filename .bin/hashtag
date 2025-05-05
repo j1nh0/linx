@@ -1,0 +1,4 @@
+#!/bin/bash -
+export USAGE='USAGE: hashtag ${NUMBER}'
+ if [ ! -z $1 ];then for INT in $(seq 1 "$1");do echo -n '#';done;echo;else usage;fi
+exit 0
