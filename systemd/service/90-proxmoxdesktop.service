@@ -1,0 +1,14 @@
+#UNIT, INSTALL, AND SERVICE MAIN
+[Unit]
+After=multi-user.target
+[Install]
+WantedBy=multi-user.target
+[Service]
+Type=oneshot
+TimeoutStartSec=600
+RemainAfterExit=true
+#MAIN LOGIC
+#ExecStartPre=/bin/bash -c ""
+ExecStartPre=/bin/bash -c "for FORAPTINSTALL in sudo xfce4 chromium lightdm iwd dnsmasq dnsmasq-base dnsmasq-utils;do if [ $(dpkg -l $FORAPTINSTALL) != '0' ];then DEBIAN_FRONTEND=noninteractive apt-get install -y "$FORAPTINSTALL";fi;done"
+#MAIN EXIT
+ExecStart=/bin/bash -c "exit 0"

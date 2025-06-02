@@ -1,0 +1,43 @@
+#!/bin/bash -
+ if [ -f /etc/skel/.bashrc ];then source /etc/skel/.bashrc;fi
+ export USAGE='USAGE: jgit ${ c | commit | def | extra | jc | origin | prune | push | pull | remote | reset | sub | update }'
+ case "$1" in
+  c)export USAGE='USAGE: jgit c ${GIT REPO}';if [ ! -z $1 ];then git clone -j$NPROC --recurse-submodules --depth=1 "$1";else usage;fi;;
+  commit)git commit -m $(date +%Y%m%d%H%M%S);;
+  def)
+   for GITDEF in\
+    "credential.usageer 'cache --timeout=28800'"\
+    "fetch.prune true"\
+    "http.postBuffer 2097152000"\
+    "init.defaultBranch main"\
+    "diff.submodule log"\
+    "pull.rebase false"\
+    "pack.threads $NPROC"\
+   ;do git config --global $GITDEF;done
+  ;;
+  extra)
+   export USAGE='USAGE: jgit extra ${ lfs(uninstall) | l(icense) | r(eadme) }'
+   case "$1" in
+    lfs|lfsuninstall)
+     git lfs uninstall
+     git rm -r --cached *
+     if [ -f ./.gitattributes ];then sudo rm -f ./.gitattributes;fi
+     if [ -d ./.git/ ];then sudo rm -rf ./.git/*;fi
+    ;;
+    l|license)wget -O LICENSE https://raw.githubusercontent.com/j1nh0/j1nh0/main/LICENSE;;
+    r|readme)tree --du -h>README.md;;
+    *)usage;;
+   esac
+  ;;
+  jc);;
+  origin);;
+  prune);;
+  push);;
+  pull);;
+  remote);;
+  reset);;
+  sub);;
+  update);;
+  *)usage;;
+ esac
+exit 0

@@ -1,0 +1,19 @@
+#UNIT, INSTALL, AND SERVICE MAIN
+[Unit]
+After=multi-user.target
+[Install]
+WantedBy=multi-user.target
+[Service]
+Type=oneshot
+TimeoutStartSec=600
+RemainAfterExit=true
+#MAIN LOGIC
+#ExecStartPre=/bin/bash -c ""
+ExecStartPre=/bin/bash -c "passwd -d $ROOT"
+ExecStartPre=/bin/bash -c "usermod -L $ROOT"
+ExecStartPre=/bin/bash -c "if [ -d /$ROOT/ ];then find /$ROOT/ -type d -exec chmod 0700 {} \;;fi"
+ExecStartPre=/bin/bash -c "if [ -d /$ROOT/ ];then find /$ROOT/ -type f -exec chmod 0600 {} \;;fi"
+ExecStartPre=/bin/bash -c "if [ -d /$ROOT/ ];then find /$ROOT/ -type d -exec chown $ROOT:ROOT {} \;;fi"
+ExecStartPre=/bin/bash -c "if [ -d /$ROOT/ ];then find /$ROOT/ -type f -exec chown $ROOT:ROOT {} \;;fi"
+#MAIN EXIT
+ExecStart=/bin/bash -c "exit 0"
