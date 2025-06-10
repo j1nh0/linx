@@ -1,0 +1,13 @@
+#UNIT, INSTALL, AND SERVICE MAIN
+[Unit]
+After=multi-user.target
+[Install]
+WantedBy=multi-user.target
+[Service]
+Type=oneshot
+TimeoutStartSec=600
+RemainAfterExit=true
+#MAIN LOGIC
+ExecStartPre=/bin/bash -c "mount -t cifs -o guest,uid=65534,gid=65534,dir_mode=0777,file_mode=0777 //10.10.10.130/samba /samba/"
+#MAIN EXIT
+ExecStart=/bin/bash -c "exit 0"

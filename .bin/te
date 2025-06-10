@@ -1,0 +1,15 @@
+#!/bin/bash -
+ if [ ! -z $1 ];then
+  export ARG="$1"
+  export SEVENZ="$(realpath -s $1)-$(date +%Y%m%d).7z"
+  7z -v48m a "$SEVENZ" "$ARG"
+  if [ "$?" == '0' ];then
+   rm -rf "$ARG"
+  else
+   echo 'SOMETHING WENT WRONG AFTER 7Z!'
+   hold
+  fi
+ else
+  echo 'USAGE: t ${FILE}'
+ fi
+exit 0
