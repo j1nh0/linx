@@ -1,0 +1,120 @@
+#!/bin/bash -
+ export USAGE='USAGE: jc ${ c | rc | shc }'
+ case "$1" in
+  c)
+   export INTMAIN='#define _GNU_SOURCE
+#include<assert.h>
+#include<ctype.h>
+#include<errno.h>
+#include<libgen.h>
+#include<limits.h>
+#include<math.h>
+#include<signal.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<sys/stat.h>
+#include<sys/types.h>
+#include<time.h>
+#include<unistd.h>
+#define NE !=
+#define GT >
+#define LT <
+#define GE >=
+#define LE <=
+#define PI 3.14159
+#define EVER ;;
+#define ECHOFLAGS (ECHO | ECHOE | ECHOK | ECHONL)
+int main(int argc,char *argv[]){
+int a,b,c,i,j,k,x,y,z;
+int ret=0;
+char *applet=argv[0];
+char *sel=argv[1];
+char *sell=argv[2];
+char *selll=argv[3];
+char *sellll=argv[4];
+char cmd[4500];
+char tmpcmd[100];
+char variable[100];
+char *ec=".c";
+char *esh=".sh";
+char *pwd;
+char curdir[PATH_MAX];
+getcwd(curdir,sizeof(curdir));
+pwd=basename(curdir);
+char *apt="sudo ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive apt -y --install-recommends";
+char *dpkgreconf="sudo dpkg-reconfigure -f noninteractive -p critical";
+void cls(){
+ #ifdef _WIN32
+  system("cls");
+ #else
+  #ifdef __linux__
+   system("clear");
+  #else
+   #ifdef __ANDROID__
+    system("clear");
+   #else
+    printf("\nSYSTEM NOT DETECTED!\n\n");
+   #endif
+  #endif
+ #endif
+};
+void ncls(){printf("\e[1;1H\e[2J");};
+void waitcls(){sleep(3);cls();};
+void waitncls(){sleep(3);ncls();};
+void badinput(){cls();printf("\nBad input, try again!\n\n");exit(1);};
+void hashtag(){printf("\n################################################################\n\n");};
+void debug(){FILE *fp;char dbg[100];int line=__LINE__;hashtag();printf("Program hold line number: %d\n\n",line);printf("Enter debug note: ");fp=fopen("debug.txt","a+");fgets(dbg,100,stdin);fprintf(fp,"%d\n",line);fprintf(fp,"%s\n",dbg);fclose(fp);hashtag();};
+void sync(){system("sync");};
+void aptu(){sprintf(cmd,"%s update",apt);system(cmd);};
+void apti(){sprintf(cmd,"%s install",apt);system(cmd);};
+void aptdi(){char *aptdi[50]={"update","dist-upgrade","upgrade"};while(aptdi[i]!=NULL){sprintf(cmd,"%s %s",apt,aptdi[i]);system(cmd);i++;};};
+void initu(){system("sudo update-initramfs -u");};
+int isDir(const char *fileName){struct stat path;stat(fileName, &path);return S_ISREG(path.st_mode);};'
+   export MAINLOGIC=$(cat "$1")
+   export MAINRETURN='return(0);};'
+   export ORIG="$1"
+   export PROGRAM="${1%.*}"
+   export BCKP='.bckp'
+   export X86='.x86'
+   export AARCH64='.aarch64'
+   export DEBUG='.debug.c'
+   if [ "$2" == 'debug' ];then
+    cat<<EOF>>"$PROGRAM$DEBUG"
+$INTMAIN
+$MAINLOGIC
+$MAINRETURN
+EOF
+   else
+    cat<<EOF|gcc -xc -o "$PROGRAM$X86" --static -
+$INTMAIN
+$MAINLOGIC
+$MAINRETURN
+EOF
+    cat<<EOF|aarch64-linux-gnu-gcc -xc -o "$PROGRAM$AARCH64" --static -
+$INTMAIN
+$MAINLOGIC
+$MAINRETURN
+EOF
+    strip "$PROGRAM$X86"
+    strip --strip-all "$PROGRAM$X86"
+    strip --strip-debug "$PROGRAM$X86"
+   fi
+   cp -fv "$ORIG" "$ORIG$BCKP"
+   sync
+  ;;
+  rc)
+   cp -fv ../.bashrc ../.bashrc.bckp
+   cat * > ../.bashrc
+   sudo cat ../.bashrc > /etc/skel/.bashrc
+  ;;
+  shc)
+   export USAGE='USAGE: jshc ${SOME SHELL SCRIPT}'
+   if [ ! -z $1 ];then
+    CFLAGS='--static' shc -f "$1" -o "${1%.*}"
+    sync
+   else usage;fi
+  ;;
+  *)usage;;
+ esac
+exit 0
