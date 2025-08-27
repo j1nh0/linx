@@ -4,7 +4,7 @@
  case "$1" in
   u)apt-get update;;
   ar)apt-get -y autoremove;;
-  di)for APTDI in update dist-upgrade full-upgrade upgrade;do apt-get -y "$APTDI";done;;
+  di)for APTDI in clean update dist-upgrade full-upgrade upgrade autoremove;do apt-get -y "$APTDI";done;;
   repo)
    if [ $(hostname) != bacon ];then
     for APTREPO in\
@@ -43,13 +43,13 @@
   ;;
   mega)wget https://mega.nz/linux/repo/xUbuntu_24.04/amd64/megacmd-xUbuntu_24.04_amd64.deb&&apt-get install -y "$PWD/megacmd-xUbuntu_24.04_amd64.deb"&&rm -fv megacmd*;;
   libdvd-pkg)
-   aptu
+   apt update
    for APTLIBDVDPKG in\
     'libdvdcss-dev' 'libdvdcss2'\
     'libdvdread-dev' 'libdvdread8'\
     'libdvdnav4' 'libdvd-pkg'\
-   ;do apt-get install "$APTLIBDVDPKG";done
-   dpkgreconf libdvd-pkg
+   ;do DEBIAN_FRONTEND apt-get install -y "$APTLIBDVDPKG";done
+   dpkg-reconfigure libdvd-pkg
   ;;
   visualstudio)
    apt-get install -y wget gpg apt-transport-https
