@@ -1,0 +1,3 @@
+#!/bin/bash -
+ mega-logout
+exit 0

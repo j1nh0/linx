@@ -1,0 +1,34 @@
+#20250512
+#!/bin/bash -
+ if [ -f /etc/skel/.bashrc ];then source /etc/skel/.bashrc;fi
+ USAGE='USAGE: jadb ${ contacts | d | i | k | nisol | pull | push | r | reb | s | sd | sh | side | ur }'
+ case "$1" in
+  d)adb devices;;
+  s)adb start-server;;
+  k)adb kill-server;;
+  r)adb root;;
+  ur)adb unroot;;
+  sh)adb shell;;
+  push)export USAGE='USAGE: jadb push ${FOLDER}';if [ ! -z $2 ];then adb-sync --delete "$2" /sdcard/"$2";else usage;fi;;
+  pull)export USAGE='USAGE: jadb pull ${FOLDER}';if [ ! -z $2 ];then adb-sync --reverse /sdcard/"$2" "$2";else usage;fi;;
+  side)export USAGE='USAGE: jadb side ${ PACKAGE }';if [ ! -z $2 ];then adb sideload "$2";else usage;fi;;
+  reb)
+   export USAGE='USAGE jadb reb ${ b(ootloader) | d(ownload) | r(ecovery) }'
+   case "$2" in
+    b)adb reboot bootloader;;
+    d)adb reboot download;;
+    r)adb reboot recovery;;
+    usage)usage;;
+    *)adb reboot;;
+   esac
+  ;;
+  contacts)
+    adb start-server;sleep 5;adb root
+    adb pull /data/data/com.android.providers.contacts/databases/contacts2.db ./contacts2-$(date +%Y%m%d).db
+    db2vcf ./contacts2-$(date +%Y%m%d).db > Contacts-$(date +%Y%m%d).vcf
+    adb unroot
+  ;;
+
+  *)usage;;
+ esac
+exit 0

@@ -1,0 +1,31 @@
+#!/bin/bash -
+ export USAGE='USAGE: turnkey ${ l(ock) | u(nloc) | a(ll) } ${SOME FILE} ${KEY FILE}'
+ if [ ! -z $2 ];then
+  export TURNKEY="$2"
+  export KEY="$3"
+  export ENC="$TURNKEY.enc"
+  export ORIG="${TURNKEY%.*}"
+  export SHA="$TURNKEY.sha256"
+  case "$1" in
+   l|lock)
+    sha256sum "$TURNKEY">"$SHA"&&\
+    openssl enc -pbkdf2 -aes-256-cbc -in "$TURNKEY" -out "$ENC" -pass file:"$KEY"&&\
+    sync&&\
+    echo -n 'encrypted and '&&\
+    rm -fv "$TURNKEY"
+   ;;
+   u|unlock)
+    openssl enc -d -pbkdf2 -aes-256-cbc -in "$TURNKEY" -out "$ORIG" -pass file:"$KEY"&&\
+    sha256sum --check "$ORIG".sha256&&\
+    sync&&\
+    rm -fv "$TURNKEY" "$ORIG".sha256
+   ;;
+   ####THIS NEEDS WORK####
+   a|all)
+    echo '####THIS NEEDS WORK####'
+   ;;
+   ####THIS NEEDS WORK####
+   *)usage;;
+  esac
+ else usage;fi
+exit 0

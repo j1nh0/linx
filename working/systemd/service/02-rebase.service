@@ -1,0 +1,14 @@
+#UNIT, INSTALL, AND SERVICE MAIN
+[Unit]
+After=multi-user.target
+[Install]
+WantedBy=multi-user.target
+[Service]
+Type=oneshot
+TimeoutStartSec=600
+RemainAfterExit=true
+#MAIN LOGIC
+#ExecStartPre=/bin/bash -c ""
+ExecStartPre=/bin/bash -c "if [ -f /$ETC/$SSH/$LINX.$PIV ];then eval $(ssh-agent -s);ssh-add -D;ssh-add /$ETC/$SSH/$LINX.$PIV;if dig +short $URLRAW;then if [ -d /$LINX/ ];then cd /$LINX/&&git $FETCH --all&&git $RESET --hard $ORIGIN/$MAIN||rm -rfv /$LINX/;cd /;fi;fi;if dig +short $URLRAW;then if [ ! -d /$LINX/ ];then git $CLONE $SSHGITHUB/$J1NH0/$LINX /$LINX/;fi;fi;ssh-add -D;eval $(ssh-agent -k);fi"
+#MAIN EXIT
+ExecStart=/bin/bash -c "exit 0"

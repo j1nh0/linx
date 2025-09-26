@@ -1,0 +1,19 @@
+#UNIT, INSTALL, AND SERVICE MAIN
+[Unit]
+After=multi-user.target
+[Install]
+WantedBy=multi-user.target
+[Service]
+Type=oneshot
+TimeoutStartSec=600
+RemainAfterExit=true
+#MAIN LOGIC
+#ExecStartPre=/bin/bash -c ""
+ExecStartPre=/bin/bash -c "echo -e "$WHOAMI::$PWD::$DATE">>/$ETC/$TIMESTAMP"
+ExecStartPre=/bin/bash -c "if [ -f /$ETC/$SSH/$SSHDCONFIG.$D/50-cloud-init.conf ];then echo 'PasswordAuthentication no'>/$ETC/$SSH/sshd_config.d/50-cloud-init.conf;fi"
+ExecStartPre=/bin/bash -c "if [ -f /$ETC/$SSH/$SSHCONFIG ];then sed -i 's/#   StrictHostKeyChecking ask/StrictHostKeyChecking no/g' /$ETC/$SSH/$SSHCONFIG;fi"
+ExecStartPre=/bin/bash -c "if [ -f /$ETC/$SSH/$SSHDCONFIG ];then sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /$ETC/$SSH/$SSHDCONFIG;fi"
+ExecStartPre=/bin/bash -c "if [ -f /$ETC/$GDM3/$CUSTOMCONF ];then sed -i 's/#WaylandEnable=false/WaylandEnable=false/g' /$ETC/$GDM3/$CUSTOMCONF;fi"
+ExecStartPre=/bin/bash -c "if [ -f /$ETC/$FUSE.$CONF ];then sed -i 's/#user_allow_other/user_allow_other/g' /$ETC/$FUSE.$CONF;fi"
+#MAIN EXIT
+ExecStart=/bin/bash -c "exit 0"
