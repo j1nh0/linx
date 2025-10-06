@@ -1,0 +1,6 @@
+[Match]
+Name=
+[Network]
+Address=/24
+Gateway=
+DNS=
