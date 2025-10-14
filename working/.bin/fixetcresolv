@@ -1,0 +1,22 @@
+#!/bin/bash -
+ export USAGE='USAGE: fixetcresolv'
+ case "$1" in
+  usage)usage;;
+  *)
+   mv /etc/NetworkManager/NetworkManager.conf /etc/NetworkManager/NetworkManager.conf.bak&&sync
+   cat<<EOF>/etc/NetworkManager/NetworkManager.conf
+[main]
+plugins=ifupdown,keyfile
+dns=none
+
+[ifupdown]
+managed=false
+
+[device]
+wifi.scan-rand-mac-address=no
+EOF
+   systemctl restart NetworkManager.service
+   systemctl disable --now systemd-resolved.service
+  ;;
+ esac
+exit 0

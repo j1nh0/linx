@@ -1,0 +1,50 @@
+#!/bin/bash -
+case "$1" in
+ commons)
+  #SOURCE ORIGINALS
+  if [ -f /etc/skel/.bashrc ];then source /etc/skel/.bashrc;fi
+  #SYSTEM UPDATE
+  if dig +short https://archive.ubuntu.com;then
+   apt-get update
+   apt-get dist-upgrade -y
+   if [ -f /etc/skel/.bin/aptinstall ];then /bin/bash /etc/skel/.bin/aptinstall repo;fi
+   if [ -f /etc/skel/.bin/aptinstall ];then /bin/bash /etc/skel/.bin/aptinstall;fi
+   apt-get dist-upgrade -y
+  fi
+  #SYSTEM CLEANUP
+  apt-get -y autoremove
+  dpkg --configure -a
+ ;;
+ rcl)
+  #MANAGEMENT REMOTE
+  #APT
+  if dig +short $URLRAW;then
+   apt-get $UPDATE
+   apt-get $DISTUPGRADE -y
+   apt-get -y $INSTALL $GIT $RSYNC $UNATTENDED $CRYPTSETUP $MDADM
+   if [ $HOSTNAME != bacon ];then apt-get -y $PURGE $AIDE;fi
+   dpkg-reconfigure -f $NONINTERACTIVE -p $CRITICAL $UNATTENDED
+   dpkg --configure -a
+   apt-get autoremove -y
+   dpkg --configure -a
+   update-grub
+   update-initramfs -u -k all
+  fi
+  #SYSTEMD NETWORKD
+  if [ -d /$LINX/$SYSTEMD/$NETWORK/$HOSTNAME/ ];then
+   rm -rfv /$ETC/$SYSTEMD/$NETWORK/*
+   for NEWNET in $(ls /$LINX/$SYSTEMD/$NETWORK/$HOSTNAME/);do
+    ln -snf /$LINX/$SYSTEMD/$NETWORK/$HOSTNAME/$NEWNET /$ETC/$SYSTEMD/$NETWORK/$NEWNET
+   done
+   systemctl restart systemd-networkd
+  fi
+  #SYSTEMD
+  if [ $HOSTNAME != $CUBIC ];then
+   if [ -f /$ETC/$SYSTEMD/$SYSTEM/$RCLSERVICE ];then
+    systemctl daemon-reload
+    systemctl enable $RCLSERVICE
+   fi
+  fi
+ ;;
+esac
+exit 0

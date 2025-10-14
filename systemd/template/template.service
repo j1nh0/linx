@@ -1,0 +1,14 @@
+#UNIT, INSTALL, AND SERVICE MAIN
+[Unit]
+Requires=multi-user.target
+After=multi-user.target
+[Service]
+Type=oneshot
+TimeoutStartSec=600
+RemainAfterExit=true
+#MAIN LOGIC
+ExecStartPre=/bin/bash -c ""
+#MAIN EXIT
+ExecStart=/bin/bash -c "exit 0"
+[Install]
+WantedBy=multi-user.target

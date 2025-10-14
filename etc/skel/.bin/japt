@@ -1,0 +1,81 @@
+#!/bin/bash -
+ if [ -f /etc/skel/.bashrc ];then source /etc/skel/.bashrc;fi
+ export USAGE='USAGE: japt ${ u | ar | di | repo | install | mega | libdvd-pkg | visualstudio | install }'
+ case "$1" in
+  u)apt-get update;;
+  ar)apt-get -y autoremove;;
+  di)
+   for APTDI in\
+    clean\
+    update\
+    upgrade\
+    dist-upgrade\
+    full-upgrade\
+    autoremove\
+    clean\
+   ;do
+    ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive apt-get -y --install-recommends -qq "$APTDI"&>/dev/null
+   done
+   update-initramfs -u -k all&&update-grub
+  ;;
+  repo)
+   if [ $(hostname) != bacon ];then
+    for APTREPO in\
+     'deb http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse'\
+     'deb http://archive.ubuntu.com/ubuntu/ jammy-updates main restricted universe multiverse'\
+     'deb http://archive.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse'\
+     'deb http://archive.ubuntu.com/ubuntu/ jammy-backports main restricted universe multiverse'\
+     'deb http://archive.canonical.com/ubuntu/ jammy partner'\
+     'ppa:cubic-wizard/release'\
+     'ppa:unit193/encryption'\
+    ;do if dig +short http://archive.ubuntu.com;then add-apt-repository -y "$APTREPO";fi;done
+   fi
+   for APTREPO in 'universe' 'multiverse' 'restricted';do if dig +short http://archive.ubuntu.com;then add-apt-repository -y "$APTREPO";fi;done
+  ;;
+  install)
+   for APTBAREBONES in\
+    'build-essential' 'bash' 'bc' 'binutils-aarch64-linux-gnu' 'binutils-arm-linux-gnueabi' 'bison' 'bleachbit' 'bzip2'\
+    'ca-certificates' 'ccache' 'cifs-utils' 'cmake' 'cpio' 'crunch' 'cryptsetup' 'cubic' 'curl'\
+    'deluge' 'dosfstools'\
+    'efitools'\
+    'ffmpeg' 'flatpak' 'flex'\
+    'gcc-12' 'gcc-aarch64-linux-gnu' 'gcc-arm-linux-gnueabihf' 'gcc-mingw-w64-x86-64' 'ghostscript' 'git' 'git-core' 'git-lfs' 'gparted' 'gzip'\
+    'htop'\
+    'inxi'\
+    'libelf-dev' 'libncurses-dev' 'libpam-pwquality' 'libreoffice' 'libssh-dev' 'libssl-dev' \
+    'macchanger' 'make' 'mdadm' 'mokutil' 'mtools'\
+    'net-tools' 'nmap'\
+    'openssl'\
+    'pigz' 'pip' 'p7zip-full'\
+    'qrencode'\
+    'rename'\
+    'sbsigntool' 'screen' 'sed' 'shc' 'solaar' 'sqlite3' 'squashfs-tools' 'ssh' 'sshfs' 'syslinux-common' 'syslinux-efi'\
+    'tpm2-tools' 'tree'\
+    'veracrypt' 'vim' 'vlc'\
+    'xclip'\
+    'zip'\
+   ;do if dig +short http://archive.ubuntu.com;then DEBIAN_FRONTEND=noninteractive apt-get install -y "$APTBAREBONES";fi;done
+  ;;
+  mega)wget https://mega.nz/linux/repo/xUbuntu_24.04/amd64/megacmd-xUbuntu_24.04_amd64.deb&&apt-get install -y "$PWD/megacmd-xUbuntu_24.04_amd64.deb"&&rm -fv megacmd*;;
+  libdvd-pkg)
+   apt update
+   for APTLIBDVDPKG in\
+    'libdvdcss-dev'\
+    'libdvdread-dev'\
+    'libdvdnav-dev'\
+    'libdvd-pkg'\
+   ;do DEBIAN_FRONTEND=noninteractive apt-get install -y "$APTLIBDVDPKG";done
+   dpkg-reconfigure libdvd-pkg
+  ;;
+  visualstudio)
+   apt-get install -y wget gpg apt-transport-https
+   wget -qO- https://packages.microsoft.com/keys/microsoft.asc|gpg --dearmor>packages.microsoft.gpg
+   install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+   echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main"|tee /etc/apt/sources.list.d/vscode.list>/dev/null
+   rm -f packages.microsoft.gpg
+   apt-get update
+   apt-get install -y code
+  ;;
+  *)usage;;
+ esac
+exit 0
