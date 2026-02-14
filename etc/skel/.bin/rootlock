@@ -1,0 +1,5 @@
+#!/bin/bash -
+ passwd -d $ROOT;usermod -L $ROOT
+ if [ -d /$ROOT/ ];then find /$ROOT/ -type d -exec chmod 0700 {} \; -exec chown $ROOT:ROOT {} \;;fi
+ if [ -d /$ROOT/ ];then find /$ROOT/ -type f -exec chmod 0600 {} \; -exec chown $ROOT:ROOT {} \;;fi
+exit 0

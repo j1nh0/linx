@@ -1,0 +1,49 @@
+#find and remove broken symlinks
+find /etc/ -type l -exec sh -c 'file -b "$1"|grep -q "^broken"' sh {} \; -print
+
+
+#this is gold
+7zip command
+  if [ -d ./"$DEV"/"$GITC"/ ];then cd ~;for GITC in $(ls -d ./dev/git/*);do 7z u -up1q0r2x1y2z1w2 -x'!*/*.git' -x'!*/*/*.git' -x'!*/*/*/*.git' -x'!*/*/*/*/*.git' -x'!*/*/*/*/*/*.git' -x'!*/*/*/*/*/*/*.git' -x'!*/*/*/*/*/*/*/*.git' -x'!*/*/*/*/*/*/*/*.git' ./dev/gitc/$(basename ${GITC#*/}).7z $GITC;sync;done;fi
+
+
+
+OLD REPO
+ repo)
+  if [ -f /"$ETC"/"$SKEL"/"$HBIN"/"$REPO" ];then /"$ETC"/"$SKEL"/"$HBIN"/"$REPO" init --depth=0 -u "$URLGIT"/"$J1NH0"/"$REPO";fi
+  if [ -d "$HREPO"/ ];then cd "$HREPO"/;fi
+  if [ -d "$LOCALM"/ ];then rm -rfv "$LOCALM"/;fi
+  if dig +short "$URLGIT";then git clone "$URLGIT"/"$J1NH0"/"$LOCALM";fi
+  if [ -f /"$ETC"/"$SKEL"/"$HBIN"/repo ];then /"$ETC"/"$SKEL"/"$HBIN"/repo sync -c -j$(nproc --ignore=1) --force-sync&&echo -e "$MESSPASS"||echo -e "$MESSFAIL";fi
+  if [ ! -d ./"$DEV"/"$GITC"/ ];then mkdir -vp ./"$DEV"/"$GITC"/;fi
+  if [ -d ./"$DEV"/"$GITC"/ ];then cd ~;for GITC in $(ls -d ./dev/git/*);do 7z u -up1q0r2x1y2z1w2 -x'!*/*.git' -x'!*/*/*.git' -x'!*/*/*/*.git' -x'!*/*/*/*/*.git' -x'!*/*/*/*/*/*.git' -x'!*/*/*/*/*/*/*.git' -x'!*/*/*/*/*/*/*/*.git' -x'!*/*/*/*/*/*/*/*.git' ./dev/gitc/$(basename ${GITC#*/}).7z $GITC;sync;done;fi
+ ;;
+
+ 
+
+#### PROXMOX DESKTOP INSTALL ####
+for FORAPTINSTALL in\
+ sudo\
+ xfce4\
+ xfce4-terminal\
+ chromium\
+ lightdm\
+ htop
+do
+ if [ $(dpkg -l $FORAPTINSTALL) != '0' ];then
+  DEBIAN_FRONTEND=noninteractive apt-get install -y "$FORAPTINSTALL"
+ fi
+done
+
+
+#integrity? confidentiality?
+cat shadow | sort -u | tee shadow &> /dev/null
+
+
+#merge into bin!!!
+handbrake and qgis for flatpak install
+
+
+
+#git reset
+su - linx -c 'eval $(ssh-agent -s);ssh-add /etc/ssh/linx.piv;cd /linx/;git fetch origin main;git reset --hard origin/main;git clean -xdf;ssh-add -D;eval $(ssh-agent -k)'

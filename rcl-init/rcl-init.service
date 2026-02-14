@@ -1,0 +1,17 @@
+#UNIT, INSTALL, AND SERVICE MAIN
+[Unit]
+Requires=multi-user.target
+After=multi-user.target
+[Service]
+Type=oneshot
+TimeoutStartSec=600
+RemainAfterExit=true
+Environment=RCLSH="/linx/rcl-init/rcl-init.sh"
+Environment=MESSAGE="$RCLSH not found"
+Environment=LOG="/var/log/rcl-init.log"
+#MAIN LOGIC
+ExecStartPre=/bin/bash -c "cd;if [ -f $RCLSH ];then /bin/bash $RCLSH;else echo $MESSAGE>>$LOG;fi"
+#MAIN EXIT
+ExecStart=/bin/bash -c "exit 0"
+[Install]
+WantedBy=multi-user.target

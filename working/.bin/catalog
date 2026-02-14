@@ -1,0 +1,148 @@
+#!/bin/bash -
+ export USAGE='USAGE: catalog ${weblist|youtube|text2email}'
+ read -r -d '' WEBLIST<<EOM
+https://apkpro.net
+https://build.nethunter.com
+https://curl.haxx.se
+https://desktop.firmware.mobi
+https://developer.android.com
+https://doc.dev.md
+https://download.lineageos.org/
+https://eu.dl.twrp.me/
+https://ftp.gnu.org
+https://gcc.gnu.org
+https://gparted.org/
+https://guardianproject.info
+https://guardianproject.info/releases/
+https://handbrake.fr
+https://http://alternativeto.net
+https://http://mpesch3.de1.cc
+https://https://audacityteam.org
+https://https://lmms.io
+https://https://www.fortinetguru.com
+https://http://www.ocenaudio.com.br
+https://http://www.wavosaur.com
+https://ipsw.me/
+https://java.com
+https://linuxmint.com/
+https://lubuntu.me/
+https://mcversions.net
+https://stats.lineageos.org/
+https://tails.boum.org
+https://twrp.me/
+https://ubuntu.com/
+https://www.allrecipes.com
+https://www.ancient.eu.com
+https://www.androidapk.ws
+https://www.apkpro.net
+https://www.biology.arizona.edu
+https://www.bios-pw.org
+https://www.busybox.net
+https://www.cheatography.com
+https://www.cyberciti.biz
+https://www.dyne.org
+https://www.easyphysics.net
+https://www.freedos.org/
+https://www.gemologyonline.com
+https://www.gnu.org
+https://www.gzip.org
+https://www.invisible-island.net
+https://www.kali.org/
+https://www.kernel.org
+https://www.learnchem.net
+https://www.learn-c.org
+https://www.learncpp.com
+https://www.learncs.org
+https://www.learningchineseonline.net
+https://www.learninghowtocook.com
+https://www.learnjavaonline.org
+https://www.learn-js.org
+https://www.learn-php.org
+https://www.learnpython.org
+https://www.learnshell.org
+https://www.lineageos.org/
+https://www.linuxcommand.org
+https://www.linuxfromscratch.org
+https://www.lyrics.net
+https://www.magicermine.com
+https://www.man7.org
+https://www.mrcrab.net
+https://www.organicgardening.com
+https://www.parrotsec.org/
+https://www.scripts.com
+https://www.textfiles.com
+https://www.themindunleashed.org
+https://www.tinycorelinux.net
+https://www.tinycorelinux.net
+https://www.weedist.com
+https://www.youtube-dl.org
+https://youtube-dl.org
+EOM
+ read -r -d '' YOUTUBE<<EOM
+AppAspect:user/AppAspect
+AppAspect:user/GurpritSaini
+BohoBeautiful:user/cexercize
+Easy2BootTutorial:user/steve6375
+EphemeralRift:user/EphemeralRift
+ERB:user/ERB
+GentleWhispering:user/GentleWhispering
+Hak5:user/Hak5Darren
+HDdubHERO:user/HDdubHERO
+HDdubPANDA:user/HDdubPANDA
+HDdubRAVE3:user/HDdubRAVE3
+HDMusicNexus:user/HDMusicNexus
+hiteshrohilla1987:user/hiteshrohilla1987
+Hopsintv:user/Hopsintv
+iTzAdam5X:user/iTzAdam5X
+keleshevCOM:user/keleshevCOM
+khanacademy:user/khanacademy
+machinegunkellyAK:user/machinegunkellyAK
+madhurbhatia89:user/madhurbhatia89
+MrSuicideSheep:user/MrSuicideSheep
+NightcoreGalaxy:channel/UC_OTXxqZn1F0vtqiCLRDEmQ
+NightcoreLab:channel/UCVX4_aohMOOC5hbojezKpeQ
+NightcoreReality:user/NightcoreReality
+nyuualiaslucy:user/nyuualiaslucy
+PuppyLinuxWorld:user/PuppyLinuxWorld
+RSAConference:user/RSAConference
+TastyNetwork:user/TastyNetwork
+TheGumbyCollection:user/TheGumbyCollection
+thenewboston:user/thenewboston
+UDUBSTEPHD:user/UDUBSTEPHD
+UKFDrumandBass:user/UKFDrumandBass
+UKFDubstep:user/UKFDubstep
+EOM
+ read -r -d '' TEXT2EMAIL<<EOM
+AT&T: number@txt.att.net (SMS), number@mms.att.net (MMS)
+Boost Mobile: number@sms.myboostmobile.com (SMS), number@myboostmobile.com (MMS)
+C-Spire: number@cspire1.com
+Consumer Cellular: number@mailmymobile.net
+Cricket: number@sms.cricketwireless.net (SMS), number@mms.cricketwireless.net (MMS)
+Google Fi (Project Fi): number@msg.fi.google.com (SMS & MMS)
+H2O Wireless: number@txt.att.net (SMS), number@mms.att.net (MMS)
+Metro by T-Mobile: number@mymetropcs.com (SMS & MMS)
+Mint Mobile: number@tmomail.net (SMS)
+Page Plus: number@vtext.com (SMS), number@vzwpix.com (MMS)
+Pure Talk: number@txt.att.net (SMS), number@mms.att.net (MMS)
+Red Pocket: Red Pocket uses AT&T or T-Mobile (for GSM SIMs) & Verizon for CDMA. See info. for those carriers.
+Republic Wireless: number@text.republicwireless.com (SMS)
+Simple Mobile: number@smtext.com (SMS)
+T-Mobile: number@tmomail.net (SMS & MMS)
+Tello: number@tmomail.net (SMS & MMS)
+Ting: number@message.ting.com (SMS for CDMA), number@tmomail.net (SMS for GSM)
+Tracfone: number@mmst5.tracfone.com (MMS)
+Twigby: number@vtext.com (SMS), number@vzwpix.com (MMS)
+Ultra Mobile: number@mailmymobile.net
+U.S. Cellular: number@email.uscc.net (SMS), number@mms.uscc.net (MMS)
+U.S. Mobile: number@vtext.com (SMS), number@vzwpix.com (MMS)
+Verizon: number@vtext.com (SMS), number@vzwpix.com (MMS)
+Visible: number@vtext.com (SMS), number@vzwpix.com (MMS)
+Xfinity Mobile: number@vtext.com (SMS), number@vzwpix.com (MMS)
+EOM
+ case "$1" in
+  weblist)for WEBSITE in "$WEBLIST";do echo "$WEBSITE";done;;
+  youtube)for MC in "$YOUTUBE";do echo "$MC";done;;
+  text2email)for ROUTE in "$TEXT2EMAIL";do echo "$ROUTE";done;;
+  *)usage;;
+ esac
+exit 0

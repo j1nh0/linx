@@ -1,0 +1,20 @@
+#!/bin/bash -
+ export USAGE='USAGE: fp ${ fi(flatpak install) | i(nstall) | l(ist) | r(un) | u(pdate) }'
+ case "$1" in
+  'fi')
+   export USAGE='USAGE: fpfi ${FLATHUB FLATPAK PACKAGE}'
+   if [ ! -z $2 ];then sudo flatpak install flathub "$2";else usage;fi
+  ;;
+  i|install)
+   export USAGE='USAGE: fpi ${FLATPAK PACKAGE NAME}'
+   if [ ! -z $2 ];then sudo flatpak install "$2";else usage;fi
+  ;;
+  l|list)flatpak list;;
+  r|run)
+   export USAGE='USAGE: fpr ${FLATPAK TO RUN}'
+   if [ ! -z $2 ];then flatpak run "$2";else usage;fi
+  ;;
+  u|update)sudo flatpak update;;
+  *)usage;;
+ esac
+exit 0
