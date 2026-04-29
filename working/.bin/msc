@@ -1,0 +1,4 @@
+#!/bin/bash -
+~/.bin/msc)
+ clear;mega-sync "$@"
+exit 0

@@ -1,0 +1,8 @@
+#git reset
+su - linx -c 'eval $(ssh-agent -s);ssh-add /etc/ssh/linx.piv;cd /linx/;git fetch origin main;git reset --hard origin/main;git clean -xdf;ssh-add -D;eval $(ssh-agent -k)'
+
+#openssl pubkey encrypt
+openssl pkeyutl -encrypt -inkey keys/linx.pub -pubin -in linx.sym -out linx.sym.enc
+
+#openssl pubkey decrypt
+openssl pkeyutl -decrypt -inkey keys/linx.piv -in linx.sym.enc -out linx.sym

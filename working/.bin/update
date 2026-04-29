@@ -1,0 +1,33 @@
+#!/bin/bash -
+ export SKELBIN='/etc/skel/.bin'
+ case "$1" in
+  adb-sync)cd /tmp/&&if dig +short http://github.com;then git clone https://github.com/google/adb-sync.git&&cp -Rfv adb-sync/* "$SKELBIN";rm -rfv adb-sync/;fi;;
+  platform-tools)cd /tmp/&&if dig +short http://dl.google.com;then wget https://dl.google.com/android/repository/platform-tools-latest-linux.zip&&unzip -o platform-tools-latest-linux.zip&&cp -Rfv platform-tools/* "$SKELBIN"/;rm -rfv platform-tools/ platform-tools-latest-linux.zip*;fi;;
+  repo)cd /tmp/&&if dig +short http://storage.googleapis.com;then wget https://storage.googleapis.com/git-repo-downloads/repo -O "$SKELBIN"/repo;fi;;
+  yt-dlp)cd /tmp/&&if dig +short http://github.com;then wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O "$SKELBIN"/yt-dlp;fi;;
+  sqlbrowser)cd /tmp/&&if dig +short http://download.sqlitebrowser.org;then wget https://download.sqlitebrowser.org/DB.Browser.for.SQLite-v3.13.1-x86.64-v2.AppImage -O "$SKELBIN"/sqlbrowser;fi;;
+  payload-dumper)cd /tmp/&&if dig +short http://pypi.python.org;then pip install --break-system-packages payload-dumper;fi;;
+  qflipper)cd /tmp/&&if dig +short http://update.flipperzero.one;then wget https://update.flipperzero.one/builds/qFlipper/1.3.3/qFlipper-x86_64-1.3.3.AppImage -O "$SKELBIN"/qflipperr;fi;;
+  freecad)cd /tmp/&&if dig +short http://github.com;then wget https://github.com/FreeCAD/FreeCAD/releases/download/0.21.2/FreeCAD-0.21.2-Linux-x86_64.AppImage -O "$SKELBIN"/freecad;fi;;
+  cura)cd /tmp/&&if dig +short http://github.com;then wget https://github.com/Ultimaker/Cura/releases/download/5.7.2-RC2/UltiMaker-Cura-5.7.2-linux-X64.AppImage -O "$SKELBIN"/cura;fi;;
+  openshot)cd /tmp/&&if dig +short http://github.com;then wget https://github.com/OpenShot/openshot-qt/releases/download/v3.2.1/OpenShot-v3.2.1-x86_64.AppImage -O "$SKELBIN"/openshot;fi;;
+  upscayl)cd /tmp/&&if dig +short http://github.com;then wget https://github.com/upscayl/upscayl/releases/download/v2.11.5/upscayl-2.11.5-linux.AppImage -O "$SKELBIN"/upscayl;fi;;
+  whisper)cd /tmp/&&if dig +short http://github.com;then pip install --break-system-packages git+https://github.com/openai/whisper.git;fi;;
+  iptracer)cd /tmp/&&if dig +short http://github.com;then git clone https://github.com/rajkumardusad/IP-Tracer.git;cd IP-Tracer;bash install&>/dev/null;cd ..;rm -rf IP-Tracer;fi;;
+  cfg2html)cd /tmp/&&if dig +short http://github.com;then git clone https://github.com/cfg2html/cfg2html.git;cp -Rfv cfg2html/* "$SKELBIN"/;rm -rf cfg2html/;fi;;
+  torghost)cd /tmp/&&if dig +short http://github.com;then git clone https://github.com/SusmithKrishnan/torghost.git;cp -Rfv torghost/* "$SKELBIN"/;rm -rf torghost;fi;;
+  katoolin)cd /tmp/&&if dig +short http://github.com;then git clone https://github.com/LionSec/katoolin.git;cp -Rfv katoolin/* "$SKELBIN"/;rm -rf katoolin/;fi;;
+  install)
+   if [ -f "$SKELBIN"/update ];then bash "$SKELBIN"/update adb-sync;fi
+   if [ -f "$SKELBIN"/update ];then bash "$SKELBIN"/update platform-tools;fi
+   if [ -f "$SKELBIN"/update ];then bash "$SKELBIN"/update repo;fi
+   if [ -f "$SKELBIN"/update ];then bash "$SKELBIN"/update yt-dlp;fi
+   if [ -f "$SKELBIN"/update ];then bash "$SKELBIN"/update sqlbrowser;fi
+   if [ -f "$SKELBIN"/update ];then bash "$SKELBIN"/update iptracer;fi
+   if [ -f "$SKELBIN"/update ];then bash "$SKELBIN"/update cfg2html;fi
+   if [ -f "$SKELBIN"/update ];then bash "$SKELBIN"/update torghost;fi
+   if [ -f "$SKELBIN"/update ];then bash "$SKELBIN"/update katoolin;fi
+  ;;
+  *)echo -e "\nUSAGE:\n\nupdate\n\tadb-sync\n\tplatform-tools\n\trepo\n\tyt-dlp\n\tsqlbrowser\n\tpayload-dumper\n\tqflipper\n\tfreecad\n\tcura\n\topenshot\n\tupscayl\n\twhisper\n\tiptracer\n\tcfg2html\n\ttorghost\n\tkatoolin\n\tinstall";;
+ esac
+exit 0

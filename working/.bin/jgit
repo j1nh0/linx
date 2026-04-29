@@ -1,0 +1,107 @@
+#!/bin/bash -
+ if [ -f /etc/skel/.bashrc ];then source /etc/skel/.bashrc;fi
+ export USAGE='USAGE: jgit ${ c | clean | commit | def | extra | jc | origin | prune | push | pull | remote | reset | sub | update }'
+ case "$1" in
+  c)export USAGE='USAGE: jgit c ${GIT REPO}';if [ ! -z $2 ];then git clone -j$NPROC --recurse-submodules --depth=1 "https://github.com/j1nh0/$2";else usage;fi;;
+  clean)git fetch --all;git reset --hard origin/main;git clean -fd;;
+  commit)git commit -m $(date +%Y%m%d%H%M%S);;
+  def)
+   for GITDEF in\
+    "credential.usageer 'cache --timeout=28800'"\
+    "fetch.prune true"\
+    "http.postBuffer 2097152000"\
+    "init.defaultBranch main"\
+    "diff.submodule log"\
+    "pull.rebase false"\
+    "pack.threads $NPROC"\
+   ;do git config --global $GITDEF;done
+  ;;
+  extra)
+   export USAGE='USAGE: jgit extra ${ lfs(uninstall) | l(icense) | r(eadme) }'
+   case "$2" in
+    lfs|lfsuninstall)
+     git lfs uninstall
+     git rm -r --cached *
+     if [ -f ./.gitattributes ];then rm -f ./.gitattributes;fi
+     if [ -d ./.git/ ];then rm -rf ./.git/*;fi
+    ;;
+    l|license)wget -O LICENSE https://raw.githubusercontent.com/j1nh0/j1nh0/main/LICENSE;;
+    r|readme)tree --du -h>README.md;;
+    *)usage;;
+   esac
+  ;;
+  jc)export USAGE='USAGE: gitcj ${JINHO URL}';if [ ! -z $2 ];then git clone ssh://git@github.com/j1nh0/"$2";else usage;fi;;
+  origin)git remote show origin;;
+  prune)git gc --aggressive --prune=now;git repack -Ad;git prune;git prune-packed;;
+  pull)
+   export USAGE='USAGE: gitpull ${ m(ain) | f(orce) }'
+   case "$2" in
+    m|main)git fetch --all;git pull origin main;;
+    f|force)git checkout $(git remote show origin|grep 'HEAD'|cut -d':' -f2)&&git pull --force;;
+    usage)usage;;
+    *)git fetch --all;git pull;;
+   esac
+  ;;
+  push)
+   export USAGE='USAGE: gitpush ${ m(ain) | f(orce) }'
+   case "$2" in
+    m|main)git add -A;git commit -m $(date +%Y%m%d%H%M%S);git push origin main;;
+    f|force)git add -A;git commit -m $(date +%Y%m%d%H%M%S);git push --force origin main;;
+    usage)usage;;
+    *)git add -A;git commit -m $(date +%Y%m%d%H%M%S);git push;;
+   esac
+  ;;
+  remote)
+   if [ ! -f ~/.ssh/j1nh0.github ];then echo 'Github token not found!'&&exit 1;else
+    TOKEN=$(cat ~/.ssh/j1nh0.github)
+    export USAGE='USAGE: gitremote ${ l(ist) || c(reate) [private || public] || d(elete) }'
+    case "$1" in
+     l|list)
+      curl -L\
+       -H "Accept: application/vnd.github+json"\
+       -H "Authorization: Bearer $TOKEN"\
+       -H "X-GitHub-Api-Version: 2022-11-28"\
+       https://api.github.com/users/j1nh0/repos?per_page=100|\
+       grep -w 'html_url'|\
+       grep -wv '"html_url": "https://github.com/j1nh0",'|\
+       cut -d' ' -f6|\
+       cut -c2-|\
+       sed -e 's/",$//g'
+     ;;
+     c|create)
+      export USAGE='USAGE: gitremote c ${ public | private }'
+      case "$2" in
+       public)
+        curl -L -X POST\
+         -H "Accept: application/vnd.github+json"\
+         -H "Authorization: Bearer $TOKEN"\
+         -H "X-GitHub-Api-Version: 2022-11-28"\
+         https://api.github.com/user/repos -d "{\"name\":\"$(basename $PWD)\"}";;
+       private)
+        curl -L -X POST\
+         -H "Accept: application/vnd.github+json"\
+         -H "Authorization: Bearer $TOKEN"\
+         -H "X-GitHub-Api-Version: 2022-11-28"\
+         https://api.github.com/user/repos -d "{\"name\":\"$(basename $PWD)\"}";;
+       *)usage;;
+      esac
+     ;;
+     d|delete)
+      curl -L -X DELETE\
+       -H "Accept: application/vnd.github+json"\
+       -H "Authorization: Bearer $TOKEN"\
+       -H "X-GitHub-Api-Version: 2022-11-28"\
+       https://api.github.com/repos/j1nh0/"$2";;
+     *)usage;;
+    esac
+   fi
+  ;;
+  reset)
+   rm -rf ./.git/
+   git init;git branch -m main
+   git remote add origin "ssh://git@github.com/j1nh0/${PWD##*/}.git"
+   git add -A;git commit -m $(date +%Y%m%d%H%M%S);git push -f -v origin main
+  ;;
+  *)usage;;
+ esac
+exit 0
