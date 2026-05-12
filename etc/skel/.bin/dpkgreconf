@@ -1,0 +1,4 @@
+#!/bin/bash -
+ export USAGE='USAGE: dpkgrecof ${ SOME DEB PACKAGE }'
+ if [ ! -z $1 ];then sudo dpkg-reconfigure -f noninteractive -p critical "$1";else usage;fi
+exit 0

@@ -1,0 +1,16 @@
+#!/bin/bash -
+ export USAGE='USAGE: tpmunlock .'
+ case "$1" in
+  usage)usage;;
+  *)
+   for TPMUNLOCK in clevis clevis-tpm2 clevis-luks clevis-initramfs initramfs-tools tss2;do
+    if ! dpkg -s "$TPMUNLOCK" &>/dev/null;then apt-get -y install "$TPMUNLOCK";fi
+   done
+   echo -n 'Enter LUKS password:'&&read -s LUKSKEY&&echo
+   echo -n 'Enter LUKS device:'&&read LUKSDEVICE&&echo
+   echo "$LUKSKEY"|clevis luks bind -d "$LUKSDEVICE" tpm2 '{"pcr_bank":"sha256"}'
+   update-initramfs -u -k all
+   clevis luks list -d "$LUKSDEVICE"
+  ;;
+ esac
+exit 0

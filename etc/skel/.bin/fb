@@ -1,0 +1,24 @@
+#!/bin/bash -
+ export USAGE='USAGE: fb ${ c(urrentslot) | r(eboot) | s(tock) }'
+ case "$1" in
+  c|currentslot)fastboot getvar current-slot;;
+  r|reboot)
+   export USAGE="USAGE: fb reboot ${ b(ootloader) | d(ownload) | r(ecovery) }"
+   case "$2" in
+    b|bootloader)fastboot reboot bootloader;;
+    d|download)fastboot reboot download;;
+    r|recovery)fastboot reboot recovery;;
+    *)fastboot reboot;;
+   esac
+  ;;
+  s|stock)
+   export USAGE="USAGE: fb stock ${ l(emonadep) | i(nstantnoodle) }"
+   case "$2" in
+    l|lemonadep)for FLASH in 'abl' 'aop' 'bluetooth' 'cpucp' 'devcfg' 'dsp' 'engineering_cdt' 'featenabler' 'hyp' 'imagefv' 'keymaster' 'modem' 'multiimgoem' 'oplus_sec' 'oplusstanvbk' 'qupfw' 'qweslicstore' 'shrm' 'splash' 'tz' 'uefisecapp' 'vm-bootsys' 'xbl_config' 'xbl';do fastboot flash --slot=all "$FLASH" "$FLASH.img";done;;
+    i|instantnoodle)for FLASH in 'abl' 'aop' 'bluetooth' 'cmnlib64' 'cmnlib' 'devcfg' 'dsp' 'featenabler' 'hyp' 'imagefv' 'keymaster' 'logo' 'mdm_oem_stanvbk' 'modem' 'multiimgoem' 'qupfw' 'spunvm' 'storsec' 'tz' 'uefisecapp';do fastboot flash --slot=all "$FLASH" "$FLASH.img";done;;
+    *)usage;;
+   esac
+  ;;
+  *)usage;;
+ esac
+exit 0

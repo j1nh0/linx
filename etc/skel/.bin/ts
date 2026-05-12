@@ -1,0 +1,13 @@
+#!/bin/bash -
+ export USAGE='USAGE: ts #STANDALONE TIMESTAMP# ${SOME FILE/DIR}'
+ export TS="WHOAMI: $(whoami)\n\nPWD: $PWD\n\n$(date)"
+ export STAMP='./time.stamp'
+ export FILE=${1%.*}
+ export EXT=${1##*.}
+ if [ ! -z $1 ];then
+  if [ -f $1 ];then
+   mv $1 $FILE-$(date +%Y%m%d%H%M%S).$EXT
+  else
+   if [ -d $1 ];then export DIR=${1%/};mv $1 $DIR-$(date +%Y%m%d%H%M%S)/;else echo "$USAGE";fi
+  fi;else echo -e "$TS"|tee "$STAMP";fi
+exit 0

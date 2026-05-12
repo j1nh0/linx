@@ -1,0 +1,6 @@
+#!/bin/bash -
+ export USAGE='USAGE: bytearray ${ SOME FILE }'
+ if [ ! -z $1 ];then export FILE="$1";export CFILE="$FILE.c"
+  xxd -u -i -c256 "$FILE"|sed -e 's/ //g'|sed -e 's/unsignedchar/static unsigned char /'|sed -e 's/unsignedint/static unsigned int /g'>"$CFILE"&&echo "Create byte array of $CFILE pass!"||echo "Create byte array of $CFILE fail!"
+ else usage;fi
+exit 0

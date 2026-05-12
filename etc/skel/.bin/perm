@@ -1,0 +1,14 @@
+#!/bin/bash -
+ export USAGE='USAGE: perm ${ l(ock) | p(rivate) | u(nlock) | x|e(x)ecute } .'
+ case "$1" in
+  l|lock)export FPERM=0700;export DPERM=0700;;
+  p|private)export FPERM=0664;export DPERM=0775;;
+  u|unlock)export FPERM=0777;export DPERM=0777;;
+  x|execute)export FPERM=0755;export DPERM=0755;;
+  *)usage;exit 1;;
+ esac
+ find . -type d -exec chmod "$DPERM" {} \;
+ find . -type f -exec chmod "$FPERM" {} \;
+ find . -type d -exec chown 1001:65534 {} \;
+ find . -type f -exec chown 1001:65534 {} \;
+exit 0
