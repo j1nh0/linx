@@ -1,0 +1,4 @@
+#SERVICE
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl --force reboot

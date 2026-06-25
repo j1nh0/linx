@@ -1,0 +1,8 @@
+#!/bin/bash -
+ export USAGE='USAGE: chr ${ m(ount) | u(nmount) }'
+ case "$1" in
+  m|mount)for MOUNT in 'dev' 'dev/pts' 'dev/shm' 'sys' 'proc' 'run';do sudo mount -o bind "/$MOUNT" ./"$MOUNT";done;chroot .;;
+  u|unmount)for UNMOUNT in 'run' 'proc' 'sys' 'dev/shm' 'dev/pts' 'dev';do sudo umount ./"$UNMOUNT";done;;
+  *)usage;;
+ esac
+exit 0
