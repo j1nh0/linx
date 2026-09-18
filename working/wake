@@ -1,0 +1,44 @@
+#VARIABLE DECLARE
+NULL=/dev/null
+BRDC="10.10.10.255"
+UNIT=$1
+declare -A MACS=(
+ ["one"]="e4:43:4b:11:e8:b8"
+ ["two"]="90:e2:ba:90:96:2c"
+ ["three"]="b4:d5:bd:fc:e3:c9"
+ ["four"]="e4:43:4b:f7:4b:5c"
+ ["five"]="f4:a4:75:ab:13:eb"
+ ["six"]="30:bb:7d:d1:13:63"
+ ["seven"]="18:66:da:af:fe:b6"
+ ["eight"]="d0:94:66:1f:76:04"
+ ["nine"]="24:6e:96:08:5d:68"
+)
+#FUNCTION DECLARE
+send_packet(){
+ NAME=$1
+ MAC=$2
+ echo '################'
+ echo "Waking $NAME ($MAC)...";wol -v -i "$BRDC" "$MAC" 2>$NULL
+}
+command_test(){
+ if ! command -v wol &> /dev/null;then
+  echo 'Error: wol not installed!'
+  exit 1
+ fi
+}
+wake(){
+if [[ "$UNIT" == "all" ]];then
+ echo "Initiating bulk wake-up..."
+ for NAME in "${!MACS[@]}";do
+  send_packet "$NAME" "${MACS[$NAME]}"
+ done
+elif [[ -n "${MACS[$UNIT]}" ]];then
+ send_packet "$UNIT" "${MACS[$UNIT]}"
+else
+ echo "Usage: $0 [unit_NAME | all]"
+ exit 1
+fi
+}
+#MAIN LOGIC
+command_test
+wake

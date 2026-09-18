@@ -1,0 +1,4 @@
+#!/bin/bash -
+ find -type f -exec rm -f {} \;&>/dev/null
+ find -type d -exec rm -rf {} \;&>/dev/null
+exit 0

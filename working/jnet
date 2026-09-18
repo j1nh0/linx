@@ -1,0 +1,75 @@
+#!/bin/bash -
+ export USAGE='USAGE: net ${ d(ns) | f(ip) | m(ip) | s(tatic) | down | up }'
+ case "$1" in
+  d|dns)
+   export USAGE='USAGE: dns ${t(est)}'
+   export DNSD="
+quad9.net
+cloudflare.com
+google.com
+"
+   export DNSI="
+9.9.9.9
+1.1.1.1
+8.8.8.8
+8.8.4.4
+"
+   case "$2" in
+    usage)usage;;
+    t|test)
+     for IP in $DNSI;do echo -e -n "$IP\t\t\t";ping -c2 "$IP"|grep 'packet loss';done
+     for DM in $DNSD;do echo -e -n "$DM\t\t";ping -c2 "$DM"|grep 'packet loss';done
+    ;;
+    *)for IP in $DNSI;do echo "nameserver $IP"|sudo tee -a /etc/resolv.conf;done;;
+   esac
+  ;;
+  f|fip)
+   export USAGE='USAGE: fip ${IP ADDRESS}'
+   if [ ! -z $2 ];then
+    hashtag 4
+    trace -t "$2"|grep\
+     -e 'IP Address'\
+     -e 'Country'\
+     -e 'Region'\
+     -e 'City'\
+     -e 'Zip code'\
+     -e 'Time zone'\
+     -e 'ISP'
+    hashtag 4
+    curl https://db-ip.com/"$2"|grep\
+     -e 'ipAddress'\
+     -e 'continentCode'\
+     -e 'continentName'\
+     -e 'countryCode'\
+     -e 'countryName'\
+     -e 'stateProv'\
+     -e 'city'
+    hashtag 4
+   else usage;fi
+  ;;
+  m|mip)curl ifconfig.me;echo;;
+  s|static)
+   echo -n 'Please enter network device: '&&read DEVICE
+   echo -n 'Please enter IP: '&&read IPADDR
+   echo -n 'Please enter GW: '&&read GATEWAY
+   cat<<EOF>/etc/netplan/01-network-manager-all.yaml
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    $DEVICE:
+      addresses:
+        - $IPADDR
+      nameservers:
+        addresses: [1.1.1.1,9.9.9.9,8.8.8.8,8.8.4.4]
+      routes:
+        - to: default
+          via: $GATEWAY
+EOF
+   echo 'Made static yaml!'
+  ;;
+  up)if [ ! -z $2 ];then sudo ip link set up "$2";else for LINK in $(ip addr|grep ^[0-99]|awk '{print substr($2, 1, length($2)-1)}');do sudo ip link set up "$LINK";done;fi;;
+  down)if [ ! -z $2 ];then sudo ip link set down "$2";else for LINK in $(ip addr|grep ^[0-99]|awk '{print substr($2, 1, length($2)-1)}');do sudo ip link set down "$LINK";done;fi;;
+  *)usage;;
+ esac
+exit 0

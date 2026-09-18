@@ -1,0 +1,11 @@
+#!/bin/bash -
+ export USAGE='USAGE: snapc ${ i(nstall) | l(ist) | re(move) | r(efresh) | s(ave) }'
+ case "$1" in
+  i|install)export USAGE='USAGE: snapi ${SOME SNAP PROGRAM}';if [ ! -z $2 ];then sudo snap install "$2";else usage;fi;;
+  l|list)export USAGE='USAGE: snac l';if [ -z $2 ];then sudo snap list "$2";else usage;fi;;
+  re|remove)export USAGE='USAGE: snapre ${SNAP TO REMOVE}';if [ ! -z $2 ];then sudo snap remove "$2";else usage;fi;;
+  r|refresh)sudo snap refresh;;
+  s|save)sudo snap save;;
+  *)usage;;
+ esac
+exit 0

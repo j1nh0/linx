@@ -1,0 +1,19 @@
+#!/bin/bash -
+#VARIABLE DECLARE
+if [ -f $HOME/.linx/etc/environment ];then source $HOME/.linx/etc/environment;else echo 'Environment not found!';exit 1;fi
+if [ -f $HOME/.linx/etc/array ];then source $HOME/.linx/etc/array;else echo 'Array not found!';exit 1;fi
+export USAGE='USAGE: bytearray ${ SOME FILE }'
+#FUNCTION DECLARE
+bytearray(){
+ if [ ! -z "$ARG1" ];then
+  xxd -u -i -c256 "$ARG1"|\
+  sed -e 's/ //g'|\
+  sed -e 's/unsignedchar/static unsigned char /'|\
+  sed -e 's/unsignedint/static unsigned int /g'>"$ARG1.$C"&&\
+  echo "$MESSPASS"||echo "$MESSFAIL"
+ else usage;fi
+};
+#MAIN LOGIC
+bytearray;sync;
+#MAIN EXIT
+exit 0

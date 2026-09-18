@@ -1,0 +1,16 @@
+#SERVICE
+[Unit]
+Requires=default.target
+After=default.target
+[Service]
+Type=oneshot
+TimeoutStartSec=600
+RemainAfterExit=true
+Environment=RCLDIR="$HOME/.linx/rcl-init"
+Environment=RCLSH="$RCLDIR/rcl-init.sh"
+Environment=LOG="$RCLDIR/rcl-init.log"
+Environment=MESSAGE="$RCLSH not found"
+ExecStartPre=/bin/bash -c "cd;if [ -f $RCLSH ];then /bin/bash $RCLSH;else echo $MESSAGE>>$LOG;fi"
+ExecStart=/bin/bash -c "exit 0"
+[Install]
+WantedBy=default.target
