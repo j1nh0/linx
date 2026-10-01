@@ -1,0 +1,5 @@
+#ssh run
+sshr(){
+ export USAGE='USAGE: sshr ${ COMMAND } ${ SOMEONE@SOME IP }'
+ if [ ! -z $1 ];then ssh -X -f "$2" "$1";else usage;fi
+}

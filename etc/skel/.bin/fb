@@ -1,0 +1,34 @@
+#!/bin/bash -
+#VARIABLE DECLARE
+if [ -f $HOME/.linx/etc/environment ];then source $HOME/.linx/etc/environment;else echo 'Environment not found!';exit 1;fi
+if [ -f $HOME/.linx/etc/array ];then source $HOME/.linx/etc/array;else echo 'Array not found!';exit 1;fi
+export USAGE='USAGE: fb ${ c(urrentslot) | r(eboot) | s(tock) }'
+#FUNCTION DECLARE
+fb(){
+ case "$ARG1" in
+  c|currentslot)fastboot getvar current-slot;;
+  r|reboot)
+   export USAGE="USAGE: fb reboot ${ b(ootloader) | d(ownload) | r(ecovery) }"
+   case "$ARG2" in
+    b|bootloader)fastboot reboot bootloader;;
+    d|download)fastboot reboot download;;
+    r|recovery)fastboot reboot recovery;;
+    u|usage)usage;;
+    *)fastboot reboot;;
+   esac
+  ;;
+  s|stock)
+   export USAGE="USAGE: fb stock ${ l(emonadep) | i(nstantnoodle) }"
+   case "$ARG2" in
+    l|lemonadep)for FLASH in ${LEMONADEP[@]};do fastboot flash --slot=all "$FLASH" "$FLASH.img";done;;
+    i|instantnoodle)for FLASH in ${INSTANTNOODLE[@]};do fastboot flash --slot=all "$FLASH" "$FLASH.img";done;;
+    *)usage;;
+   esac
+  ;;
+  *)usage;;
+ esac
+};
+#MAIN LOGIC
+fb;sync;
+#MAIN EXIT
+exit 0

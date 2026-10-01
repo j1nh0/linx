@@ -1,0 +1,13 @@
+#!/bin/bash -
+#VARIABLE DECLARE
+if [ -f $HOME/.linx/etc/environment ];then source $HOME/.linx/etc/environment;else echo 'Environment not found!';exit 1;fi
+if [ -f $HOME/.linx/etc/array ];then source $HOME/.linx/etc/array;else echo 'Array not found!';exit 1;fi
+export USAGE='USAGE: dpkgrecof ${ SOME DEB PACKAGE }'
+#FUNCTION DECLARE
+dpkgrecof(){
+ if [ ! -z $ARG1 ];then sudo dpkg-reconfigure -f noninteractive -p critical "$ARG1";else usage;fi
+};
+#MAIN LOGIC
+dpkgrecof;sync;
+#MAIN EXIT
+exit 0

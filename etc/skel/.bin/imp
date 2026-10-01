@@ -1,0 +1,27 @@
+#!/bin/bash -
+#VARIABLE DECLARE
+if [ -f $HOME/.linx/etc/environment ];then source $HOME/.linx/etc/environment;else echo 'Environment not found!';exit 1;fi
+if [ -f $HOME/.linx/etc/array ];then source $HOME/.linx/etc/array;else echo 'Array not found!';exit 1;fi
+export USAGE='USAGE: imp ${ p(ack) | u(npack) }'
+#FUNCTION DECLARE
+imp(){
+ case "$1" in
+  p|pack)
+####THIS NEEDS WORK####
+   for ISO in $(ls -d */);do
+    sync
+   done
+####THIS NEEDS WORK####
+  ;;
+  u|unpack)
+   for ISO in $(ls *.iso);do mkdir ${ISO%%.*}
+    sudo mount "$ISO" "/mnt/"&&cp -ruv /mnt/* ./"${ISO%%.*}"&&sync&&sudo umount "/mnt/"&&rm -v "$ISO"
+   done
+  ;;
+  *)usage;;
+ esac
+};
+#MAIN LOGIC
+imp;sync;
+#MAIN EXIT
+exit 0

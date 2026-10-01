@@ -1,0 +1,22 @@
+#!/bin/bash -
+#VARIABLE DECLARE
+if [ -f $HOME/.linx/etc/environment ];then source $HOME/.linx/etc/environment;else echo 'Environment not found!';exit 1;fi
+if [ -f $HOME/.linx/etc/array ];then source $HOME/.linx/etc/array;else echo 'Array not found!';exit 1;fi
+export USAGE='USAGE: engine ${SOME COMMAND ON REPEAT} ${INTERVAL IF NEEDED}'
+#FUNCTION DECLARE
+engine(){
+ case "$ARG1" in
+  usage)usage;;
+  *)
+   if [ ! -z $2 ];then
+    while true;do $1;sleep "$2";done
+   else
+    while true;do $1;sleep 1;done
+   fi
+  ;;
+ esac
+};
+#MAIN LOGIC
+engine;sync;
+#MAIN EXIT
+exit 0

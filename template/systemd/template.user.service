@@ -1,0 +1,12 @@
+#SERVICE
+[Unit]
+Requires=default.target
+After=default.target
+[Service]
+Type=oneshot
+TimeoutStartSec=600
+RemainAfterExit=true
+ExecStartPre=/bin/bash -c ""
+ExecStart=/bin/bash -c "exit 0"
+[Install]
+WantedBy=default.target
