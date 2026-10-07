@@ -1,8 +1,3 @@
-ARG1=$1
-ARG2=$2
-ARG3=$3
-ARG4=$4
-ARG5=$5
 C=c
 RCLDIR=rcl-init
 RCLSH=rcl-init.sh
