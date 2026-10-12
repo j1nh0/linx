@@ -1,0 +1,17 @@
+#!/bin/bash -
+#VARIABLE DECLARE
+if [ -f $HOME/.linx/etc/environment ];then source $HOME/.linx/etc/environment;else echo 'Environment not found!';exit 1;fi
+if [ -f $HOME/.linx/etc/array ];then source $HOME/.linx/etc/array;else echo 'Array not found!';exit 1;fi
+export USAGE='USAGE: '
+#FUNCTION DECLARE
+global(){
+ if [ -f /$ETC/$SSH/$SSHDCONFIG.$D/50-cloud-init.conf ];then echo 'PasswordAuthentication no'>/$ETC/$SSH/sshd_config.d/50-cloud-init.conf;fi
+ if [ -f /$ETC/$SSH/$SSHCONFIG ];then sed -i 's/#   StrictHostKeyChecking ask/StrictHostKeyChecking no/g' /$ETC/$SSH/$SSHCONFIG;fi
+ if [ -f /$ETC/$SSH/$SSHDCONFIG ];then sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /$ETC/$SSH/$SSHDCONFIG;fi
+ if [ -f /$ETC/$GDM3/$CUSTOMCONF ];then sed -i 's/#WaylandEnable=false/WaylandEnable=false/g' /$ETC/$GDM3/$CUSTOMCONF;fi
+ if [ -f /$ETC/$FUSE.$CONF ];then sed -i 's/#user_allow_other/user_allow_other/g' /$ETC/$FUSE.$CONF;fi
+};
+#MAIN LOGIC
+global;sync;
+#MAIN EXIT
+exit 0

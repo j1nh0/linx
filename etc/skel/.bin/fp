@@ -1,0 +1,29 @@
+#!/bin/bash -
+#VARIABLE DECLARE
+if [ -f $HOME/.linx/etc/environment ];then source $HOME/.linx/etc/environment;else echo 'Environment not found!';exit 1;fi
+if [ -f $HOME/.linx/etc/array ];then source $HOME/.linx/etc/array;else echo 'Array not found!';exit 1;fi
+export USAGE='USAGE: fp ${ fi(flatpak install) | i(nstall) | l(ist) | r(un) | u(pdate) }'
+#FUNCTION DECLARE
+fp(){
+ case "$1" in
+  'fi')
+   export USAGE='USAGE: fpfi ${FLATHUB FLATPAK PACKAGE}'
+   if [ ! -z $2 ];then sudo flatpak install flathub "$2";else usage;fi
+  ;;
+  i|install)
+   export USAGE='USAGE: fpi ${FLATPAK PACKAGE NAME}'
+   if [ ! -z $2 ];then sudo flatpak install "$2";else usage;fi
+  ;;
+  l|list)flatpak list;;
+  r|run)
+   export USAGE='USAGE: fpr ${FLATPAK TO RUN}'
+   if [ ! -z $2 ];then flatpak run "$2";else usage;fi
+  ;;
+  u|update)sudo flatpak update;;
+  *)usage;;
+ esac
+};
+#MAIN LOGIC
+fp;sync;
+#MAIN EXIT
+exit 0

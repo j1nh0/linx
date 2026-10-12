@@ -1,0 +1,20 @@
+#!/bin/bash -
+#VARIABLE DECLARE
+if [ -f $HOME/.linx/etc/environment ];then source $HOME/.linx/etc/environment;else echo 'Environment not found!';exit 1;fi
+if [ -f $HOME/.linx/etc/array ];then source $HOME/.linx/etc/array;else echo 'Array not found!';exit 1;fi
+export USAGE='USAGE: ghost ${ s(tart) | st(op) | sw(itch) | u(pdate) }'
+#FUNCTION DECLARE
+torghost(){
+ case "$1" in
+  s)export FLAG='--start';;
+  st)export FLAG='--stop';;
+  sw)export FLAG='--switch';;
+  u)export FLAG='--update';;
+  *)usage;;
+ esac
+ torghost.py "$FLAG"
+};
+#MAIN LOGIC
+torghost;sync;
+#MAIN EXIT
+exit 0

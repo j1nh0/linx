@@ -1,0 +1,18 @@
+#!/bin/bash -
+#VARIABLE DECLARE
+if [ -f $HOME/.linx/etc/environment ];then source $HOME/.linx/etc/environment;else echo 'Environment not found!';exit 1;fi
+if [ -f $HOME/.linx/etc/array ];then source $HOME/.linx/etc/array;else echo 'Array not found!';exit 1;fi
+export USAGE='USAGE: catalog ${ w(eblist) | y(outube) | t(ext2email) }'
+#FUNCTION DECLARE
+catalog(){
+ case "$ARG1" in
+  w|web)for LIST in ${WEBLIST[@]};do echo $LIST;done|column -x;;
+  y|youtube)for LIST in ${YOUTUBELIST[@]};do echo $LIST;done|column -x;;
+  t|text2email)for LIST in ${TEXTLIST[@]};do echo $LIST;done;;
+  *)usage;;
+ esac
+};
+#MAIN LOGIC
+catalog;sync;
+#MAIN EXIT
+exit 0

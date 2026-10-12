@@ -1,0 +1,10 @@
+#!/bin/bash -
+ export USAGE='USAGE: reposync ${ r(eset) | s(low) | i(nit) ${ USER/REPO } }'
+ case "$1" in
+  r|reset)repo forall -c 'git reset --hard ; git clean -fdx';;
+  s|slow)repo sync -j1 --fail-fast;;
+  i|init)repo init --depth=1 -u "https://github.com/$2";;
+  usage)usage;;
+  *)repo sync -j$NPROC --force-sync -c;;
+ esac
+exit 0

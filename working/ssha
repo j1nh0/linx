@@ -1,0 +1,5 @@
+#!/bin/bash -
+ export USAGE='USAGE: sshadd ${ SSH KEY }'
+ export KEY="$1"
+ if [ ! -z $1 ];then eval $(ssh-agent -k);eval $(ssh-agent -s);ssh-add -D;ssh-add "$KEY";else usage;fi
+exit 0

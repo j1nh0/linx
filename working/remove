@@ -1,0 +1,14 @@
+#!/bin/bash -
+ export USAGE='USAGE: remove ${e(mpty)|s(pace)}'
+ case "$1" in
+  e|empty)
+   find -type f -empty -exec rm -rfv {} \;
+   find -type d -empty -exec rm -rfv {} \;
+  ;;
+  s|space)
+   find . -type d|rename 's/ /_/g'
+   find . -type f|rename 's/ /_/g'
+  ;;
+  *)usage;;
+ esac
+exit 0

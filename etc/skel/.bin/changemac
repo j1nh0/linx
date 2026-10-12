@@ -1,0 +1,17 @@
+#!/bin/bash -
+#VARIABLE DECLARE
+if [ -f $HOME/.linx/etc/environment ];then source $HOME/.linx/etc/environment;else echo 'Environment not found!';exit 1;fi
+if [ -f $HOME/.linx/etc/array ];then source $HOME/.linx/etc/array;else echo 'Array not found!';exit 1;fi
+export USAGE='USAGE: changemac ${SOME NETWORK INTERFACE}'
+#FUNCTION DECLARE
+changemac(){
+ if [ ! -z $1 ];then
+  sudo ip link set down "$1"&&\
+  sudo macchanger -m "$(mk mac)" "$1"&&\
+  sudo ip link set up "$1"&&\
+ else usage;fi
+};
+#MAIN LOGIC
+changemac;sync;
+#MAIN EXIT
+exit 0
