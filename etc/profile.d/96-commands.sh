@@ -27,10 +27,10 @@ catalog(){
 #CHANGEMAC
 changemac(){
  export USAGE='USAGE: changemac ${SOME NETWORK INTERFACE}';
- if [ ! -z $1 ];then
-  sudo ip link set down "$1"&&\
-  sudo macchanger -m "$(mk mac)" "$1"&&\
-  sudo ip link set up "$1"&&\
+ if [ ! -z "$ARG1" ];then
+  sudo ip link set down "$ARG1"&&\
+  sudo macchanger -m "$(mk mac)" "$ARG1"&&\
+  sudo ip link set up "$ARG1"&&\
  else usage;fi;
 };
 #CHR
