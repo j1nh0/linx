@@ -1,10 +1,5 @@
 #!/bin/bash -
-#VARIABLE DECLARE
-if [ -f $HOME/.linx/etc/environment ];then source $HOME/.linx/etc/environment;else echo 'Environment not found!';exit 1;fi
-if [ -f $HOME/.linx/etc/array ];then source $HOME/.linx/etc/array;else echo 'Array not found!';exit 1;fi
 export USAGE='USAGE: bootconfig'
-#FUNCTION DECLARE
-bootconfig(){
  cat<<EOF>grub.cfg
 if loadfont /boot/grub/font.pf2 ; then
  set gfxmode=auto
@@ -106,8 +101,4 @@ menuentry "memtest86plus" {
  linux16 /install/mt86plus
 }
 EOF
-};
-#MAIN LOGIC
-bootconfig;sync;
-#MAIN EXIT
 exit 0

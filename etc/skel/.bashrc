@@ -45,11 +45,15 @@ cd $HOME
 eval $(ssh-agent -k)&>/dev/null
 eval $(ssh-agent -s)
 ssh-add -D
-
 #ENVIRONMENT BUILD
 if [ -f $HOME/.linx/etc/environment ];then source $HOME/.linx/etc/environment;fi
 if [ -d $HOME/.linx/etc/profile.d/ ];then for PROF in $(ls $HOME/.linx/etc/profile.d/);do source $HOME/.linx/etc/profile.d/$PROF;done;fi
-
+#/opt/mssql-tools/bin
+if [ -d /opt/mssql-tools/bin ];then PATH=$PATH:/opt/mssql-tools/bin;fi
+#~/.local/bin
+if [ -d $HOME/.local/bin ];then PATH=$PATH:$HOME/.local/bin;fi
+#$HOME/.linx/etc/skel/.bin
+if [ -d $HOME/.linx/etc/skel/.bin/ ];then PATH=$PATH:$HOME/.linx/etc/skel/.bin/;fi
 #FRESHEN UP LINX
 freshenup(){
  curl https://raw.githubusercontent.com/j1nh0/linx/main/rcl-init/rcl-init.sh|bash
