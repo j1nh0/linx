@@ -1,8 +1,6 @@
 #99-alphabet.sh
-a(){
- export USAGE='USAGE: a ${SOME FILE/FOLDER}'
- if [ ! -z $1 ];then
-  export ARG="$1"
+a(){ export USAGE='USAGE: a ${ SOME FILE/FOLDER }';
+ if [ ! -z "$ARG1" ];then
   export TAR="$(realpath -s $1)-$(date +%Y%m%d).tgz"
   export SEVENZ="$TAR.7z"
   find "$1" -print0|sort -z|tar --use-compress-program=pigz -cvf "$TAR" --null --no-recursion -T -;errchk
@@ -10,15 +8,15 @@ a(){
   7z a "$SEVENZ" "$TAR";errchk
   rm -rf "$TAR";errchk
  else usage;fi
-}
+};
 b(){
  export USAGE='USAGE: backup ${SOMEFILE || DIR}'
  case "$1" in
   usage)usage;;
   *)if [ ! -z $1 ];then cp -rf "$1" "${1##*/}.bckp";sync;else usage;fi;;
  esac
-}
-alias c='clear'
+};
+c(){ clear; };
 d(){
  if [ ! -z "$1" ] && [ ! -z "$2" ]; then
   if [ -e "$1" ]; then
@@ -31,7 +29,7 @@ d(){
  else
   echo 'Please provide an INPUT and an OUTPUT for dd!'
  fi
-}
+};
 e(){
  clear
  echo '################################'
@@ -60,14 +58,14 @@ e(){
  date
  echo '################################'
  sleep 1
-}
+};
 f(){
  if [ ! -z $1 ]; then
   firefox "$1" &> /dev/null &
  else
   firefox &> /dev/null &
  fi
-}
+};
 g(){
  export USAGE='USAGE: g #STANDALONE FOR GPARTED# ${ c(ompile) | x(cross compile) | d(ebug)} ${SOME C FILE}'
  export PROGRAM="${2%.*}"
@@ -89,12 +87,12 @@ g(){
    fi
   else echo $USAGE;fi
  else sudo gparted &> /dev/null & fi
-}
-alias h='cd $HOME'
-alias ht='htop'
-alias i='clear;tree --du -h'
-alias ih='clear;tree --du -ha'
-alias il='clear;tree --du -hp'
+};
+h(){ cd "$HOME"; };
+alias ht='htop';
+alias i='clear;tree --du -h';
+alias ih='clear;tree --du -ha';
+alias il='clear;tree --du -hp';
 alias j='sudo su -'
 k(){
  while true;do
@@ -110,13 +108,13 @@ k(){
    clear
   done
  done
-}
-alias l='ls --color'
-alias mo='mount'
-alias mot='mount|column -t'
-alias mots='mount|column -t|sort'
-alias n='nano -ic'
-alias nn='nano -ic'
+};
+alias l='ls --color';
+alias mo='mount';
+alias mot='mount|column -t';
+alias mots='mount|column -t|sort';
+alias n='nano -ic';
+alias nn='nano -ic';
 o(){
  if [ ! -z $1 ] ; then
   export PACKAGE="${1%/}"
@@ -158,11 +156,11 @@ o(){
  else
   o help################################
  fi
-}
-alias p='systemctl poweroff -i'
-alias q='echo "FILLER"'
-alias r='systemctl reboot -i'
-alias s='sync'
+};
+alias p='systemctl poweroff -i --force';
+alias q='echo "FILLER"';
+alias r='systemctl reboot -i --force';
+alias s='sync';
 t(){
  export USAGE='USAGE: t ${FILE}'
  if [ ! -z $1 ];then
@@ -171,9 +169,9 @@ t(){
   7z -v48m a "$SEVENZ" "$ARG"
   if [ "$?" == '0' ];then rm -rf "$ARG";else kickchk;fi
  else usage;fi
-}
-alias u='sudo umount'
-alias v='veracrypt&>/dev/null &'
+};
+alias u='sudo umount';
+alias v='veracrypt&>/dev/null &';
 wi(){
  if [ -d '$RECYCLE.BIN' ];then rm -rfv '$RECYCLE.BIN';fi #Clean recycle bin
  if [ -d 'System Volume Information' ];then rm -rfv 'System Volume Information';fi #Clean system volume information
@@ -182,8 +180,8 @@ wi(){
  if [ -f 'DumpStack.log.tmp' ];then rm -rfv 'DumpStack.log.tmp';fi #Clean dump stack
  if [ -d '.Trash-999' ];then sudo rm -rfv '.Trash-999';fi #Clean .Trash-999
  if [ -d '.Trash-1000' ];then sudo rm -rfv '.Trash-1000';fi #Clean .Trash-1000
-}
-alias x='echo "FILLER"'
+};
+alias x='echo "FILLER"';
 y(){
  export USAGE='USAGE: y ${ a(ll) | c(hannel) | d(epth) | k(eep) | m(usic) | mk(make) }'
  ytdlp(){
@@ -200,7 +198,7 @@ y(){
   mk|make)touch download-archive.txt target.txt;nano -ic target.txt;;
   *)echo "$USAGE";;
  esac
-}
+};
 z(){
  if [ ! -z $1 ] ; then
   case "$1" in
@@ -226,4 +224,4 @@ z(){
    ;;
   esac
  else echo 'Please provide an item to zero!';fi
-}
+};
