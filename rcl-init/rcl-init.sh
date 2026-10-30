@@ -1,28 +1,28 @@
 #!/bin/bash -
 #VARIABLE DECLARATION
-export KEY=$HOME/.ssh/linx.piv.deploy
-export URLKEY='https://raw.githubusercontent.com/j1nh0/linx/refs/heads/main/keys/linx.piv.deploy'
-export URL=github.com
-export NULL=/dev/null
-export MESSAGE='You have no key, internet, home, or git!'
-export WHOAMI=$(whoami)
-export CHMODF=0600
-export CHMODD=0700
-export CHMODE=0750
-export REPOURL=ssh://git@github.com/j1nh0/linx.git
-export HCONFIG=$HOME/.config
-export LDIR=$HOME/.linx
-export LDIRSYSD=$LDIR/systemd
-export HBIN=$LDIR/etc/skel/.bin
-export RCLDIR=$LDIR/rcl-init
-export RCLSERVICE=$RCLDIR/rcl-init.service
-export RCLTIMER=$RCLDIR/rcl-init.timer
-export RCLLOG=$RCLDIR/rcl-init.log
-export SYSDUDIR=$HOME/.config/systemd
-export RCLU=$SYSDUDIR/user/rcl-init.service
-export SYSDFLAGS='--user'
-export BASHRC=$LDIR/etc/skel/.bashrc
-export HBASHRC=$HOME/.bashrc
+export KEY='$HOME/.ssh/linx.piv.deploy';
+export URLKEY='https://raw.githubusercontent.com/j1nh0/linx/refs/heads/main/keys/linx.piv.deploy';
+export URL='github.com';
+export NULL='/dev/null';
+export MESSAGE='You have no key, internet, home, or git!';
+export WHOAMI=$(whoami);
+export CHMODF='0600';
+export CHMODD='0700';
+export CHMODE='0750';
+export REPOURL='ssh://git@github.com/j1nh0/linx.git';
+export HCONFIG='$HOME/.config';
+export LDIR='$HOME/.linx';
+export LDIRSYSD='$LDIR/systemd';
+export HBIN='$LDIR/etc/skel/.bin';
+export RCLDIR='$LDIR/rcl-init';
+export RCLSERVICE='$RCLDIR/rcl-init.service';
+export RCLTIMER='$RCLDIR/rcl-init.timer';
+export RCLLOG='$RCLDIR/rcl-init.log';
+export SYSDUDIR='$HOME/.config/systemd';
+export RCLU='$SYSDUDIR/user/rcl-init.service';
+export SYSDFLAGS='--user';
+export BASHRC='$LDIR/etc/skel/.bashrc';
+export HBASHRC='$HOME/.bashrc';
 #FUNCION DECLARATION
 syschk(){ echo 'Beginning syschk';
  if [ ! dig +time=1 "$URL"&>"$NULL" ]||[ ! command -v git&>"$NULL" ]||[ -z $HOME ];then echo $MESSAGE;exit 1;fi; #SYSTEM CHECK

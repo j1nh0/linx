@@ -6,11 +6,7 @@ After=default.target
 Type=oneshot
 TimeoutStartSec=600
 RemainAfterExit=true
-Environment=RCLDIR="$HOME/.linx/rcl-init"
-Environment=RCLSH="$RCLDIR/rcl-init.sh"
-Environment=LOG="$RCLDIR/rcl-init.log"
-Environment=MESSAGE="$RCLSH not found"
-ExecStartPre=/bin/bash -c "cd;if [ -f $RCLSH ];then /bin/bash $RCLSH;else echo $MESSAGE>>$LOG;fi"
+ExecStartPre=/bin/bash -c "cd;if [ -f $HOME/.linx/rcl-init/rcl-init.sh ];then /bin/bash $HOME/.linx/rcl-init/rcl-init.sh;else echo '$HOME/.linx/rcl-init/rcl-init.sh not found!'>>$HOME/.linx/rcl-init/rcl-init.log;fi"
 ExecStart=/bin/bash -c "exit 0"
 [Install]
 WantedBy=default.target
