@@ -207,6 +207,16 @@ jadb(){
 };
 #JAPT
 japt(){
+
+# #APT
+# alias apt='ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive sudo apt -y --install-recommends';
+# alias apti='sudo apt install "$@"';
+# alias aptc='sudo apt -y clean';
+# alias aptac='sudo apt -y autoclean';
+# alias aptar='sudo apt -y autoremove';
+# alias aptf='sudo apt install -f -y';
+# alias aptp='sudo apt purge "$@"';
+
  export USAGE='USAGE: japt ${ u(pdate) | a(uto)r(emove) | di | r(epo) | i(nstall) | m(ega) | libdvd-pkg | v(isual)s(tudio) | lightdesktop }';
  case "$1" in
   u|update)apt-get update;;

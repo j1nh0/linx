@@ -1,3 +1,17 @@
+ARG1='$1'
+ARG2='$2'
+MESSERRCHK='\n$(hashtag 8)\nPrevious command: $0\n\nSOMETHING WENT WRONG!\n\n'
+MESSARG='\n\nPlease provide an argument!'
+DATE='$(date +%Y%m%d%H%M%S)'
+TGZ='tgz'
+REALPATH='$(realpath -s $1)'
+BCKP='bckp'
+BS='$(fdisk -l "$1" | grep 'Sector size' | cut -d '/' -f3 | cut -d ' ' -f2)'
+COUNT='$(fdisk -l "$1" | head -1 | cut -d ',' -f3 | cut -d ' ' -f2)'
+################################################################
+################################################################
+################################################################
+################################################################
 ACCEPT_EULA=Y
 ACCEPT=ACCEPT
 AIDE=aide
@@ -5,7 +19,6 @@ APTINSTALL=rsync
 APTPURGE=aide
 ARCH=$(uname -p)
 ARCHIVE=archive
-ARG1=$1
 ARG2=$2
 ARG3=$3
 ARG4=$4
@@ -33,7 +46,7 @@ CUBIC=cubic
 CUSTOMCONF=custom.conf
 CUSTOMDNSMASQCONF=
 D=d
-DATE=$(date +%Y%m%d%H%M%S)
+
 DEBIAN_FRONTEND=noninteractive
 DEFAULT=default
 DEV=dev
@@ -77,6 +90,7 @@ INSTALL=install
 INTEGRITY=integrity
 IPFORWARD=ip_forward
 IPV4=ipv4
+IPV6=ipv6
 ISO=iso
 J1NH0=j1nh0
 LINX=linx
@@ -90,6 +104,7 @@ MAPPER=mapper
 MASQUERADE=MASQUERADE
 MD=md
 MDADM=mdadm
+
 MESSFAIL='\n\nPROCESS FAIL'
 MESSPASS='\n\nPROCESS PASS'
 MOUNTOPTIONS=rw,relatime,noauto,nodev,noexec,nosuid

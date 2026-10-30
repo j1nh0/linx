@@ -1,35 +1,21 @@
-#99-alphabet.sh
-a(){ export USAGE='USAGE: a ${ SOME FILE/FOLDER }';
+#99-ALPHABET.SH
+a(){
  if [ ! -z "$ARG1" ];then
-  export TAR="$(realpath -s $1)-$(date +%Y%m%d).tgz"
-  export SEVENZ="$TAR.7z"
-  find "$1" -print0|sort -z|tar --use-compress-program=pigz -cvf "$TAR" --null --no-recursion -T -;errchk
-  rm -rf "$ARG";errchk
-  7z a "$SEVENZ" "$TAR";errchk
-  rm -rf "$TAR";errchk
- else usage;fi
-};
+  find "$ARG1" -print0|sort -z|tar --use-compress-program=pigz -cvf "$REALPATH"-"$DATE"."$TGZ" --null --no-recursion -T -;
+ else echo "$MESSARG";fi;
+}; #ARCHIVE
 b(){
- export USAGE='USAGE: backup ${SOMEFILE || DIR}'
- case "$1" in
-  usage)usage;;
-  *)if [ ! -z $1 ];then cp -rf "$1" "${1##*/}.bckp";sync;else usage;fi;;
- esac
-};
-c(){ clear; };
+ if [ ! -z "$ARG1" ];then
+  cp -rf "$ARG1" "${ARG1##*/}"-"$DATE"."$BCKP";
+ else echo "$MESSARG";fi;
+}; #BACKUP
+c(){ clear; }; #CLEAR
 d(){
- if [ ! -z "$1" ] && [ ! -z "$2" ]; then
-  if [ -e "$1" ]; then
-   export BS=$(fdisk -l "$1" | grep 'Sector size' | cut -d '/' -f3 | cut -d ' ' -f2)
-   export COUNT=$(fdisk -l "$1" | head -1 | cut -d ',' -f3 | cut -d ' ' -f2)
-   dd if="$1" of="$2" bs=$BS count=$COUNT status=progress && sync
-  else
-     echo 'Please provide a valid INPUT!'
-  fi
- else
-  echo 'Please provide an INPUT and an OUTPUT for dd!'
- fi
-};
+ if [ ! -z "$1" ]&&[ ! -z "$2" ];then
+  if [ -e "$1" ];then dd if="$ARG1" of="$ARG2" bs=$BS count=$COUNT status=progress&&sync;
+  else echo "$MESSARG";fi;
+ else echo "$MESSARG";fi;
+}; #DD
 e(){
  clear
  echo '################################'
@@ -89,11 +75,11 @@ g(){
  else sudo gparted &> /dev/null & fi
 };
 h(){ cd "$HOME"; };
-alias ht='htop';
-alias i='clear;tree --du -h';
-alias ih='clear;tree --du -ha';
-alias il='clear;tree --du -hp';
-alias j='sudo su -'
+ht(){ htop; };
+i(){ clear;tree --du -h; };
+ih(){ clear;tree --du -ha; };
+il(){ clear;tree --du -hp; };
+j(){ sudo su -; };
 k(){
  while true;do
   for INT in $(seq 1 4);do
