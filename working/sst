@@ -1,3 +1,0 @@
-#!/bin/bash -
- ss -tunlp
-exit 0
