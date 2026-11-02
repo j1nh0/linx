@@ -1,0 +1,12 @@
+#SERVICE
+[Unit]
+Requires=multi-user.target
+After=multi-user.target
+[Service]
+Type=oneshot
+TimeoutStartSec=600
+RemainAfterExit=true
+ExecStartPre=/bin/bash -c ""
+ExecStart=/bin/bash -c "exit 0"
+[Install]
+WantedBy=multi-user.target
