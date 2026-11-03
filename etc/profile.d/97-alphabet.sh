@@ -44,7 +44,7 @@ e(){
  date
  echo '################################'
  sleep 1
-};
+}; #ESSENTIALS
 f(){
  if [ ! -z $1 ]; then
   firefox "$1" &> /dev/null &
@@ -95,12 +95,12 @@ k(){
   done
  done
 };
-alias l='ls --color';
-alias mo='mount';
-alias mot='mount|column -t';
-alias mots='mount|column -t|sort';
-alias n='nano -ic';
-alias nn='nano -ic';
+l(){ ls --color; };
+mo(){ mount; };
+mot(){ mount|column -t; };
+mots(){ mount|column -t|sort; };
+n(){ nano -ic; };
+nn(){ nano -ic; };
 o(){
  if [ ! -z $1 ] ; then
   export PACKAGE="${1%/}"
