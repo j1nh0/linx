@@ -11,7 +11,7 @@ export CHMODD='0700';
 export CHMODE='0750';
 export REPOURL='ssh://git@github.com/j1nh0/linx.git';
 export HCONFIG=$HOME/.config;
-export LDIR=$HOME/.lin;
+export LDIR=$HOME/.linx;
 export LDIRSYSD=$LDIR/system;
 export HBIN=$LDIR/etc/skel/.bin;
 export RCLDIR=$LDIR/rcl-init;
@@ -27,19 +27,19 @@ export HBASHRC=$HOME/.bashrc;
 syschk(){ echo 'Beginning syschk';
  if [ ! dig +time=1 "$URL"&>"$NULL" ]||[ ! command -v git&>"$NULL" ]||[ -z $HOME ];then echo $MESSAGE;exit 1;fi; #SYSTEM CHECK
  if [ ! -f "$KEY" ];then curl "$URLKEY" -o "$KEY";fi; #KEY CHECK AND PULL
- if [ -f $KEY ];then chown $WHOAMI:$WHOAMI $KEY;chmod $CHMODF $KEY;eval $(ssh-agent -s)&>"$NULL";ssh-add $KEY&>"$NULL";fi; #SSH CHECK
+ if [ -f "$KEY" ];then chown "$WHOAMI":"$WHOAMI" "$KEY";chmod "$CHMODF" "$KEY";eval $(ssh-agent -s)&>"$NULL";ssh-add "$KEY"&>"$NULL";fi; #SSH CHECK
 }; #SYSTEM CHECK
 gitrip(){ echo 'Beginning gitrip';
- if [ ! -d $LDIR ];then git clone $REPOURL $LDIR&>"$NULL";fi; #GIT BASE CLONE
- if [ -d $LDIR ];then cd $LDIR;git fetch --all&>"$NULL";git reset --hard origin/main&>"$NULL";git clean -fd&>"$NULL";fi; #GIT RESET HEAD
- if [ -d $LDIR ];then find $LDIR -type d -exec chmod $CHMODD {} \; -exec chown $WHOAMI:$WHOAMI {} \;;fi; #DIR PERM CHECK
- if [ -d $LDIR ];then find $LDIR -type f -exec chmod $CHMODF {} \; -exec chown $WHOAMI:$WHOAMI {} \;;fi; #FILE PERM CHECK
- if [ -f $KEY ];then ssh-add -d&>"$NULL";eval $(ssh-agent -k)&>"$NULL";fi; #SSH KILL
+ if [ ! -d "$LDIR" ];then git clone $REPOURL "$LDIR"&>"$NULL";fi; #GIT BASE CLONE
+ if [ -d "$LDIR" ];then cd "$LDIR";git fetch --all&>"$NULL";git reset --hard origin/main&>"$NULL";git clean -fd&>"$NULL";fi; #GIT RESET HEAD
+ if [ -d "$LDIR" ];then find "$LDIR" -type d -exec chmod $CHMODD {} \; -exec chown $WHOAMI:$WHOAMI {} \;;fi; #DIR PERM CHECK
+ if [ -d "$LDIR" ];then find "$LDIR" -type f -exec chmod $CHMODF {} \; -exec chown $WHOAMI:$WHOAMI {} \;;fi; #FILE PERM CHECK
+ if [ -f "$KEY" ];then ssh-add -d&>"$NULL";eval $(ssh-agent -k)&>"$NULL";fi; #SSH KILL
 }; #GIT CONNECT
 sysdu(){ echo 'Beginning sysdu';
  if [ ! -d $HCONFIG ];then mkdir -p $HCONFIG;fi; #DIR CREATION
  if [ -e $SYSDUDIR ]&&[ ! -L $SYSDUDIR ];then rm -rf $SYSDUDIR;fi; #DIR CHECK
- if [ ! -L $SYSDUDIR ];then ln -sf $LDIRSYSD $SYSDUDIR;fi; #LINK CHECK
+ if [ ! -L $SYSDUDIR ];then ln -sf "$LDIR"SYSD $SYSDUDIR;fi; #LINK CHECK
  if [ -d $SYSDUDIR ];then find -type d -exec chmod -R $CHMODD {} \; -exec chown $WHOAMI:$WHOAMI {} \;;fi; #DIR CHECK
  if [ -d $SYSDUDIR ];then find -type f -exec chmod -R $CHMODF {} \; -exec chown $WHOAMI:$WHOAMI {} \;;fi; #DIR CHECK
 }; #SYSTEMD UPDATE
