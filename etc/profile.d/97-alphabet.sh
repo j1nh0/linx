@@ -1,49 +1,16 @@
 #99-ALPHABET.SH
-a(){
- if [ ! -z "$ARG1" ];then
-  find "$ARG1" -print0|sort -z|tar --use-compress-program=pigz -cvf "$(realpath -s $ARG1)"-"$DATE""$TIME"."$TGZ" --null --no-recursion -T -;
- else echo "$MESSARG";fi;
-}; #ARCHIVE
-b(){
- if [ ! -z "$ARG1" ];then
-  cp -rf "$ARG1" "${ARG1##*/}"-"$DATE"."$BCKP";
- else echo "$MESSARG";fi;
-}; #BACKUP
+a(){ if [ ! -z "$ARG1" ];then find "$ARG1" -print0|sort -z|tar --use-compress-program=pigz -cvf "$(realpath -s $ARG1)"-"$DATE""$TIME"."$TGZ" --null --no-recursion -T -;else echo "$MESSARG";fi; }; #ARCHIVE
+b(){ if [ ! -z "$ARG1" ];then cp -rf "$ARG1" "${ARG1##*/}"-"$DATE"."$BCKP";else echo "$MESSARG";fi; }; #BACKUP
 alias c='clear' #CLEAR
-d(){
- if [ ! -z "$1" ]&&[ ! -z "$2" ];then
-  if [ -e "$1" ];then dd if="$ARG1" of="$ARG2" bs=$BS count=$COUNT status=progress&&sync;
-  else echo "$MESSARG";fi;
- else echo "$MESSARG";fi;
-}; #DD
+d(){ if [ ! -z "$1" ]&&[ ! -z "$2" ];then if [ -e "$1" ];then dd if="$ARG1" of="$ARG2" bs=$BS count=$COUNT status=progress&&sync;else echo "$MESSARG";fi;else echo "$MESSARG";fi; }; #DD
 e(){
  clear
- echo '################################'
- echo 'Battery percentage is: '
- echo
- echo $(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | grep percentage | cut -d ' ' -f15-)
- echo '################################'
- echo 'RAM info:'
- echo
- free -h
- echo '################################'
- echo 'CPU info:'
- echo
- lscpu | grep -e 'CPU(s):' -e 'Thread(s):' -e 'Core(s):' -e 'Model name:' -e 'CPU max' -e 'L3 cache:' -e 'Socket(s):' | grep -v 'NUMA'
- echo '################################'
- echo 'Temps:'
- echo
- paste <(cat /sys/class/thermal/thermal_zone*/type) <(cat /sys/class/thermal/thermal_zone*/temp) | column -t | sed 's/...$/^C/'
- echo '################################'
- ps -a
- echo '################################'
- df -h|grep -e media -e j1nh0 -e mnt -e iso -e ramdisk
- echo '################################'
- mpstat
- echo '################################'
- date
- echo '################################'
- sleep 1
+ echo '\n\nRAM info:\n\n';free -h;
+ echo '\n\nCPU info:\n\n';lscpu | grep -e 'CPU(s):' -e 'Thread(s):' -e 'Core(s):' -e 'Model name:' -e 'CPU max' -e 'L3 cache:' -e 'Socket(s):' | grep -v 'NUMA';
+ echo '\n\nProcess info:\n\n';ps -a;
+ echo '\n\nDisk info:\n\n';df -h|grep -e media -e j1nh0 -e mnt -e iso -e ramdisk;
+ echo '\n\nStat info:\n\n';mpstat;
+ echo '\n\n';date;
 }; #ESSENTIALS
 f(){
  if [ ! -z $1 ]; then
@@ -74,12 +41,12 @@ g(){
   else echo $USAGE;fi
  else sudo gparted &> /dev/null & fi
 };
-h(){ cd "$HOME"; };
-ht(){ htop; };
-i(){ clear;tree --du -h; };
-ih(){ clear;tree --du -ha; };
-il(){ clear;tree --du -hp; };
-j(){ sudo su -; };
+alias h="cd $HOME";
+alias ht='htop';
+alias i='clear;tree --du -h';
+alias ih='clear;tree --du -ha';
+alias il='clear;tree --du -hp';
+alias j='sudo su -';
 k(){
  while true;do
   for INT in $(seq 1 4);do
@@ -89,18 +56,17 @@ k(){
     3)echo -e "\n\t\t(>^_^)>\n";;
     4)echo -e "\n\t^(^_^)^\n";;
    esac
-   echo -e "\nWHOAMI: $(whoami)\n\nPWD: $PWD\n\n$(date)"
-   sleep .5
-   clear
-  done
- done
+   echo -e "\nWHOAMI: $(whoami)\n\nPWD: $PWD\n\n$(date)";
+   sleep .5;clear;
+  done;
+ done;
 };
-l(){ ls --color; };
-mo(){ mount; };
-mot(){ mount|column -t; };
-mots(){ mount|column -t|sort; };
-n(){ nano -ic; };
-nn(){ nano -ic; };
+alias l='ls --color';
+alias mo='mount';
+alias mot='mount|column -t';
+alias mots='mount|column -t|sort';
+alias n='nano -ic';
+alias nn='nano -ic';
 o(){
  if [ ! -z $1 ] ; then
   export PACKAGE="${1%/}"
@@ -159,13 +125,13 @@ t(){
 alias u='sudo umount';
 alias v='veracrypt&>/dev/null &';
 wi(){
- if [ -d '$RECYCLE.BIN' ];then rm -rfv '$RECYCLE.BIN';fi #Clean recycle bin
- if [ -d 'System Volume Information' ];then rm -rfv 'System Volume Information';fi #Clean system volume information
- if [ -f 'rescuepe.log' ];then rm -rfv 'rescuepe.log';fi #Clean rescuepe log
- if [ -f 'pagefile.sys' ];then rm -rfv 'pagefile.sys';fi #Clean pagefile.sys
- if [ -f 'DumpStack.log.tmp' ];then rm -rfv 'DumpStack.log.tmp';fi #Clean dump stack
- if [ -d '.Trash-999' ];then sudo rm -rfv '.Trash-999';fi #Clean .Trash-999
- if [ -d '.Trash-1000' ];then sudo rm -rfv '.Trash-1000';fi #Clean .Trash-1000
+ if [ -d '$RECYCLE.BIN' ];then rm -rfv '$RECYCLE.BIN';fi #CLEAN RECYCLE BIN
+ if [ -d 'System Volume Information' ];then rm -rfv 'System Volume Information';fi #CLEAN SYSTEM VOLUME INFORMATION
+ if [ -f 'rescuepe.log' ];then rm -rfv 'rescuepe.log';fi #CLEAN RESCUEPE LOG
+ if [ -f 'pagefile.sys' ];then rm -rfv 'pagefile.sys';fi #CLEAN PAGEFILE.SYS
+ if [ -f 'DumpStack.log.tmp' ];then rm -rfv 'DumpStack.log.tmp';fi #CLEAN DUMP STACK
+ if [ -d '.Trash-999' ];then sudo rm -rfv '.Trash-999';fi #CLEAN .TRASH-999
+ if [ -d '.Trash-1000' ];then sudo rm -rfv '.Trash-1000';fi #CLEAN .TRASH-1000
 };
 alias x='echo "FILLER"';
 y(){
