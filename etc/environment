@@ -4,7 +4,6 @@ BCKP='bckp'
 DATE=$(date +%Y%m%d)
 MESSARG='\n\nPlease provide an argument!'
 MESSERRCHK=\n$(hashtag 8)\nPrevious command -- $0\n\nSOMETHING WENT WRONG!\n\n
-REALPATH=$(realpath -s $1)
 TGZ='tgz'
 TIME=$(date +%H%M%S)
 #BS='$(fdisk -l "$1" | grep 'Sector size' | cut -d '/' -f3 | cut -d ' ' -f2)'
