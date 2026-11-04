@@ -1,6 +1,6 @@
 #99-ALPHABET.SH
 a(){ if [ ! -z "$ARG1" ];then find "$ARG1" -print0|sort -z|tar --use-compress-program=pigz -cvf "$(realpath -s $ARG1)"-"$DATE""$TIME"."$TGZ" --null --no-recursion -T -;else echo "$MESSARG";fi; }; #ARCHIVE
-b(){ if [ ! -z "$ARG1" ];then cp -rf "$ARG1" "${ARG1##*/}"-"$DATE"."$BCKP";else echo "$MESSARG";fi; }; #BACKUP
+b(){ if [ ! -z "$ARG1" ];then cp -rf "$ARG1" "${ARG1##*/}"-"$DATE""$TIME"."$BCKP";else echo "$MESSARG";fi; }; #BACKUP
 alias c='clear' #CLEAR
 d(){ if [ ! -z "$1" ]&&[ ! -z "$2" ];then if [ -e "$1" ];then dd if="$ARG1" of="$ARG2" bs=$BS count=$COUNT status=progress&&sync;else echo "$MESSARG";fi;else echo "$MESSARG";fi; }; #DD
 e(){
