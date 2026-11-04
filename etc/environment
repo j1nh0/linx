@@ -3,7 +3,7 @@ ARG2=$2
 BCKP='bckp'
 DATE=$(date +%Y%m%d)
 MESSARG='\n\nPlease provide an argument!'
-MESSERRCHK=\n$(hashtag 8)\nPrevious command -- $0\n\nSOMETHING WENT WRONG!\n\n
+MESSERRCHK='\n########\nPrevious command -- $0\n\nSOMETHING WENT WRONG!\n\n'
 TGZ='tgz'
 TIME=$(date +%H%M%S)
 #BS='$(fdisk -l "$1" | grep 'Sector size' | cut -d '/' -f3 | cut -d ' ' -f2)'
@@ -46,7 +46,6 @@ TIME=$(date +%H%M%S)
 # CUSTOMCONF=custom.conf
 # CUSTOMDNSMASQCONF=
 # D=d
-
 # DEBIAN_FRONTEND=noninteractive
 # DEFAULT=default
 # DEV=dev
