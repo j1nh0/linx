@@ -34,7 +34,7 @@ gitrip(){ echo 'Beginning gitrip';
  if [ -d "$LDIR" ];then cd "$LDIR";git fetch --all&>"$NULL";git reset --hard origin/main&>"$NULL";git clean -fd&>"$NULL";fi; #GIT RESET HEAD
  if [ -d "$LDIR" ];then find "$LDIR" -type d -exec chmod "$CHMODD" {} \; -exec chown "$WHOAMI":"$WHOAMI" {} \;;fi; #DIR PERM CHECK
  if [ -d "$LDIR" ];then find "$LDIR" -type f -exec chmod "$CHMODF" {} \; -exec chown "$WHOAMI":"$WHOAMI" {} \;;fi; #FILE PERM CHECK
- if [ -f "$KEY" ];then ssh-add -d&>"$NULL";eval $(ssh-agent -k)&>"$NULL";fi; #SSH KILL
+ if [ -f "$KEY" ];then ssh-add -D&>"$NULL";eval $(ssh-agent -k)&>"$NULL";fi; #SSH KILL
 }; #GIT CONNECT
 sysdu(){ echo 'Beginning sysdu';
  if [ ! -d "$HCONFIG" ];then mkdir -p "$HCONFIG";fi; #DIR CREATION
