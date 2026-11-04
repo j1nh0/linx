@@ -17,10 +17,10 @@ color_prompt=yes;
 force_color_prompt=yes;
 if [ -n "$force_color_prompt" ];then if [ -x /usr/bin/tput ]&&tput setaf 1>&/dev/null;then color_prompt=yes;else color_prompt=;fi;fi;
 if [ "$color_prompt" = yes ];then
- VIRTUAL_ENV_DISABLE_PROMPT=1
- prompt_color='\[\033[;32m\]'
- info_color='\[\033[1;34m\]'
- prompt_symbol=' ♠ ♦ ♣ ♥  '
+ VIRTUAL_ENV_DISABLE_PROMPT=1;
+ prompt_color='\[\033[;32m\]';
+ info_color='\[\033[1;34m\]';
+ prompt_symbol=' ♠ ♦ ♣ ♥  ';
  #CHANGE PROMPT COLORS FOR ROOT USER
  if [ "$EUID" -eq 0 ];then prompt_color='\[\033[;94m\]';info_color='\[\033[1;31m\]';prompt_symbol=' ☥ ';fi;
  PS1=$prompt_color'┌──${debian_chroot:+($debian_chroot)──}${VIRTUAL_ENV:+(\[\033[0;1m\]$(basename $VIRTUAL_ENV)'$prompt_color')}('$info_color'\u${prompt_symbol}\h'$prompt_color')-[\[\033[0;1m\]\w'$prompt_color']\n'$prompt_color'└─'$info_color'\$\[\033[0m\] ';
