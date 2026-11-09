@@ -22,7 +22,6 @@ MESSARG='\n\nPlease provide an argument!'
 MESSCMDFAIL=$(echo "Command $0 not found!")
 MESSCMDPASS=$(echo "Command $0 installed!")
 MESSERRCHK='\n########\nSOMETHING WENT WRONG!\n\n'
-MESSFRESHENUP="\n\nsource $HOME/.bashrc"
 MESSKIRBY="\nWHOAMI: $(whoami)\n\nPWD: $PWD\n\n$(date)"
 NPROC=$(nproc --ignore=2)
 NULL='/dev/null'
