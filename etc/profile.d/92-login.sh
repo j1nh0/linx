@@ -11,4 +11,13 @@ if [ -d "$BINMSSQL" ];then PATH="$PATH":"$BINMSSQL";fi; #BINMSSQL
 if [ -d "$HOME"/"$BINLOCAL" ];then PATH="$PATH":"$HOME"/"$BINLOCAL";fi; #BINLOCAL
 if [ -d "$HOME"/"$BINLINX" ];then PATH="$PATH":"$HOME"/"$BINLINX";fi; #BINLINX
 #FRESHEN UP LINX
-freshenup(){ if [ -d "$HOME/.linx" ];then cd "$HOME/.linx";git fetch --all;git reset --hard "$ORIGINMAIN";git clean -fd;else echo "No dir $HOME/.linx!";fi;source "$HOME/.bashrc"; };
+freshenup(){
+ if [ -d "$HOME/.linx" ];then
+  cd "$HOME/.linx";
+  git fetch --all;
+  git reset --hard "$ORIGINMAIN";
+  git clean -fd;
+ else echo "No dir $HOME/.linx!";fi;
+ echo 'source $HOME/.bashrc';
+ source "$HOME/.bashrc";
+}; #FRESHENUP
