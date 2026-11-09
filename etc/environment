@@ -6,6 +6,8 @@ MESSARG='\n\nPlease provide an argument!'
 MESSERRCHK='\n########\nSOMETHING WENT WRONG!\n\n'
 TGZ='tgz'
 TIME=$(date +%H%M%S)
+MESSCMDFAIL=$(echo "Command $0 not found!")
+MESSCMDPASS=$(echo "Command $0 installed!")
 #BS='$(fdisk -l "$1" | grep 'Sector size' | cut -d '/' -f3 | cut -d ' ' -f2)'
 #COUNT='$(fdisk -l "$1" | head -1 | cut -d ',' -f3 | cut -d ' ' -f2)'
 ################################################################
