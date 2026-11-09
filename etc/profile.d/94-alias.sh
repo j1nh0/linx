@@ -1,11 +1,22 @@
 #94-ALIAS.SH
-#WORKER ALIAS;
-alias usage="echo $USAGE"; #PRINT USAGE;
-alias hashtag="if [ ! -z $ARG1 ];then for INT in $(seq 1 $ARG1);do echo -n '#';done;echo;fi"; #PRINT HASHTAG;
-alias errchk="if [ $? != '0' ];then echo $MESSERRCHK;read NULLVAR;fi"; #ERROR CHECK;
-alias freshenup="if [ -d $HOMELINX ];then cd $HOMELINX;git fetch --all;git reset --hard $ORIGINMAIN;git clean -fd;source $HOMEBASHRC;else echo 'No linx dir!';fi"; #FRESHENUP;
+#WORKER FUNCTIONS;
+usage(){ echo "$USAGE"; }; #PRINT USAGE
+hashtag(){ if [ ! -z "$ARG1" ];then for INT in $(seq 1 "$ARG1");do echo -n '#';done;echo;fi; }; #PRINT HASHTAG
+errchk(){ if [ "$?" != '0' ];then echo "$MESSERRCHK";read NULLVAR;fi; }; #ERROR CHECK
+freshenup(){
+ if [ -d "$HOMELINX" ];then
+  if [ -f "$KEYLINX" ];then
+   ssh-add "$KEYLINX";
+   cd "$HOMELINX";
+   git fetch --all;
+   git reset --hard "$ORIGINMAIN";
+   git clean -fd;
+   source "$HOMEBASHRC";
+  else echo "No $KEYLINX!";fi;
+ else echo 'No linx dir!';fi;
+}; #FRESHENUP
+cd(){ builtin cd $@&&ls --color; }; #AUTO CD AND LIST
 #STANDARD CANTRIPS;
-alias cd="builtin cd $@&&ls --color";
 alias cp='cp -Rfv';
 alias crontabe='crontab -e';
 alias cub='cubic -v&>/dev/null &';

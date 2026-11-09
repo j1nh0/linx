@@ -3,24 +3,22 @@ a(){ if [ ! -z "$ARG1" ];then find "$ARG1" -print0|sort -z|tar --use-compress-pr
 b(){ if [ ! -z "$ARG1" ];then cp -rf "$ARG1" "${ARG1##*/}"-"$DATE.$TIME.$BCKP";else echo "$MESSARG";fi; }; #BACKUP
 alias c='clear' #CLEAR
 d(){ if [ ! -z "$1" ]&&[ ! -z "$2" ];then if [ -e "$1" ];then dd if="$ARG1" of="$ARG2" bs="$(fdisk -l "$ARG1"|grep 'Sector size'|cut -d'/' -f3|cut -d' ' -f2)" count="$(fdisk -l "$ARG1"|head -1|cut -d',' -f3|cut -d' ' -f2)" status=progress&&sync;else echo "$MESSARG";fi;else echo "$MESSARG";fi; }; #DD
-e(){
- clear
+e(){ clear;
  echo "$INFORAM";free -h;
- echo "$INFOCPU";lscpu | grep -e 'CPU(s):' -e 'Thread(s):' -e 'Core(s):' -e 'Model name:' -e 'CPU max' -e 'L3 cache:' -e 'Socket(s):' | grep -v 'NUMA';
+ echo "$INFOCPU";lscpu | grep -e'CPU(s):' -e'Thread(s):' -e'Core(s):' -e'Model name:' -e'CPU max' -e'L3 cache:' -e'Socket(s):'|grep -v'NUMA';
  echo "$INFOPROCESS";ps -a;
- echo "$INFODISK";df -h|grep -e media -e j1nh0 -e mnt -e iso -e ramdisk;
+ echo "$INFODISK";df -h|grep -e'media' -e'j1nh0' -e'mnt' -e'iso' -e'ramdisk';
  echo "$INFOSTAT";mpstat;
  echo "$ECHONEWLINE";date;
 }; #ESSENTIALS
 f(){ firefox&>"$NULL"; }; #FIREFOX
-g(){
- export USAGE='USAGE: g #STANDALONE FOR GPARTED# ${ c(ompile) | x(compile) | d(ebug) | s(trip) } ${SOME C FILE}';
+g(){ export USAGE='USAGE: g #STANDALONE FOR GPARTED# ${ c(ompile) | x(compile) | d(ebug) | s(trip) } ${SOME C FILE}';
  if [ ! -z "$ARG1" ]&&[ ! -z "$ARG2" ];then
   case "$ARG1" in
-   c|compile) gcc -o "$ARG2NAME" "$ARG2" "$FLAGGCX";;
-   x|xcompile) aarch64-linux-gnu-gcc -o "$ARG2NAME" "$ARG2" "$FLAGGCX";;
-   d|debug) gcc -o "$ARG2NAME" "$ARG2" "$FLAGGD";;
-   s|strip) strip "$ARG2NAME";strip --strip-all "$ARG2NAME";strip --strip-debug "$ARG2NAME";;
+   c|compile)gcc -o "$ARG2NAME" "$ARG2" "$FLAGGCX";;
+   x|xcompile)aarch64-linux-gnu-gcc -o "$ARG2NAME" "$ARG2" "$FLAGGCX";;
+   d|debug)gcc -o "$ARG2NAME" "$ARG2" "$FLAGGD";;
+   s|strip)strip "$ARG2NAME";strip --strip-all "$ARG2NAME";strip --strip-debug "$ARG2NAME";;
    *)usage;;
   esac;
  else sudo gparted;fi;
@@ -91,15 +89,13 @@ alias p='systemctl poweroff -i --force'; #STANDARD POWEROFF
 alias q='echo "FILLER"'; #FILLER
 alias r='systemctl reboot -i --force'; #STANDARD REBOOT
 alias s='sync'; #STANDARD SYNC
-t(){
- export USAGE='USAGE: t ${FILE}'
- if [ ! -z $1 ];then
-  export ARG="$1"
-  export SEVENZ="$(realpath -s $ARG)-$(date +%Y%m%d).7z"
-  7z -v48m a "$SEVENZ" "$ARG"
-  if [ "$?" == '0' ];then rm -rf "$ARG";else kickchk;fi
- else usage;fi
-};
+t(){ export USAGE='USAGE: t ${ FILE }';
+ if [ ! -z "$ARG1" ];then
+  export SEVENZ="$(realpath -s $ARG1)"-"$DATE.$TIME".7z;
+  7z -v48m a "$SEVENZ" "$ARG1";
+  if [ "$?" == '0' ];then rm -rf "$ARG1";else usage;fi;
+ else usage;fi;
+}; #TEAR SOME FILE
 alias u='sudo umount'; #STANDARD UMOUNT
 alias v='echo "FILLER"'; #FILLER
 wi(){

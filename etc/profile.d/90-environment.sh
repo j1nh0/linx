@@ -32,3 +32,4 @@ TGZ='tgz'
 TIME=$(date +%H%M%S)
 URLGITJ1NH0='https://github.com/j1nh0'
 URLGITJ1NH0SSH='ssh://git@github.com/j1nh0'
+KEYLINX="$HOME/.linx/keys/linx.piv.deploy"
