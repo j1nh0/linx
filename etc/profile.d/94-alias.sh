@@ -1,8 +1,9 @@
 #94-ALIAS.SH
 #WORKER FUNCTIONS;
+cd(){ builtin cd "$@"&&ls --color; }; #AUTO CD AND LIST
 usage(){ echo "$USAGE"; }; #PRINT USAGE
-hashtag(){ if [ ! -z "$ARG1" ];then for INT in $(seq 1 "$ARG1");do echo -n '#';done;echo;fi; }; #PRINT HASHTAG
 errchk(){ if [ "$?" != '0' ];then echo "$MESSERRCHK";read NULLVAR;fi; }; #ERROR CHECK
+hashtag(){ if [ ! -z "$ARG1" ];then for INT in $(seq 1 "$ARG1");do echo -n '#';done;echo;fi; }; #PRINT HASHTAG
 freshenup(){
  if [ -d "$HOMELINX" ];then
   if [ -f "$KEYLINX" ];then
@@ -15,7 +16,6 @@ freshenup(){
   else echo "No $KEYLINX!";fi;
  else echo 'No linx dir!';fi;
 }; #FRESHENUP
-cd(){ builtin cd $@&&ls --color; }; #AUTO CD AND LIST
 #STANDARD CANTRIPS;
 alias cp='cp -Rfv';
 alias crontabe='crontab -e';
