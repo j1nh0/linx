@@ -22,6 +22,7 @@ MESSCMDPASS=$(echo "Command $0 installed!")
 MESSERRCHK='\n########\nSOMETHING WENT WRONG!\n\n'
 MESSKIRBY="\nWHOAMI: $(whoami)\n\nPWD: $PWD\n\n$(date)"
 MESSZFULL="########\nFull zero initiated for $ARG2\n########\nIf this is correct, please hit enter; otherwise press CTRL+C!\n########"
+MP4='mp4'
 NPROC=$(nproc --ignore=2)
 NULL='/dev/null'
 ORIGINMAIN='origin/main'
