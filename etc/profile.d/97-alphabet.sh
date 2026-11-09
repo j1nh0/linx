@@ -1,8 +1,8 @@
 #97-ALPHABET.SH
-a(){ if [ ! -z "$ARG1" ];then find "$ARG1" -print0|sort -z|tar --use-compress-program=pigz -cvf "$(realpath -s $ARG1)"-"$DATE""$TIME"."$TGZ" --null --no-recursion -T -;else echo "$MESSARG";fi; }; #ARCHIVE
-b(){ if [ ! -z "$ARG1" ];then cp -rf "$ARG1" "${ARG1##*/}"-"$DATE.$TIME.$BCKP";else echo "$MESSARG";fi; }; #BACKUP
+a(){ if [ ! -z "$1" ];then find "$1" -print0|sort -z|tar --use-compress-program=pigz -cvf "$(realpath -s $ARG1)"-"$DATE""$TIME"."$TGZ" --null --no-recursion -T -;else echo "$MESSARG";fi; }; #ARCHIVE
+b(){ if [ ! -z "$1" ];then cp -rf "$1" "${ARG1##*/}"-"$DATE.$TIME.$BCKP";else echo "$MESSARG";fi; }; #BACKUP
 alias c='clear' #CLEAR
-d(){ if [ ! -z "$1" ]&&[ ! -z "$2" ];then if [ -e "$1" ];then dd if="$ARG1" of="$ARG2" bs="$(fdisk -l "$ARG1"|grep 'Sector size'|cut -d'/' -f3|cut -d' ' -f2)" count="$(fdisk -l "$ARG1"|head -1|cut -d',' -f3|cut -d' ' -f2)" status=progress&&sync;else echo "$MESSARG";fi;else echo "$MESSARG";fi; }; #DD
+d(){ if [ ! -z "$1" ]&&[ ! -z "$2" ];then if [ -e "$1" ];then dd if="$1" of="$2" bs="$(fdisk -l "$1"|grep 'Sector size'|cut -d'/' -f3|cut -d' ' -f2)" count="$(fdisk -l "$1"|head -1|cut -d',' -f3|cut -d' ' -f2)" status=progress&&sync;else echo "$MESSARG";fi;else echo "$MESSARG";fi; }; #DD
 e(){ clear;
  echo "$INFORAM";free -h;
  echo "$INFOCPU";lscpu | grep -e'CPU(s):' -e'Thread(s):' -e'Core(s):' -e'Model name:' -e'CPU max' -e'L3 cache:' -e'Socket(s):'|grep -v'NUMA';
@@ -13,12 +13,12 @@ e(){ clear;
 }; #ESSENTIALS
 f(){ firefox&>"$NULL"; }; #FIREFOX
 g(){ export USAGE='USAGE: g #STANDALONE FOR GPARTED# ${ c(ompile) | x(compile) | d(ebug) | s(trip) } ${SOME C FILE}';
- if [ ! -z "$ARG1" ]&&[ ! -z "$ARG2" ];then
-  case "$ARG1" in
-   c|compile)gcc -o "$ARG2NAME" "$ARG2" "$FLAGGCX";;
-   x|xcompile)aarch64-linux-gnu-gcc -o "$ARG2NAME" "$ARG2" "$FLAGGCX";;
-   d|debug)gcc -o "$ARG2NAME" "$ARG2" "$FLAGGD";;
-   s|strip)strip "$ARG2NAME";strip --strip-all "$ARG2NAME";strip --strip-debug "$ARG2NAME";;
+ if [ ! -z "$1" ]&&[ ! -z "$2" ];then
+  case "$1" in
+   c|compile)gcc -o "${2%.*}" "$2" "$FLAGGCX";;
+   x|xcompile)aarch64-linux-gnu-gcc -o "${2%.*}" "$2" "$FLAGGCX";;
+   d|debug)gcc -o "${2%.*}" "$2" "$FLAGGD";;
+   s|strip)strip "${2%.*}";strip --strip-all "${2%.*}";strip --strip-debug "${2%.*}";;
    *)usage;;
   esac;
  else sudo gparted;fi;
@@ -90,10 +90,10 @@ alias q='echo "FILLER"'; #FILLER
 alias r='systemctl reboot -i --force'; #STANDARD REBOOT
 alias s='sync'; #STANDARD SYNC
 t(){ export USAGE='USAGE: t ${ FILE }';
- if [ ! -z "$ARG1" ];then
-  export SEVENZ="$(realpath -s $ARG1)"-"$DATE.$TIME".7z;
-  7z -v48m a "$SEVENZ" "$ARG1";
-  if [ "$?" == '0' ];then rm -rf "$ARG1";else usage;fi;
+ if [ ! -z "$1" ];then
+  export SEVENZ="$(realpath -s "$1")"-"$DATE.$TIME".7z;
+  7z -v48m a "$SEVENZ" "$1";
+  if [ "$?" == '0' ];then rm -rf "$1";else usage;fi;
  else usage;fi;
 }; #TEAR SOME FILE
 alias u='sudo umount'; #STANDARD UMOUNT
@@ -126,10 +126,10 @@ y(){
  esac
 };
 z(){
- if [ ! -z "$ARG1" ] ; then
-  case "$ARG1" in
-   '-f'|'--full')echo "$MESSZFULL";read NULLVAR;dd if=/dev/zero of="$ARG2" bs=512 status=progress;sync;;
-   *)for CYCLE in $(seq 1 7);do echo "Cycle $CYCLE\n--------\n";dd if=/dev/zero of="$ARG1" bs=512 count=1 status=progress;sync;done;;
+ if [ ! -z "$1" ] ; then
+  case "$1" in
+   '-f'|'--full')echo "$MESSZFULL";read NULLVAR;dd if=/dev/zero of="$2" bs=512 status=progress;sync;;
+   *)for CYCLE in $(seq 1 7);do echo "Cycle $CYCLE\n--------\n";dd if=/dev/zero of="$1" bs=512 count=1 status=progress;sync;done;;
   esac;
  else echo "$MESSARG";fi;
 }; #ZERO DISK

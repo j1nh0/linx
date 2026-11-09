@@ -1,18 +1,16 @@
 #99-COMMANDS.SH
 bleach(){ for BLEACH in $(bleachbit --list-cleaners|grep -v 'free_disk_space'|grep -v 'memory');do bleachbit --clean --overwrite "$BLEACH";done; }; #BLEACH
-bytearray(){
- export USAGE='USAGE: bytearray ${ SOME FILE }';
- if [ ! -z "$ARG1" ];then
-  xxd -u -i -c256 "$ARG1"|\
+bytearray(){ export USAGE='USAGE: bytearray ${ SOME FILE }';
+ if [ ! -z "$1" ];then
+  xxd -u -i -c256 "$1"|\
   sed -e 's/ //g'|\
   sed -e 's/unsignedchar/static unsigned char /'|\
-  sed -e 's/unsignedint/static unsigned int /g'>"$ARG1.$C"&&\
+  sed -e 's/unsignedint/static unsigned int /g'>"$1.$C"&&\
   echo "$MESSPASS"||echo "$MESSFAIL";
  else usage;fi;
 }; #BYTEARRAY
-catalog(){
- export USAGE='USAGE: catalog ${ w(eblist) | y(outubelist) | t(ext2email) | l(emonadep) | i(nstantnoodle) }';
- case "$ARG1" in
+catalog(){ export USAGE='USAGE: catalog ${ w(eblist) | y(outubelist) | t(ext2email) | l(emonadep) | i(nstantnoodle) }';
+ case "$1" in
   w|weblist)for LIST in ${WEBLIST[@]};do echo $LIST;done|column -x;;
   y|youtubelist)for LIST in ${YOUTUBELIST[@]};do echo $LIST;done|column -x;;
   t|text2email)for LIST in ${TEXT2EMAIL[@]};do echo $LIST;done;;

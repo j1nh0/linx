@@ -3,7 +3,7 @@
 cd(){ builtin cd "$@"&&ls --color; }; #AUTO CD AND LIST
 usage(){ echo "$USAGE"; }; #PRINT USAGE
 errchk(){ if [ "$?" != '0' ];then echo "$MESSERRCHK";read NULLVAR;fi; }; #ERROR CHECK
-hashtag(){ if [ ! -z "$ARG1" ];then for INT in $(seq 1 "$ARG1");do echo -n '#';done;echo;fi; }; #PRINT HASHTAG
+hashtag(){ if [ ! -z "$1" ];then for INT in $(seq 1 "$1");do echo -n '#';done;echo;fi; }; #PRINT HASHTAG
 freshenup(){
  if [ -d "$HOMELINX" ];then
   if [ -f "$KEYLINX" ];then
@@ -39,7 +39,7 @@ alias ipa='ip addr';
 alias less='less -N';
 alias ls='ls --color=auto';
 alias mkb='mkdir -vp ./build/&&cd ./build/';
-alias mkd="if [ ! -z $ARG1 ];then mkdir -vp $@;fi";
+alias mkd="if [ ! -z $1 ];then mkdir -vp $@;fi";
 alias mkt='mkdir -vp ./tmp/&&cd ./tmp/';
 alias mv='mv -v';
 alias nano='nano -ic';
