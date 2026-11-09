@@ -1,11 +1,10 @@
 #90-ENVIRONMENT.SH
-ACCEPT_EULA=Y
 BCKP='bckp'
 BINLINX='.linx/etc/skel/.bin'
 BINLOCAL='.local/bin'
 BINMSSQL='/opt/mssql-tools/bin'
 DATE=$(date +%Y%m%d)
-DEBIAN_FRONTEND=noninteractive
+DOWNLOADARCHIVE='download-archive'
 ECHONEWLINE='\n\n'
 FLAGGCX='--static'
 FLAGGD='--static -ggdb'
@@ -26,7 +25,9 @@ MESSZFULL="########\nFull zero initiated for $ARG2\n########\nIf this is correct
 NPROC=$(nproc --ignore=2)
 NULL='/dev/null'
 ORIGINMAIN='origin/main'
+TARGET='target'
 TGZ='tgz'
 TIME=$(date +%H%M%S)
+TXT='txt'
 URLGITJ1NH0='https://github.com/j1nh0'
 URLGITJ1NH0SSH='ssh://git@github.com/j1nh0'
