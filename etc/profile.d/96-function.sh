@@ -1,4 +1,4 @@
-#99-FUNCTION.SH
+#96-FUNCTION.SH
 usage(){ echo "$USAGE"; }; #PRINT USAGE
 cd(){ builtin cd "$@"&&ls --color; }; #AUTO CD AND LS DIR
 mkd(){ if [ ! -z "$ARG1" ];then mkdir -vp "$@";fi; }; #MKDIR

@@ -1,3 +1,4 @@
+#99-COMMANDS.SH
 # #BLEACH
 # bleach(){
 #  export USAGE='USAGE: bleach ####AS ROOT####';

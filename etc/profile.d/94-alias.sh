@@ -1,4 +1,4 @@
-#99-ALIAS.SH
+#94-ALIAS.SH
 #STANDARD CANTRIPS
 alias cp='cp -Rfv';
 alias crontabe='crontab -e';
