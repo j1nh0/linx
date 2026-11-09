@@ -11,11 +11,13 @@ bytearray(){
  else usage;fi;
 }; #BYTEARRAY
 catalog(){
- export USAGE='USAGE: catalog ${ w(eblist) | y(outube) | t(ext2email) }';
+ export USAGE='USAGE: catalog ${ w(eblist) | y(outubelist) | t(ext2email) | l(emonadep) | i(nstantnoodle) }';
  case "$ARG1" in
   w|weblist)for LIST in ${WEBLIST[@]};do echo $LIST;done|column -x;;
-  y|youtube)for LIST in ${YOUTUBELIST[@]};do echo $LIST;done|column -x;;
-  t|text2email)for LIST in ${TEXTLIST[@]};do echo $LIST;done;;
+  y|youtubelist)for LIST in ${YOUTUBELIST[@]};do echo $LIST;done|column -x;;
+  t|text2email)for LIST in ${TEXT2EMAIL[@]};do echo $LIST;done;;
+  l|lemonadep)for LIST in ${LEMONADEP[@]};do echo $LIST;done;;
+  i|instantnoodle)for LIST in ${INSTANTNOODLE[@]};do echo $LIST;done;;
   *)usage;;
  esac;
 }; #CATALOG
@@ -165,9 +167,7 @@ catalog(){
 #  esac
 # };
 # #J1NH0
-# j1nh0(){
-#  echo 'j1nh0';
-# };
+j1nh0(){ echo 'j1nh0'; };
 # #JADB
 # jadb(){
 #  USAGE='USAGE: jadb ${ contacts | d | i | k | nisol | pull | push | r | reb | s | sd | sh | side | ur }';
@@ -202,16 +202,6 @@ catalog(){
 # };
 # #JAPT
 # japt(){
-
-# # #APT
-# # alias apt='ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive sudo apt -y --install-recommends';
-# # alias apti='sudo apt install "$@"';
-# # alias aptc='sudo apt -y clean';
-# # alias aptac='sudo apt -y autoclean';
-# # alias aptar='sudo apt -y autoremove';
-# # alias aptf='sudo apt install -f -y';
-# # alias aptp='sudo apt purge "$@"';
-
 #  export USAGE='USAGE: japt ${ u(pdate) | a(uto)r(emove) | di | r(epo) | i(nstall) | m(ega) | libdvd-pkg | v(isual)s(tudio) | lightdesktop }';
 #  case "$1" in
 #   u|update)apt-get update;;

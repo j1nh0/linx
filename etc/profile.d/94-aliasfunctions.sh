@@ -1,4 +1,4 @@
-#94-ALIAS.SH
+#94-ALIASFUNCTIONS.SH
 #WORKER FUNCTIONS;
 cd(){ builtin cd "$@"&&ls --color; }; #AUTO CD AND LIST
 usage(){ echo "$USAGE"; }; #PRINT USAGE
@@ -68,6 +68,13 @@ alias cll='clear;sync;ls -lh --color';
 alias cls='clear;sync;ls -h --color';
 alias clw='clear;sync;ls|wc -l';
 alias clla='clear;sync;ls -lha --color';
+#APT;
+alias aptac='sudo apt -y autoclean';
+alias aptar='sudo apt -y autoremove';
+alias aptc='sudo apt -y clean';
+alias aptf='sudo apt install -f -y';
+alias apti="sudo apt -y --install-recommends install $@";
+alias aptp="sudo apt purge $@";
 #TRAVERSAL;
 alias ..='cd ../';
 alias ...='cd ../../';

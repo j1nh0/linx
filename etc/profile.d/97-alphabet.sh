@@ -126,28 +126,10 @@ y(){
  esac
 };
 z(){
- if [ ! -z $1 ] ; then
-  case "$1" in
-   '-f'|'--full')
-    echo '########'unattended-upgrades
-    echo "Full zero initiated $2"
-    echo '########'
-    echo 'If this is correct, please hit enter; otherwise press CTRL+C!'
-    echo '########'
-    read NULLVAR
-    dd if=/dev/zero of="$2" bs=512 status=progress
-    sync
-   ;;
-   *)
-    echo '########'
-    for CYCLE in $(seq 1 7) ; do
-     echo "Cycle $CYCLE"
-     echo '--------'
-     dd if=/dev/zero of="$1" bs=512 count=1 status=progress
-     sync
-     echo '########'
-    done
-   ;;
-  esac
- else echo 'Please provide an item to zero!';fi
-};
+ if [ ! -z "$ARG1" ] ; then
+  case "$ARG1" in
+   '-f'|'--full')echo "$MESSZFULL";read NULLVAR;dd if=/dev/zero of="$ARG2" bs=512 status=progress;sync;;
+   *)for CYCLE in $(seq 1 7);do echo "Cycle $CYCLE\n--------\n";dd if=/dev/zero of="$ARG1" bs=512 count=1 status=progress;sync;done;;
+  esac;
+ else echo "$MESSARG";fi;
+}; #ZERO DISK

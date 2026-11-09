@@ -39,7 +39,7 @@ YOUTUBELIST=(
  'TheGumbyCollection:user/TheGumbyCollection'     'thenewboston:user/thenewboston'          'UDUBSTEPHD:user/UDUBSTEPHD'
  'UKFDrumandBass:user/UKFDrumandBass'             'UKFDubstep:user/UKFDubstep'              
 );
-TEXTLIST=(
+TEXT2EMAIL=(
  'AT&T:number@txt.att.net(SMS),number@mms.att.net(MMS)'
  'BoostMobile:number@sms.myboostmobile.com(SMS),number@myboostmobile.com(MMS)'
  'C-Spire:number@cspire1.com'
