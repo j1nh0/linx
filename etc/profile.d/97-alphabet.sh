@@ -1,24 +1,18 @@
 #99-ALPHABET.SH
 a(){ if [ ! -z "$ARG1" ];then find "$ARG1" -print0|sort -z|tar --use-compress-program=pigz -cvf "$(realpath -s $ARG1)"-"$DATE""$TIME"."$TGZ" --null --no-recursion -T -;else echo "$MESSARG";fi; }; #ARCHIVE
-b(){ if [ ! -z "$ARG1" ];then cp -rf "$ARG1" "${ARG1##*/}"-"$DATE""$TIME"."$BCKP";else echo "$MESSARG";fi; }; #BACKUP
+b(){ if [ ! -z "$ARG1" ];then cp -rf "$ARG1" "${ARG1##*/}"-"$DATE.$TIME.$BCKP";else echo "$MESSARG";fi; }; #BACKUP
 alias c='clear' #CLEAR
-d(){ if [ ! -z "$1" ]&&[ ! -z "$2" ];then if [ -e "$1" ];then dd if="$ARG1" of="$ARG2" bs=$BS count=$COUNT status=progress&&sync;else echo "$MESSARG";fi;else echo "$MESSARG";fi; }; #DD
+d(){ if [ ! -z "$1" ]&&[ ! -z "$2" ];then if [ -e "$1" ];then dd if="$ARG1" of="$ARG2" bs="$(fdisk -l "$ARG1"|grep 'Sector size'|cut -d'/' -f3|cut -d' ' -f2)" count="$(fdisk -l "$ARG1"|head -1|cut -d',' -f3|cut -d' ' -f2)" status=progress&&sync;else echo "$MESSARG";fi;else echo "$MESSARG";fi; }; #DD
 e(){
  clear
- echo '\n\nRAM info:\n\n';free -h;
- echo '\n\nCPU info:\n\n';lscpu | grep -e 'CPU(s):' -e 'Thread(s):' -e 'Core(s):' -e 'Model name:' -e 'CPU max' -e 'L3 cache:' -e 'Socket(s):' | grep -v 'NUMA';
- echo '\n\nProcess info:\n\n';ps -a;
- echo '\n\nDisk info:\n\n';df -h|grep -e media -e j1nh0 -e mnt -e iso -e ramdisk;
- echo '\n\nStat info:\n\n';mpstat;
- echo '\n\n';date;
+ echo "$INFORAM";free -h;
+ echo "$INFOCPU";lscpu | grep -e 'CPU(s):' -e 'Thread(s):' -e 'Core(s):' -e 'Model name:' -e 'CPU max' -e 'L3 cache:' -e 'Socket(s):' | grep -v 'NUMA';
+ echo "$INFOPROCESS";ps -a;
+ echo "$INFODISK";df -h|grep -e media -e j1nh0 -e mnt -e iso -e ramdisk;
+ echo "$INFOSTAT";mpstat;
+ echo "$ECHONEWLINE";date;
 }; #ESSENTIALS
-f(){
- if [ ! -z $1 ]; then
-  firefox "$1" &> /dev/null &
- else
-  firefox &> /dev/null &
- fi
-};
+f(){ if [ ! -z "$ARG1" ];then firefox "$ARG1"&>"$NULL" &;else firefox&>"$NULL" &;fi; }; #FIREFOX
 g(){
  export USAGE='USAGE: g #STANDALONE FOR GPARTED# ${ c(ompile) | x(cross compile) | d(ebug)} ${SOME C FILE}'
  export PROGRAM="${2%.*}"
