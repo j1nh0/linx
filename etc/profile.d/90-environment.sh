@@ -6,6 +6,9 @@ ARG2=$2
 ARG2FILE=${ARG2##*/}
 ARG2NAME=${2%.*}
 BCKP='bckp'
+BINLINX='.linx/etc/skel/.bin'
+BINLOCAL='.local/bin'
+BINMSSQL='/opt/mssql-tools/bin'
 DATE=$(date +%Y%m%d)
 ECHONEWLINE='\n\n'
 INFOCPU='\n\nCPU info:\n\n'
@@ -22,4 +25,3 @@ NPROC=$(nproc --ignore=2)
 ORIGINMAIN='origin/main'
 TGZ='tgz'
 TIME=$(date +%H%M%S)
-CONFIGSHOPT='histappend checkwinsize autocd expand_aliases'

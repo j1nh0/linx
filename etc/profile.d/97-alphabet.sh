@@ -26,7 +26,7 @@ g(){
    if [ "$ARG1" == 'x' ];then aarch64-linux-gnu-gcc -o "$ARG2NAME" "$ARG2" "$FLAGS";else gcc -o "$ARG2NAME" "$ARG2" "$FLAGS";fi;
    if [ "$ARG1" == 'c' ];then strip "$ARG2NAME";strip --strip-all "$ARG2NAME";strip --strip-debug "$ARG2NAME";fi;
   else usage;fi
- else sudo gparted&>"$NULL"&;fi;
+ else sudo gparted&>"$NULL";fi;
 }; #GPARTED LAUNCH AND GDB COMPILER OPTIONS
 alias h="cd $HOME"; #CD HOME
 alias ht='htop'; #HTOP
