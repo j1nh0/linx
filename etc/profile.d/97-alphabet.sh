@@ -12,7 +12,7 @@ e(){
  echo "$INFOSTAT";mpstat;
  echo "$ECHONEWLINE";date;
 }; #ESSENTIALS
-f(){ if [ ! -z "$ARG1" ];then firefox "$ARG1"&>"$NULL" &;else firefox&>"$NULL" &;fi; }; #FIREFOX
+f(){ firefox&>"$NULL"; }; #FIREFOX
 g(){
  export USAGE='USAGE: g #STANDALONE FOR GPARTED# ${ c(ompile) | x(cross compile) | d(ebug)} ${SOME C FILE}'
  export PROGRAM="${2%.*}"
