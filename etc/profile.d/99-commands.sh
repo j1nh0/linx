@@ -1,30 +1,24 @@
 #99-COMMANDS.SH
-# #BLEACH
-# bleach(){
-#  export USAGE='USAGE: bleach ####AS ROOT####';
-#  for BLEACH in $(bleachbit --list-cleaners|grep -v 'free_disk_space'|grep -v 'memory');do bleachbit --clean --overwrite "$BLEACH";done;
-# };
-# #BYTEARRAY
-# bytearray(){
-#  export USAGE='USAGE: bytearray ${ SOME FILE }';
-#  if [ ! -z "$ARG1" ];then
-#   xxd -u -i -c256 "$ARG1"|\
-#   sed -e 's/ //g'|\
-#   sed -e 's/unsignedchar/static unsigned char /'|\
-#   sed -e 's/unsignedint/static unsigned int /g'>"$ARG1.$C"&&\
-#   echo "$MESSPASS"||echo "$MESSFAIL";
-#  else usage;fi;
-# }; 
-# #CATALOG
-# catalog(){
-#  export USAGE='USAGE: catalog ${ w(eblist) | y(outube) | t(ext2email) }';
-#  case "$ARG1" in
-#   w|web)for LIST in ${WEBLIST[@]};do echo $LIST;done|column -x;;
-#   y|youtube)for LIST in ${YOUTUBELIST[@]};do echo $LIST;done|column -x;;
-#   t|text2email)for LIST in ${TEXTLIST[@]};do echo $LIST;done;;
-#   *)usage;;
-#  esac;
-# };
+bleach(){ for BLEACH in $(bleachbit --list-cleaners|grep -v 'free_disk_space'|grep -v 'memory');do bleachbit --clean --overwrite "$BLEACH";done; }; #BLEACH
+bytearray(){
+ export USAGE='USAGE: bytearray ${ SOME FILE }';
+ if [ ! -z "$ARG1" ];then
+  xxd -u -i -c256 "$ARG1"|\
+  sed -e 's/ //g'|\
+  sed -e 's/unsignedchar/static unsigned char /'|\
+  sed -e 's/unsignedint/static unsigned int /g'>"$ARG1.$C"&&\
+  echo "$MESSPASS"||echo "$MESSFAIL";
+ else usage;fi;
+}; #BYTEARRAY
+catalog(){
+ export USAGE='USAGE: catalog ${ w(eblist) | y(outube) | t(ext2email) }';
+ case "$ARG1" in
+  w|weblist)for LIST in ${WEBLIST[@]};do echo $LIST;done|column -x;;
+  y|youtube)for LIST in ${YOUTUBELIST[@]};do echo $LIST;done|column -x;;
+  t|text2email)for LIST in ${TEXTLIST[@]};do echo $LIST;done;;
+  *)usage;;
+ esac;
+}; #CATALOG
 # #CHANGEMAC
 # changemac(){
 #  export USAGE='USAGE: changemac ${SOME NETWORK INTERFACE}';

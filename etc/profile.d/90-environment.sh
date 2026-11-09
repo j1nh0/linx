@@ -22,3 +22,4 @@ NPROC=$(nproc --ignore=2)
 ORIGINMAIN='origin/main'
 TGZ='tgz'
 TIME=$(date +%H%M%S)
+CONFIGSHOPT='histappend checkwinsize autocd expand_aliases'
