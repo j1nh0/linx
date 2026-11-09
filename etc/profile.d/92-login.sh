@@ -7,8 +7,11 @@ cd "$HOME";
 eval $(ssh-agent -k)&>"$NULL";
 eval $(ssh-agent -s);ssh-add -D;
 #CUSTOM BIN OPTIONS
+echo 'mssql'
 if [ -d "$BINMSSQL" ];then PATH="$PATH":"$BINMSSQL";fi; #BINMSSQL
+echo 'locla'
 if [ -d "$HOME"/"$BINLOCAL" ];then PATH="$PATH":"$HOME"/"$BINLOCAL";fi; #BINLOCAL
+echo 'linx'
 if [ -d "$HOME"/"$BINLINX" ];then PATH="$PATH":"$HOME"/"$BINLINX";fi; #BINLINX
 #FRESHEN UP LINX
 freshenup(){ if [ -d "$HOME/.linx" ];then cd "$HOME/.linx";git fetch --all;git reset --hard "$ORIGINMAIN";git clean -fd;else echo "No dir $HOME/.linx!";fi;source "$HOME/.bashrc"; };
