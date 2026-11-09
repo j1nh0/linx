@@ -1,5 +1,10 @@
+NPROC=$(nproc --ignore=2)
 ARG1=$1
+ARG1FILE=${ARG1##*/}
+ARG1NAME=${1%.*}
 ARG2=$2
+ARG2FILE=${ARG2##*/}
+ARG2NAME=${2%.*}
 BCKP='bckp'
 DATE=$(date +%Y%m%d)
 ECHONEWLINE='\n\n'
@@ -12,9 +17,10 @@ MESSARG='\n\nPlease provide an argument!'
 MESSCMDFAIL=$(echo "Command $0 not found!")
 MESSCMDPASS=$(echo "Command $0 installed!")
 MESSERRCHK='\n########\nSOMETHING WENT WRONG!\n\n'
+MESSKIRBY="\nWHOAMI: $(whoami)\n\nPWD: $PWD\n\n$(date)"
 TGZ='tgz'
 TIME=$(date +%H%M%S)
-MESSKIRBY='\nWHOAMI: $(whoami)\n\nPWD: $PWD\n\n$(date)'
+ORIGINMAIN='origin/main'
 ################################################################
 ################################################################
 ################################################################
@@ -119,7 +125,7 @@ MESSKIRBY='\nWHOAMI: $(whoami)\n\nPWD: $PWD\n\n$(date)'
 # NETWORK=network
 # NETWORKD=networkd
 # NONINTERACTIVE=noninteractive
-# NPROC=$(nproc --ignore=2)
+# 
 # NULL=/dev/null
 # ORIGIN=origin
 # OVERRIDE=override

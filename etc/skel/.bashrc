@@ -31,27 +31,7 @@ case "$TERM" in xterm*|rxvt*)PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h
 #SOURCE ALIASES
 if [ -f ~/.bash_aliases ];then . ~/.bash_aliases;fi;
 if ! shopt -oq posix;then if [ -f /usr/share/bash-completion/bash_completion ];then . /usr/share/bash-completion/bash_completion;elif [ -f /etc/bash_completion ];then . /etc/bash_completion;fi;fi;
-#UPON LOGIN
-shopt -s histappend;
-shopt -s checkwinsize;
-shopt -s autocd;
-shopt -s expand_aliases;
-#cd $HOME
-cd $HOME;
-#SSH DAEMON SETUP AND CONTROL
-eval $(ssh-agent -k)&>/dev/null;
-eval $(ssh-agent -s);
-ssh-add -D;
 #ENVIRONMENT BUILD
-if [ -f $HOME/.linx/etc/environment ];then source $HOME/.linx/etc/environment;fi;
+# if [ -f $HOME/.linx/etc/environment ];then source $HOME/.linx/etc/environment;fi;
+# if [ -f $HOME/.linx/etc/array ];then source $HOME/.linx/etc/array;fi;
 if [ -d $HOME/.linx/etc/profile.d/ ];then for PROF in $(ls $HOME/.linx/etc/profile.d/);do source $HOME/.linx/etc/profile.d/$PROF;done;fi;
-#/opt/mssql-tools/bin
-if [ -d /opt/mssql-tools/bin ];then PATH=$PATH:/opt/mssql-tools/bin;fi;
-#~/.local/bin
-if [ -d $HOME/.local/bin ];then PATH=$PATH:$HOME/.local/bin;fi;
-#$HOME/.linx/etc/skel/.bin
-if [ -d $HOME/.linx/etc/skel/.bin/ ];then PATH=$PATH:$HOME/.linx/etc/skel/.bin/;fi;
-#FRESHEN UP LINX
-freshenup(){
- curl https://raw.githubusercontent.com/j1nh0/linx/main/rcl-init/rcl-init.sh|bash;
-};

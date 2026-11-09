@@ -15,26 +15,19 @@ e(){
 f(){ firefox&>"$NULL"; }; #FIREFOX
 g(){
  export USAGE='USAGE: g #STANDALONE FOR GPARTED# ${ c(ompile) | x(cross compile) | d(ebug)} ${SOME C FILE}'
- export PROGRAM="${2%.*}"
- if [ ! -z $1 ];then
-  case $1 in
+ if [ ! -z "$ARG1" ];then
+  case "$ARG1" in
    c)export FLAGS='--static';;
    d)export FLAGS='--static -ggdb';;
    x)export FLAGS='--static';;
-   *)echo $USAGE;;
+   *)usage;;
   esac
-  if [ ! -z $2 ];then
-   if [ "$1" == 'x' ];then
-    aarch64-linux-gnu-gcc -o $PROGRAM $2 $FLAGS
-   else gcc -o $PROGRAM $2 $FLAGS;fi
-   if [ "$1" == 'c' ];then
-    strip $PROGRAM
-    strip --strip-all $PROGRAM
-    strip --strip-debug $PROGRAM
-   fi
-  else echo $USAGE;fi
- else sudo gparted &> /dev/null & fi
-};
+  if [ ! -z "$ARG2" ];then
+   if [ "$ARG1" == 'x' ];then aarch64-linux-gnu-gcc -o "$ARG2NAME" "$ARG2" "$FLAGS";else gcc -o "$ARG2NAME" "$ARG2" "$FLAGS";fi;
+   if [ "$ARG1" == 'c' ];then strip "$ARG2NAME";strip --strip-all "$ARG2NAME";strip --strip-debug "$ARG2NAME";fi;
+  else usage;fi
+ else sudo gparted&>"$NULL"&;fi;
+}; #GPARTED LAUNCH AND GDB COMPILER OPTIONS
 alias h="cd $HOME"; #CD HOME
 alias ht='htop'; #HTOP
 alias i='clear;tree --du -h'; #TREE OUTPUT
@@ -49,12 +42,12 @@ k(){
   4)echo "\n\t^(^_^)^\n";;
  esac;echo "$MESSKIRBY";sleep .5;clear;done;done;
 }; #KIRBY THREAD HOLDER
-alias l='ls --color';
-alias mo='mount';
-alias mot='mount|column -t';
-alias mots='mount|column -t|sort';
-alias n='nano -ic';
-alias nn='nano -ic';
+alias l='ls --color'; #STANDARD LS
+alias mo='mount'; #STANDARD MOUNT
+alias mot='mount|column -t'; #MOUNT WITH COLUMN
+alias mots='mount|column -t|sort'; #MOUNT WITH COLUMN AND SORT
+alias n='nano -ic'; #STANDARD NANO
+alias nn='nano -ic'; #STANDARD NANO
 o(){
  if [ ! -z $1 ] ; then
   export PACKAGE="${1%/}"
@@ -97,10 +90,10 @@ o(){
   o help################################
  fi
 };
-alias p='systemctl poweroff -i --force';
-alias q='echo "FILLER"';
-alias r='systemctl reboot -i --force';
-alias s='sync';
+alias p='systemctl poweroff -i --force'; #STANDARD POWEROFF
+alias q='echo "FILLER"'; #FILLER
+alias r='systemctl reboot -i --force'; #STANDARD REBOOT
+alias s='sync'; #STANDARD SYNC
 t(){
  export USAGE='USAGE: t ${FILE}'
  if [ ! -z $1 ];then
@@ -110,8 +103,8 @@ t(){
   if [ "$?" == '0' ];then rm -rf "$ARG";else kickchk;fi
  else usage;fi
 };
-alias u='sudo umount';
-alias v='veracrypt&>/dev/null &';
+alias u='sudo umount'; #STANDARD UMOUNT
+alias v='echo "FILLER"'; #FILLER
 wi(){
  if [ -d '$RECYCLE.BIN' ];then rm -rfv '$RECYCLE.BIN';fi #CLEAN RECYCLE BIN
  if [ -d 'System Volume Information' ];then rm -rfv 'System Volume Information';fi #CLEAN SYSTEM VOLUME INFORMATION
@@ -120,8 +113,8 @@ wi(){
  if [ -f 'DumpStack.log.tmp' ];then rm -rfv 'DumpStack.log.tmp';fi #CLEAN DUMP STACK
  if [ -d '.Trash-999' ];then sudo rm -rfv '.Trash-999';fi #CLEAN .TRASH-999
  if [ -d '.Trash-1000' ];then sudo rm -rfv '.Trash-1000';fi #CLEAN .TRASH-1000
-};
-alias x='echo "FILLER"';
+}; #WINDOWS AND TRASH CLEANER
+alias x='echo "FILLER"'; #FILLER
 y(){
  export USAGE='USAGE: y ${ a(ll) | c(hannel) | d(epth) | k(eep) | m(usic) | mk(make) }'
  ytdlp(){
