@@ -18,6 +18,6 @@ freshenup(){
   git reset --hard "$ORIGINMAIN";
   git clean -fd;
  else echo "No dir $HOME/.linx!";fi;
- echo 'source $HOME/.bashrc';
+ echo '####\nsource $HOME/.bashrc';
  source "$HOME/.bashrc";
 }; #FRESHENUP
