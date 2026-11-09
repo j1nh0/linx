@@ -303,9 +303,9 @@ catalog(){
 jgit(){
  export USAGE='USAGE: jgit ${ c | clean | commit | def | extra | jc | origin | prune | push | pull | remote | reset | sub | update }';
  case "$ARG1" in
-  c)export USAGE='USAGE: jgit c ${GIT REPO}';if [ ! -z "$ARG2" ];then git clone -j"$NPROC" --recurse-submodules --depth=1 "https://github.com/j1nh0/$2";else usage;fi;;
-  clean)git fetch --all;git reset --hard origin/main;git clean -fd;;
-  commit)git commit -m $(date +%Y%m%d%H%M%S);;
+  c) export USAGE='USAGE: jgit c ${GIT REPO}';if [ ! -z "$ARG2" ];then git clone -j"$NPROC" --recurse-submodules --depth=1 "$URLGITJ1NH0"/"$ARG2";else usage;fi;;
+  clean)git fetch --all;git reset --hard "$ORIGINMAIN";git clean -fd;;
+  commit)git commit -m "$DATE"."$TIME";;
   def)
    for GITDEF in\
     "credential.usageer 'cache --timeout=28800'"\
@@ -331,7 +331,7 @@ jgit(){
     *)usage;;
    esac
   ;;
-  jc)export USAGE='USAGE: gitcj ${JINHO URL}';if [ ! -z $2 ];then git clone ssh://git@github.com/j1nh0/"$2";else usage;fi;;
+  jc) export USAGE='USAGE: gitcj ${JINHO URL}';if [ ! -z "$ARG2" ];then git clone "$URLGITJ1NH0SSH"/"$ARG2";else usage;fi;;
   origin)git remote show origin;;
   prune)git gc --aggressive --prune=now;git repack -Ad;git prune;git prune-packed;;
   pull)
@@ -343,15 +343,7 @@ jgit(){
     *)git fetch --all;git pull;;
    esac
   ;;
-  push)
-   export USAGE='USAGE: gitpush ${ m(ain) | f(orce) }'
-   case "$2" in
-    m|main)git add -A;git commit -m $(date +%Y%m%d%H%M%S);git push origin main;;
-    f|force)git add -A;git commit -m $(date +%Y%m%d%H%M%S);git push --force origin main;;
-    usage)usage;;
-    *)git add -A;git commit -m $(date +%Y%m%d%H%M%S);git push;;
-   esac
-  ;;
+  push) if [[ $(git -v) ]];then git add -A;git commit -m "$DATE.$TIME";git push --force;sync;else echo "$MESSCMDFAIL";fi;;
   remote)
    if [ ! -f ~/.ssh/j1nh0.github ];then echo 'Github token not found!'&&exit 1;else
     TOKEN=$(cat ~/.ssh/j1nh0.github)

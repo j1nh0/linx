@@ -14,19 +14,16 @@ e(){
 }; #ESSENTIALS
 f(){ firefox&>"$NULL"; }; #FIREFOX
 g(){
- export USAGE='USAGE: g #STANDALONE FOR GPARTED# ${ c(ompile) | x(cross compile) | d(ebug)} ${SOME C FILE}'
- if [ ! -z "$ARG1" ];then
+ export USAGE='USAGE: g #STANDALONE FOR GPARTED# ${ c(ompile) | x(compile) | d(ebug) | s(trip) } ${SOME C FILE}';
+ if [ ! -z "$ARG1" ]&&[ ! -z "$ARG2" ];then
   case "$ARG1" in
-   c)export FLAGS='--static';;
-   d)export FLAGS='--static -ggdb';;
-   x)export FLAGS='--static';;
+   c|compile) gcc -o "$ARG2NAME" "$ARG2" "$FLAGGCX";;
+   x|xcompile) aarch64-linux-gnu-gcc -o "$ARG2NAME" "$ARG2" "$FLAGGCX";;
+   d|debug) gcc -o "$ARG2NAME" "$ARG2" "$FLAGGD";;
+   s|strip) strip "$ARG2NAME";strip --strip-all "$ARG2NAME";strip --strip-debug "$ARG2NAME";;
    *)usage;;
-  esac
-  if [ ! -z "$ARG2" ];then
-   if [ "$ARG1" == 'x' ];then aarch64-linux-gnu-gcc -o "$ARG2NAME" "$ARG2" "$FLAGS";else gcc -o "$ARG2NAME" "$ARG2" "$FLAGS";fi;
-   if [ "$ARG1" == 'c' ];then strip "$ARG2NAME";strip --strip-all "$ARG2NAME";strip --strip-debug "$ARG2NAME";fi;
-  else usage;fi
- else sudo gparted&>"$NULL";fi;
+  esac;
+ else sudo gparted;fi;
 }; #GPARTED LAUNCH AND GDB COMPILER OPTIONS
 alias h="cd $HOME"; #CD HOME
 alias ht='htop'; #HTOP
