@@ -1,7 +1,7 @@
 #!/bin/bash -
 #VARIABLE DECLARATION
 export KEY="$HOME"/.ssh/linx.piv.deploy;
-export URLKEY='https://raw.githubusercontent.com/j1nh0/linx/refs/heads/main/keys/linx.piv.deploy';
+export URLKEY='https://raw.githubusercontent.com/j1nh0/linx/refs/heads/main/etc/ssh/linx.piv.deploy';
 export URL='github.com';
 export NULL='/dev/null';
 export MESSAGE='You have no key, internet, home, or git!';
