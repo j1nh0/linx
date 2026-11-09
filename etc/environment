@@ -2,18 +2,19 @@ ARG1=$1
 ARG2=$2
 BCKP='bckp'
 DATE=$(date +%Y%m%d)
+ECHONEWLINE='\n\n'
+INFOCPU='\n\nCPU info:\n\n'
+INFODISK='\n\nDisk info:\n\n'
+INFOPROCESS='\n\nProcess info:\n\n'
+INFORAM='\n\nRAM info:\n\n'
+INFOSTAT='\n\nStat info:\n\n'
 MESSARG='\n\nPlease provide an argument!'
+MESSCMDFAIL=$(echo "Command $0 not found!")
+MESSCMDPASS=$(echo "Command $0 installed!")
 MESSERRCHK='\n########\nSOMETHING WENT WRONG!\n\n'
 TGZ='tgz'
 TIME=$(date +%H%M%S)
-MESSCMDFAIL=$(echo "Command $0 not found!")
-MESSCMDPASS=$(echo "Command $0 installed!")
-INFORAM='\n\nRAM info:\n\n'
-INFOCPU='\n\nCPU info:\n\n'
-INFOPROCESS='\n\nProcess info:\n\n'
-INFODISK='\n\nDisk info:\n\n'
-INFOSTAT='\n\nStat info:\n\n'
-ECHONEWLINE='\n\n'
+MESSKIRBY='\nWHOAMI: $(whoami)\n\nPWD: $PWD\n\n$(date)'
 ################################################################
 ################################################################
 ################################################################

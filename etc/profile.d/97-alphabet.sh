@@ -35,26 +35,20 @@ g(){
   else echo $USAGE;fi
  else sudo gparted &> /dev/null & fi
 };
-alias h="cd $HOME";
-alias ht='htop';
-alias i='clear;tree --du -h';
-alias ih='clear;tree --du -ha';
-alias il='clear;tree --du -hp';
-alias j='sudo su -';
+alias h="cd $HOME"; #CD HOME
+alias ht='htop'; #HTOP
+alias i='clear;tree --du -h'; #TREE OUTPUT
+alias ih='clear;tree --du -ha'; #TREE ALL OUTPUT
+alias il='clear;tree --du -hp'; #TREE PERMISSIONS OUTPUT
+alias j='sudo su -'; #RTFM
 k(){
- while true;do
-  for INT in $(seq 1 4);do
-   case "$INT" in
-    1)echo -e "\n<(^_^<)\n";;
-    2)echo -e "\n\t^(^_^)^\n";;
-    3)echo -e "\n\t\t(>^_^)>\n";;
-    4)echo -e "\n\t^(^_^)^\n";;
-   esac
-   echo -e "\nWHOAMI: $(whoami)\n\nPWD: $PWD\n\n$(date)";
-   sleep .5;clear;
-  done;
- done;
-};
+ while true;do for INT in $(seq 1 4);do case "$INT" in
+  1)echo "\n<(^_^<)\n";;
+  2)echo "\n\t^(^_^)^\n";;
+  3)echo "\n\t\t(>^_^)>\n";;
+  4)echo "\n\t^(^_^)^\n";;
+ esac;echo "$MESSKIRBY";sleep .5;clear;done;done;
+}; #KIRBY THREAD HOLDER
 alias l='ls --color';
 alias mo='mount';
 alias mot='mount|column -t';
