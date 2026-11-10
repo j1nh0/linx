@@ -1,5 +1,9 @@
 #94-COMMANDS.SH
 bleach(){ for BLEACH in $(bleachbit --list-cleaners|grep -v 'free_disk_space'|grep -v 'memory');do bleachbit --clean --overwrite "$BLEACH";done; }; #BLEACH
+bootconfig(){ export USAGE='USAGE: bootconfig';
+ echo "$GRUBCFG">"$GRUB.$CFG"
+ echo "$LOOPBACKCFG">"$LOOPBACK.$CFG"
+}; #BOOTCONFIG
 bytearray(){ export USAGE='USAGE: bytearray ${ SOME FILE }';
  if [ ! -z "$1" ];then
   xxd -u -i -c256 "$1"|\

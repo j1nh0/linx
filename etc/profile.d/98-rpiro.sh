@@ -1,4 +1,4 @@
-#97-RPIRO.SH
+#98-RPIRO.SH
 rpiro(){
  # Disable swap
  dphys-swapfile swapoff
