@@ -1,4 +1,5 @@
 #90-ENVIRONMENT.SH
+7Z='7z'
 BCKP='bckp'
 BINLINX='.linx/etc/skel/.bin'
 BINLOCAL='.local/bin'
@@ -32,3 +33,5 @@ TIME=$(date +%H%M%S)
 TXT='txt'
 URLGITJ1NH0='https://github.com/j1nh0'
 URLGITJ1NH0SSH='ssh://git@github.com/j1nh0'
+ZERO='0'
+MESSOREMOVED='Package removed!'

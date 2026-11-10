@@ -464,14 +464,12 @@ jgit(){
 #   modprobe uas;
 #  fi;
 # };
-# #MP42MP3
-# mp42mp3(){
-#  export USAGE='USAGE: mp42mp3 ####IN SONG REPO####'
-#  for MP4 in *mp4;do
-#   ffmpeg -n -i "$MP4" -vn -acodec libmp3lame -ac 2 -ab 320k -ar 48000 "${MP4%.*}.mp3"
-#   if [ "$1" == '-k' ];then echo "$MP4 to ${MP4%.*}.mp3 completed";else rm "$MP4";fi
-#  done
-# };
+mp42mp3(){ export USAGE='USAGE: mp42mp3 ####IN SONG REPO####';
+ for MP4 in *mp4;do
+  ffmpeg -n -i "$MP4" -vn -acodec libmp3lame -ac 2 -ab 320k -ar 48000 "${MP4%.*}.mp3"
+  if [ "$1" == '-k' ];then echo "$MP4 to ${MP4%.*}.mp3 completed";else rm "$MP4";fi
+ done;
+}; #MP42MP3
 # #MSC
 # msc(){
 #  export USAGE='msc ####IN MEGA REPO####'

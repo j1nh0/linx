@@ -43,48 +43,23 @@ alias mot='mount|column -t'; #MOUNT WITH COLUMN
 alias mots='mount|column -t|sort'; #MOUNT WITH COLUMN AND SORT
 alias n='nano -ic'; #STANDARD NANO
 alias nn='nano -ic'; #STANDARD NANO
-o(){
- if [ ! -z $1 ] ; then
+o(){ export USAGE='\nUsage: o ${OBJECT} a/e/l/p/x\n\nPlease use:\n\ta\tto archive\n\te\tto extract WITHOUT directories\n\tl\tto list\n\tp\tto protect\n\tx\tto extract WITH directories\n'
+ if [ ! -z "$1" ];then
   export PACKAGE="${1%/}"
-  export USAGE='\nUsage: o ${OBJECT} a/e/l/p/x\n\nPlease use:\n\ta\tto archive\n\te\tto extract WITHOUT directories\n\tl\tto list\n\tp\tto protect\n\tx\tto extract WITH directories\n'
-  oremoved(){
-   echo 'Object removed!'
-  }
   case "$2" in
-   a)
-    7z a "$PACKAGE.7z" "$1"
-    if [ "$?" == '0' ];then
-     rm -rf "$1"
-     echo 'Object removed!'
-    else
-     echo 'SOMETHING WENT WRONG AFTER 7Z!'
-     read NULLVAR
-    fi
-   ;;
+   a)7z a "$PACKAGE"."$7Z" "$1";if [ "$?" == "$ZERO" ];then rm -rf "$1";else echo "$MESSERRCHK";read NULLVAR;fi;;
    e)7z e "$PACKAGE";;
    l)7z l "$PACKAGE";;
    p)
-    if [ -f "$PACKAGE.7z" ] ; then
-     rm "$PACKAGE.7z"
-     oremoved
-    fi
+    if [ -f "$PACKAGE.7z" ];then rm "$PACKAGE.7z";fi
     echo 'Creating new package!'
     7z a "$PACKAGE.7z" "$1" -p
-    if [ "$?" == '0' ] ; then
-     rm -rf "$1"
-     oremoved
-    else
-     echo 'SOMETHING WENT WRONG AFTER 7Z!'
-     read NULLVAR
-    fi
-   ;;
+    if [ "$?" == '0' ];then rm -rf "$1";else echo "$MESSERRCHK";read NULLVAR;fi;;
    x)7z x "$PACKAGE"&&rm "$PACKAGE";echo 'Old package removed!';;
    *)usage;;
-  esac
- else
-  o help################################
- fi
-};
+  esac;
+ else usage;fi;
+}; #OBJECT
 alias p='systemctl poweroff -i --force'; #STANDARD POWEROFF
 alias q='echo "FILLER"'; #FILLER
 alias r='systemctl reboot -i --force'; #STANDARD REBOOT
@@ -109,13 +84,13 @@ wi(){
 }; #WINDOWS AND TRASH CLEANER
 alias x='echo "FILLER"'; #FILLER
 y(){ export USAGE='USAGE: y ${ a(ll) | c(hannel) | k(eep) | m(usic) | mk(make) }';
- ytdlp(){ yt-dlp -ci -f "$MP4" --download-archive "$DOWNLOADARCHIVE" -o "%(title)s-%(id)s.%(ext)s" -v $(cat ./target.txt); };
+ alias ytdlp="yt-dlp -ci -f $MP4 --download-archive $DOWNLOADARCHIVE -o %(title)s-%(id)s.%(ext)s -v $(cat ./target.txt)";
  case "$1" in
   a|all)if [ ! -z "$2" ];then for DIR in $(ls -d */);do cd "$DIR";y "$2";cd ..;sync;done;else usage;fi;;
   c|channel)ytdlp;;
   k|keep)ytdlp;mp42mp3 -k;;
   m|music)ytdlp;mp42mp3;;
-  mk|make)touch "$DOWNLOADARCHIVE.$TXT" "$TARGET.$TXT";nano -ic "$TARGET.$TXT";;
+  mk|make)touch "$DOWNLOADARCHIVE.$TXT" "$TARGET.$TXT"&&nano -ic "$TARGET.$TXT";;
   *)usage;;
  esac;
 }; #YTDLP
