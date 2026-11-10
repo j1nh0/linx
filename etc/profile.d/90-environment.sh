@@ -21,6 +21,7 @@ MESSCMDFAIL=$(echo "Command $0 not found!")
 MESSCMDPASS=$(echo "Command $0 installed!")
 MESSERRCHK='\n########\nSOMETHING WENT WRONG!\n\n'
 MESSKIRBY="\nWHOAMI: $(whoami)\n\nPWD: $PWD\n\n$(date)"
+MESSOREMOVED='Package removed!'
 MESSZFULL="########\nFull zero initiated for $ARG2\n########\nIf this is correct, please hit enter; otherwise press CTRL+C!\n########"
 MP4='mp4'
 NPROC=$(nproc --ignore=2)
@@ -33,4 +34,3 @@ TXT='txt'
 URLGITJ1NH0='https://github.com/j1nh0'
 URLGITJ1NH0SSH='ssh://git@github.com/j1nh0'
 ZERO='0'
-MESSOREMOVED='Package removed!'
