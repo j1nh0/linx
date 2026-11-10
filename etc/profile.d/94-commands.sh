@@ -311,36 +311,24 @@ perm(){ export USAGE='USAGE: perm ${ l(ock) | p(rivate) | u(nlock) | x|e(x)ecute
  find . -type d -exec chown 1001:65534 {} \;;
  find . -type f -exec chown 1001:65534 {} \;;
 }; #PERM
-# #RAMDISK
-# ramdisk(){
-#  export USAGE='USAGE: ramdisk ${SIZE IN GIGABYTES}'
-#  if [ ! -d /ramdisk/ ];then sudo mkdir -vp /ramdisk/;fi
-#  if [ ! -z $1 ];then sudo mount -t tmpfs -o size=$(echo "$1"*1024|bc)'M' tmpfs /ramdisk/&&echo $(echo "$1"*1024|bc)'M' pass||echo 'Ramdisk fail!';else usage;fi
-# };
-# #REMOUNT
-# remount(){
-#  export USAGE='USAGE: remount ${ c|drom s|ystem }'
-#  case "$1" in
-#   c|cdrom)sudo mount -o rw,remount,rw /cdrom;;
-#   s|system)sudo mount -o rw,remount,rw /;;
-#   *)usage;;
-#  esac
-# };
-# #REMOVE
-# remove(){
-#  export USAGE='USAGE: remove ${e(mpty)|s(pace)}';
-#  case "$1" in
-#   e|empty)
-#    find -type f -empty -exec rm -rfv {} \;
-#    find -type d -empty -exec rm -rfv {} \;
-#   ;;
-#   s|space)
-#    find . -type d|rename 's/ /_/g'
-#    find . -type f|rename 's/ /_/g'
-#   ;;
-#   *)usage;;
-#  esac;
-# };
+ramdisk(){ export USAGE='USAGE: ramdisk ${ SIZE IN GIGABYTES }';
+ if [ ! -d /ramdisk/ ];then sudo mkdir -vp /ramdisk/;fi;
+ if [ ! -z $1 ];then sudo mount -t tmpfs -o size=$(echo "$1"*1024|bc)'M' tmpfs /ramdisk/&&echo $(echo "$1"*1024|bc)'M' pass||echo 'Ramdisk fail!';else usage;fi;
+}; #RAMDISK
+remount(){ export USAGE='USAGE: remount ${ c(drom) | s(ystem) }';
+ case "$1" in
+  c|cdrom)sudo mount -o rw,remount,rw /cdrom;;
+  s|system)sudo mount -o rw,remount,rw /;;
+  *)usage;;
+ esac;
+}; #REMOUNT
+remove(){ export USAGE='USAGE: remove ${ e(mpty) | s(pace) }';
+ case "$1" in
+  e|empty)find -type f -empty -exec rm -rfv {} \;;find -type d -empty -exec rm -rfv {} \;;;
+  s|space)find . -type d|rename 's/ /_/g';find . -type f|rename 's/ /_/g';;
+  *)usage;;
+ esac;
+}; #REMOVE
 # #REPOINITLIST
 # repoinitlist(){
 #  read -r -d '' REPOINITLIST<<EOM
@@ -542,8 +530,4 @@ perm(){ export USAGE='USAGE: perm ${ l(ock) | p(rivate) | u(nlock) | x|e(x)ecute
 #   *)./configure --build x86_64-pc-linux-gnu --host aarch64-linux-gnu LDFLAGS='-static -pthread';;
 #  esac
 # };
-# #XMLVIEWER
-# xmlviewer(){
-#  export USAGE='USAGE: xmlviewer ${XML FILE}'
-#  if [ ! -z $1 ];then xmllint --format "$1"|highlight --syntax=xml --out-format=xterm256|less -RN;else usage;fi
-# };
+xmlviewer(){ export USAGE='USAGE: xmlviewer ${XML FILE}';if [ ! -z $1 ];then xmllint --format "$1"|highlight --syntax=xml --out-format=xterm256|less -RN;else usage;fi; }; #XMLVIEWER
