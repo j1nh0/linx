@@ -9,25 +9,24 @@ bytearray(){ export USAGE='USAGE: bytearray ${ SOME FILE }';
   echo "$MESSPASS"||echo "$MESSFAIL";
  else usage;fi;
 }; #BYTEARRAY
-catalog(){ export USAGE='USAGE: catalog ${ w(eblist) | y(outubelist) | t(ext2email) | l(emonadep) | i(nstantnoodle) }';
+catalog(){ export USAGE='USAGE: catalog ${ w(eblist) | y(outubelist) | t(ext2email) | l(emonadep) | i(nstantnoodle) | s(tallion) }';
  case "$1" in
   w|weblist)for LIST in ${WEBLIST[@]};do echo $LIST;done|column -x;;
   y|youtubelist)for LIST in ${YOUTUBELIST[@]};do echo $LIST;done|column -x;;
   t|text2email)for LIST in ${TEXT2EMAIL[@]};do echo $LIST;done;;
   l|lemonadep)for LIST in ${LEMONADEP[@]};do echo $LIST;done;;
   i|instantnoodle)for LIST in ${INSTANTNOODLE[@]};do echo $LIST;done;;
+  s|stallion)for LIST in ${STALLION[@]};do echo $LIST;done;;
   *)usage;;
  esac;
 }; #CATALOG
-# #CHANGEMAC
-# changemac(){
-#  export USAGE='USAGE: changemac ${SOME NETWORK INTERFACE}';
-#  if [ ! -z "$ARG1" ];then
-#   sudo ip link set down "$ARG1"&&\
-#   sudo macchanger -m "$(mk mac)" "$ARG1"&&\
-#   sudo ip link set up "$ARG1"&&
-#  else usage;fi;
-# };
+changemac(){ export USAGE='USAGE: changemac ${SOME NETWORK INTERFACE}';
+ if [ ! -z "$1" ];then
+  sudo ip link set down "$1"&&\
+  sudo macchanger -m "$(mk mac)" "$1"&&\
+  sudo ip link set up "$1"&&
+ else usage;fi;
+}; #CHANGEMAC
 # #CHR
 # chr(){
 #  export USAGE='USAGE: chr ${ m(ount) | u(nmount) }';

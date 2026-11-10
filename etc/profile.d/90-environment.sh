@@ -3,6 +3,7 @@ BCKP='bckp'
 BINLINX='.linx/etc/skel/.bin'
 BINLOCAL='.local/bin'
 BINMSSQL='/opt/mssql-tools/bin'
+C='c'
 DATE=$(date +%Y%m%d)
 DOWNLOADARCHIVE='download-archive'
 ECHONEWLINE='\n\n'

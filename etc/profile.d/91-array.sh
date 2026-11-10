@@ -85,3 +85,10 @@ INSTANTNOODLE=(
  'qupfw'			'spunvm'		'storsec'
  'tz'			    'uefisecapp'
 );
+STALLION=(
+ 'boot'
+ 'dtbo'
+ 'vendor_kernel_boot'
+ 'fastboot reboot bootloader'
+ 'vendor_boot'
+);
