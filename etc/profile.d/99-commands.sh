@@ -24,7 +24,7 @@ changemac(){ export USAGE='USAGE: changemac ${SOME NETWORK INTERFACE}';
  if [ ! -z "$1" ];then
   sudo ip link set down "$1"&&\
   sudo macchanger -m "$(mk mac)" "$1"&&\
-  sudo ip link set up "$1"&&
+  sudo ip link set up "$1";
  else usage;fi;
 }; #CHANGEMAC
 # #CHR
