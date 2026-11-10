@@ -84,7 +84,7 @@ wi(){
 }; #WINDOWS AND TRASH CLEANER
 alias x='echo "FILLER"'; #FILLER
 y(){ export USAGE='USAGE: y ${ a(ll) | c(hannel) | k(eep) | m(usic) | mk(make) }';
- ytdlp(){ yt-dlp -ci -f "$MP4" --download-archive "$DOWNLOADARCHIVE.$TXT" -o '%(title)s-%(id)s.%(ext)s' -v "$(cat $TARGET.$TXT)"; };
+ ytdlp(){ yt-dlp -ci -f "$MP4" --download-archive "$DOWNLOADARCHIVE.$TXT" -o '%(title)s-%(id)s.%(ext)s' -v "$(cat $TARGET.$TXT)"; }
  case "$1" in
   a|all)if [ ! -z "$2" ];then for DIR in $(ls -d */);do cd "$DIR";y "$2";cd ..;sync;done;else usage;fi;;
   c|channel)ytdlp;;
