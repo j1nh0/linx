@@ -1,4 +1,15 @@
 #91-ARRAY.SH
+DNSI=(
+ 'quad9.net'
+ 'cloudflare.com'
+ 'google.com'
+);
+DNSD=(
+ '9.9.9.9'
+ '1.1.1.1'
+ '8.8.8.8'
+ '8.8.4.4'
+);
 WEBLIST=(
  'https://apkpro.net'                      'https://build.nethunter.com'          'https://curl.haxx.se'
  'https://desktop.firmware.mobi'           'https://developer.android.com'        'https://doc.dev.md'

@@ -31,270 +31,185 @@ changemac(){ export USAGE='USAGE: changemac ${SOME NETWORK INTERFACE}';
   sudo ip link set up "$1";
  else usage;fi;
 }; #CHANGEMAC
-# #CHR
-# chr(){
-#  export USAGE='USAGE: chr ${ m(ount) | u(nmount) }';
-#  case "$1" in
-#   m|mount)for MOUNT in 'dev' 'dev/pts' 'dev/shm' 'sys' 'proc' 'run';do sudo mount -o bind "/$MOUNT" ./"$MOUNT";done;chroot .;;
-#   u|unmount)for UNMOUNT in 'run' 'proc' 'sys' 'dev/shm' 'dev/pts' 'dev';do sudo umount ./"$UNMOUNT";done;;
-#   *)usage;;
-#  esac;
-# };
-# #DPKGRECONF
-# dpkgrecof(){
-#  export USAGE='USAGE: dpkgrecof ${ SOME DEB PACKAGE }';
-#  if [ ! -z $ARG1 ];then sudo dpkg-reconfigure -f noninteractive -p critical "$ARG1";else usage;fi;
-# };
-# #DROP
-# drop(){
-#  export USAGE='USAGE: drop ${ e(verything) | h(dd) | m(em) }';
-#  case "$ARG1" in
-#   e|everything)for INT in $(seq 1 3);do echo "$INT"|sudo tee /proc/sys/vm/drop_caches;sync;done;;
-#   h|hdd)echo '2'|sudo tee /proc/sys/vm/drop_caches;sync;;
-#   m|mem)echo '1'|sudo tee /proc/sys/vm/drop_caches;sync;;
-#   *)usage;;
-#  esac;
-# };
-# #ENGINE
-# engine(){
-#  export USAGE='USAGE: engine ${SOME COMMAND ON REPEAT} ${INTERVAL IF NEEDED}';
-#  case "$ARG1" in
-#   usage)usage;;
-#   *)if [ ! -z "$ARG2" ];then while true;do "$ARG1";sleep "$ARG2";done
-#    else while true;do $1;sleep 1;done;fi;;
-#  esac;
-# };
-# #FB
-# fb(){
-#  export USAGE='USAGE: fb ${ c(urrentslot) | r(eboot) | s(tock) }';
-#  case "$ARG1" in
-#   c|currentslot)fastboot getvar current-slot;;
-#   r|reboot)
-#    export USAGE="USAGE: fb reboot ${ b(ootloader) | d(ownload) | r(ecovery) }";
-#    case "$ARG2" in
-#     b|bootloader)fastboot reboot bootloader;;
-#     d|download)fastboot reboot download;;
-#     r|recovery)fastboot reboot recovery;;
-#     u|usage)usage;;
-#     *)fastboot reboot;;
-#    esac;
-#   ;;
-#   s|stock)
-#    export USAGE="USAGE: fb stock ${ l(emonadep) | i(nstantnoodle) }";
-#    case "$ARG2" in
-#     l|lemonadep)for FLASH in ${LEMONADEP[@]};do fastboot flash --slot=all "$FLASH" "$FLASH.img";done;;
-#     i|instantnoodle)for FLASH in ${INSTANTNOODLE[@]};do fastboot flash --slot=all "$FLASH" "$FLASH.img";done;;
-#     *)usage;;
-#    esac;
-#   ;;
-#   *)usage;;
-#  esac;
-# };
-# #FP
-# fp(){
-#  export USAGE='USAGE: fp ${ fi(flatpak install) | i(nstall) | l(ist) | r(un) | u(pdate) }';
-#  case "$ARG1" in
-#   'fi')export USAGE='USAGE: fpfi ${FLATHUB FLATPAK PACKAGE}';
-#    if [ ! -z "$ARG2" ];then sudo flatpak install flathub "$ARG2";else usage;fi;
-#   ;;
-#   i|install)export USAGE='USAGE: fpi ${FLATPAK PACKAGE NAME}';
-#    if [ ! -z "$ARG2" ];then sudo flatpak install "$ARG2";else usage;fi;
-#   ;;
-#   l|list)flatpak list;;
-#   r|run)export USAGE='USAGE: fpr ${FLATPAK TO RUN}';
-#    if [ ! -z "$ARG2" ];then flatpak run "$ARG2";else usage;fi;
-#   ;;
-#   u|update)sudo flatpak update;;
-#   *)usage;;
-#  esac;
-# };
-# #GET
-# get(){
-#  export USAGE='USAGE: get ${ b(ios) | i(nfo) | p(ath) }';
-#  case "$ARG1" in
-#   b|bios)
-#    clear;for DMI in system-manufacturer system-product-name bios-release-date bios-version system-serial-number;do
-#     echo -en "$(echo $DMI|rev|cut -d'-' -f1|rev|tr [:lower:] [:upper:]):\n\t";
-#     echo -e "$(dmidecode -s $DMI)";echo;
-#    done|column -t;
-#   ;;
-#   i|info)
-#    for DMI in bios system baseboard chassis processor memory cache connector slot;do dmidecode --type "$DMI";done;
-#    for DMI in system-serial-number bios-version;do dmidecode -s "$DMI";done;
-#    lshw -class disk -class storage;date +%Y%m%s%H%M%S;
-#   ;;
-#   p|path)echo $PATH|tr ':' '\n';;
-#   *)usage;;
-#  esac
-# };
-# #GHOST
-# torghost(){
-#  export USAGE='USAGE: ghost ${ s(tart) | st(op) | sw(itch) | u(pdate) }';
-#  case "$1" in
-#   s|start)export FLAG='--start';;
-#   st|stop)export FLAG='--stop';;
-#   sw|switch)export FLAG='--switch';;
-#   u|update)export FLAG='--update';;
-#   *)usage;;
-#  esac;
-#  torghost.py "$FLAG";
-# };
-# #GLOBAL
-# global(){
-#  export USAGE='USAGE: ';
-#  if [ -f /$ETC/$SSH/$SSHDCONFIG.$D/50-cloud-init.conf ];then echo 'PasswordAuthentication no'>/$ETC/$SSH/sshd_config.d/50-cloud-init.conf;fi;
-#  if [ -f /$ETC/$SSH/$SSHCONFIG ];then sed -i 's/#   StrictHostKeyChecking ask/StrictHostKeyChecking no/g' /$ETC/$SSH/$SSHCONFIG;fi;
-#  if [ -f /$ETC/$SSH/$SSHDCONFIG ];then sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /$ETC/$SSH/$SSHDCONFIG;fi;
-#  if [ -f /$ETC/$GDM3/$CUSTOMCONF ];then sed -i 's/#WaylandEnable=false/WaylandEnable=false/g' /$ETC/$GDM3/$CUSTOMCONF;fi;
-#  if [ -f /$ETC/$FUSE.$CONF ];then sed -i 's/#user_allow_other/user_allow_other/g' /$ETC/$FUSE.$CONF;fi;
-# };
-# #IMP
-# imp(){
-#  export USAGE='USAGE: imp ${ p(ack) | u(npack) }';
-#  case "$1" in
-#   p|pack)
-# ####THIS NEEDS WORK####
-#    for ISO in $(ls -d */);do
-#     sync
-#    done
-# ####THIS NEEDS WORK####
-#   ;;
-#   u|unpack)
-#    for ISO in $(ls *.iso);do mkdir ${ISO%%.*}
-#     sudo mount "$ISO" "/mnt/"&&cp -ruv /mnt/* ./"${ISO%%.*}"&&sync&&sudo umount "/mnt/"&&rm -v "$ISO"
-#    done
-#   ;;
-#   *)usage;;
-#  esac
-# };
-# #J1NH0
-j1nh0(){ echo 'j1nh0'; };
-# #JADB
-# jadb(){
-#  USAGE='USAGE: jadb ${ contacts | d | i | k | nisol | pull | push | r | reb | s | sd | sh | side | ur }';
-#  case "$1" in
-#   d)adb devices;;
-#   s)adb start-server;;
-#   k)adb kill-server;;
-#   r)adb root;;
-#   ur)adb unroot;;
-#   sh)adb shell;;
-#   push)export USAGE='USAGE: jadb push ${FOLDER}';if [ ! -z $2 ];then adb-sync --delete "$2" /sdcard/"$2";else usage;fi;;
-#   pull)export USAGE='USAGE: jadb pull ${FOLDER}';if [ ! -z $2 ];then adb-sync --reverse /sdcard/"$2" "$2";else usage;fi;;
-#   side)export USAGE='USAGE: jadb side ${ PACKAGE }';if [ ! -z $2 ];then adb sideload "$2";else usage;fi;;
-#   reb)
-#    export USAGE='USAGE jadb reb ${ b(ootloader) | d(ownload) | r(ecovery) }';
-#    case "$2" in
-#     b)adb reboot bootloader;;
-#     d)adb reboot download;;
-#     r)adb reboot recovery;;
-#     usage)usage;;
-#     *)adb reboot;;
-#    esac;
-#   ;;
-#   contacts)
-#     adb start-server;sleep 5;adb root;
-#     adb pull /data/data/com.android.providers.contacts/databases/contacts2.db ./contacts2-$(date +%Y%m%d).db;
-#     db2vcf ./contacts2-$(date +%Y%m%d).db > Contacts-$(date +%Y%m%d).vcf;
-#     adb unroot;
-#   ;;
-#   *)usage;;
-#  esac;
-# };
-# #JAPT
-# japt(){
-#  export USAGE='USAGE: japt ${ u(pdate) | a(uto)r(emove) | di | r(epo) | i(nstall) | m(ega) | libdvd-pkg | v(isual)s(tudio) | lightdesktop }';
-#  case "$1" in
-#   u|update)apt-get update;;
-#   ar|autoremove)apt-get -y autoremove;;
-#   di)
-#    for APTDI in\
-#     clean\
-#     update\
-#     upgrade\
-#     dist-upgrade\
-#     full-upgrade\
-#     autoremove\
-#     clean\
-#    ;do ACCEPT_EULA=Y DEBIAN_FRONTEND=noninteractive apt-get -y --install-recommends -qq "$APTDI"&>/dev/null;done;
-#    update-initramfs -u -k all&&update-grub;
-#   ;;
-#   r|repo)
-#    if [ $(hostname) != bacon ];then
-#     for APTREPO in\
-#      'deb http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse'\
-#      'deb http://archive.ubuntu.com/ubuntu/ jammy-updates main restricted universe multiverse'\
-#      'deb http://archive.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse'\
-#      'deb http://archive.ubuntu.com/ubuntu/ jammy-backports main restricted universe multiverse'\
-#      'deb http://archive.canonical.com/ubuntu/ jammy partner'\
-#      'ppa:cubic-wizard/release'\
-#      'ppa:unit193/encryption'\
-#     ;do if dig +short http://archive.ubuntu.com;then add-apt-repository -y "$APTREPO";fi;done
-#    fi
-#    for APTREPO in 'universe' 'multiverse' 'restricted';do if dig +short http://archive.ubuntu.com;then add-apt-repository -y "$APTREPO";fi;done
-#   ;;
-#   i|install)
-#    for APTBAREBONES in\
-#     'build-essential' 'bash' 'bc' 'binutils-aarch64-linux-gnu' 'binutils-arm-linux-gnueabi' 'bison' 'bleachbit' 'bzip2'\
-#     'ca-certificates' 'ccache' 'cifs-utils' 'cmake' 'cpio' 'crunch' 'cryptsetup' 'cubic' 'curl'\
-#     'deluge' 'dosfstools'\
-#     'efitools'\
-#     'ffmpeg' 'flatpak' 'flex'\
-#     'gcc-12' 'gcc-aarch64-linux-gnu' 'gcc-arm-linux-gnueabihf' 'gcc-mingw-w64-x86-64' 'ghostscript' 'git' 'git-core' 'git-lfs' 'gparted' 'gzip'\
-#     'htop'\
-#     'inxi'\
-#     'libelf-dev' 'libncurses-dev' 'libpam-pwquality' 'libreoffice' 'libssh-dev' 'libssl-dev' \
-#     'macchanger' 'make' 'mdadm' 'mokutil' 'mtools'\
-#     'net-tools' 'nmap'\
-#     'openssl'\
-#     'pigz' 'pip' 'p7zip-full'\
-#     'qrencode'\
-#     'rename'\
-#     'sbsigntool' 'screen' 'sed' 'shc' 'solaar' 'sqlite3' 'squashfs-tools' 'ssh' 'sshfs' 'syslinux-common' 'syslinux-efi'\
-#     'tpm2-tools' 'tree'\
-#     'veracrypt' 'vim' 'vlc'\
-#     'xclip'\
-#     'zip'\
-#    ;do if dig +short http://archive.ubuntu.com;then DEBIAN_FRONTEND=noninteractive apt-get install -y "$APTBAREBONES";fi;done
-#   ;;
-#   m|mega)wget https://mega.nz/linux/repo/xUbuntu_24.04/amd64/megacmd-xUbuntu_24.04_amd64.deb&&apt-get install -y "$PWD/megacmd-xUbuntu_24.04_amd64.deb"&&rm -fv megacmd*;;
-#   libdvd-pkg)
-#    apt update
-#    for APTLIBDVDPKG in\
-#     'libdvdcss-dev'\
-#     'libdvdread-dev'\
-#     'libdvdnav-dev'\
-#     'libdvd-pkg'\
-#    ;do DEBIAN_FRONTEND=noninteractive apt-get install -y "$APTLIBDVDPKG";done
-#    dpkg-reconfigure libdvd-pkg
-#   ;;
-#   vs|visualstudio)
-#    apt-get install -y wget gpg apt-transport-https
-#    wget -qO- https://packages.microsoft.com/keys/microsoft.asc|gpg --dearmor>packages.microsoft.gpg
-#    install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-#    echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main"|tee /etc/apt/sources.list.d/vscode.list>/dev/null
-#    rm -f packages.microsoft.gpg
-#    apt-get update
-#    apt-get install -y code
-#   ;;
-#   lightdesktop)
-#    for FORAPTINSTALL in\
-#     sudo\
-#     xfce4\
-#     xfce4-terminal\
-#     chromium\
-#     lightdm\
-#     htop
-#    do if [ $(dpkg -l $FORAPTINSTALL) != '0' ];then DEBIAN_FRONTEND=noninteractive apt-get install -y "$FORAPTINSTALL";fi;done;
-#   ;;
-#   *)usage;;
-#  esac;
-# };
-# #JGIT
-jgit(){
- export USAGE='USAGE: jgit ${ c | clean | commit | def | extra | jc | origin | prune | push | pull | remote | reset | sub | update }';
- case "$ARG1" in
-  c) export USAGE='USAGE: jgit c ${GIT REPO}';if [ ! -z "$ARG2" ];then git clone -j"$NPROC" --recurse-submodules --depth=1 "$URLGITJ1NH0"/"$ARG2";else usage;fi;;
+chr(){ export USAGE='USAGE: chr ${ m(ount) | u(nmount) }';
+ case "$1" in
+  m|mount)for MOUNT in 'dev' 'dev/pts' 'dev/shm' 'sys' 'proc' 'run';do sudo mount -o bind "/$MOUNT" ./"$MOUNT";done;chroot .;;
+  u|unmount)for UNMOUNT in 'run' 'proc' 'sys' 'dev/shm' 'dev/pts' 'dev';do sudo umount ./"$UNMOUNT";done;;
+  *)usage;;
+ esac;
+}; #CHR
+dpkgrecof(){ export USAGE='USAGE: dpkgrecof ${ SOME DEB PACKAGE }';if [ ! -z "$1" ];then sudo dpkg-reconfigure -f noninteractive -p critical "$1";else usage;fi; }; #DPKGRECONF
+drop(){ export USAGE='USAGE: drop ${ e(verything) | h(dd) | m(em) }';
+ case "$1" in
+  e|everything)for INT in $(seq 1 3);do echo "$INT"|sudo tee /proc/sys/vm/drop_caches;sync;done;;
+  h|hdd)echo '2'|sudo tee /proc/sys/vm/drop_caches;sync;;
+  m|mem)echo '1'|sudo tee /proc/sys/vm/drop_caches;sync;;
+  *)usage;;
+ esac;
+}; #DROP
+engine(){ export USAGE='USAGE: engine ${SOME COMMAND ON REPEAT} ${INTERVAL IF NEEDED}';
+ case "$1" in
+  usage)usage;;
+  *)if [ ! -z "$2" ];then while true;do "$1";sleep "$2";done;else while true;do $1;sleep 1;done;fi;;
+ esac;
+}; #ENGINE
+fb(){ export USAGE='USAGE: fb ${ c(urrentslot) | r(eboot) | s(tock) }';
+ case "$1" in
+  c|currentslot)fastboot getvar current-slot;;
+  r|reboot)export USAGE="USAGE: fb reboot ${ b(ootloader) | d(ownload) | r(ecovery) }";
+   case "$2" in
+    b|bootloader)fastboot reboot bootloader;;
+    d|download)fastboot reboot download;;
+    r|recovery)fastboot reboot recovery;;
+    u|usage)usage;;
+    *)fastboot reboot;;
+   esac;
+  ;;
+  s|stock)export USAGE="USAGE: fb stock ${ l(emonadep) | i(nstantnoodle) }";
+   case "$2" in
+    l|lemonadep)for FLASH in ${LEMONADEP[@]};do fastboot flash --slot=all "$FLASH" "$FLASH.img";done;;
+    i|instantnoodle)for FLASH in ${INSTANTNOODLE[@]};do fastboot flash --slot=all "$FLASH" "$FLASH.img";done;;
+    *)usage;;
+   esac;
+  ;;
+  *)usage;;
+ esac;
+}; #FB
+fp(){ export USAGE='USAGE: fp ${ f(lat)h(ub) | i(nstall) | l(ist) | r(un) | u(pdate) }';
+ case "$1" in
+  fh|flathub)export USAGE='USAGE: fpfi ${FLATHUB FLATPAK PACKAGE}';if [ ! -z "$2" ];then sudo flatpak install flathub "$2";else usage;fi;;
+  i|install)export USAGE='USAGE: fpi ${FLATPAK PACKAGE NAME}';if [ ! -z "$2" ];then sudo flatpak install "$2";else usage;fi;;
+  l|list)flatpak list;;
+  r|run)export USAGE='USAGE: fpr ${FLATPAK TO RUN}';if [ ! -z "$2" ];then flatpak run "$2";else usage;fi;;
+  u|update)sudo flatpak update;;
+  *)usage;;
+ esac;
+}; #FP
+get(){ export USAGE='USAGE: get ${ b(ios) | i(nfo) | p(ath) }';
+ case "$1" in
+  b|bios)
+   clear;for DMI in system-manufacturer system-product-name bios-release-date bios-version system-serial-number;do
+    echo -en "$(echo $DMI|rev|cut -d'-' -f1|rev|tr [:lower:] [:upper:]):\n\t";
+    echo -e "$(dmidecode -s $DMI)";echo;
+   done|column -t;
+  ;;
+  i|info)
+   for DMI in bios system baseboard chassis processor memory cache connector slot;do dmidecode --type "$DMI";done;
+   for DMI in system-serial-number bios-version;do dmidecode -s "$DMI";done;
+   lshw -class disk -class storage;date +%Y%m%s%H%M%S;
+  ;;
+  p|path)echo $PATH|tr ':' '\n';;
+  *)usage;;
+ esac
+}; #GET
+torghost(){ export USAGE='USAGE: ghost ${ s(tart) | st(op) | sw(itch) | u(pdate) }';
+ case "$1" in
+  s|start)export FLAG='--start';;
+  st|stop)export FLAG='--stop';;
+  sw|switch)export FLAG='--switch';;
+  u|update)export FLAG='--update';;
+  *)usage;;
+ esac;torghost.py "$FLAG";
+}; #GHOST
+global(){
+ if [ -f /$ETC/$SSH/$SSHDCONFIG.$D/50-cloud-init.conf ];then echo 'PasswordAuthentication no'>/$ETC/$SSH/sshd_config.d/50-cloud-init.conf;fi;
+ if [ -f /$ETC/$SSH/$SSHCONFIG ];then sed -i 's/#   StrictHostKeyChecking ask/StrictHostKeyChecking no/g' /$ETC/$SSH/$SSHCONFIG;fi;
+ if [ -f /$ETC/$SSH/$SSHDCONFIG ];then sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /$ETC/$SSH/$SSHDCONFIG;fi;
+ if [ -f /$ETC/$GDM3/$CUSTOMCONF ];then sed -i 's/#WaylandEnable=false/WaylandEnable=false/g' /$ETC/$GDM3/$CUSTOMCONF;fi;
+ if [ -f /$ETC/$FUSE.$CONF ];then sed -i 's/#user_allow_other/user_allow_other/g' /$ETC/$FUSE.$CONF;fi;
+}; #GLOBAL
+j1nh0(){ echo 'j1nh0'; }; #J1NH0
+jadb(){ USAGE='USAGE: jadb ${ contacts | d | i | k | nisol | pull | push | r | reb | s | sd | sh | side | ur }';
+ case "$1" in
+  d)adb devices;;
+  s)adb start-server;;
+  k)adb kill-server;;
+  r)adb root;;
+  ur)adb unroot;;
+  sh)adb shell;;
+  push)export USAGE='USAGE: jadb push ${FOLDER}';if [ ! -z $2 ];then adb-sync --delete "$2" /sdcard/"$2";else usage;fi;;
+  pull)export USAGE='USAGE: jadb pull ${FOLDER}';if [ ! -z $2 ];then adb-sync --reverse /sdcard/"$2" "$2";else usage;fi;;
+  side)export USAGE='USAGE: jadb side ${ PACKAGE }';if [ ! -z $2 ];then adb sideload "$2";else usage;fi;;
+  reb)export USAGE='USAGE jadb reb ${ b(ootloader) | d(ownload) | r(ecovery) }';
+   case "$2" in
+    b)adb reboot bootloader;;
+    d)adb reboot download;;
+    r)adb reboot recovery;;
+    usage)usage;;
+    *)adb reboot;;
+   esac;
+  ;;
+  contacts)
+    adb start-server;sleep 5;adb root;
+    adb pull /data/data/com.android.providers.contacts/databases/contacts2.db ./contacts2-$(date +%Y%m%d).db;
+    db2vcf ./contacts2-$(date +%Y%m%d).db > Contacts-$(date +%Y%m%d).vcf;
+    adb unroot;
+  ;;
+  *)usage;;
+ esac;
+}; #JADB
+japt(){ export USAGE='USAGE: japt ${ r(epo) | i(nstall) | m(ega) | libdvd-pkg | v(isual)s(tudio) | lightdesktop }';
+ case "$1" in
+  r|repo)
+   for APTREPO in\
+    'deb http://archive.ubuntu.com/ubuntu/ jammy main restricted universe multiverse'\
+    'deb http://archive.ubuntu.com/ubuntu/ jammy-updates main restricted universe multiverse'\
+    'deb http://archive.ubuntu.com/ubuntu/ jammy-security main restricted universe multiverse'\
+    'deb http://archive.ubuntu.com/ubuntu/ jammy-backports main restricted universe multiverse'\
+    'deb http://archive.canonical.com/ubuntu/ jammy partner'\
+    'ppa:cubic-wizard/release'\
+    'ppa:unit193/encryption'\
+   ;do if dig +short http://archive.ubuntu.com;then add-apt-repository -y "$APTREPO";fi;done;
+   for APTREPO in 'universe' 'multiverse' 'restricted';do if dig +short http://archive.ubuntu.com;then add-apt-repository -y "$APTREPO";fi;done;
+  ;;
+  i|install)
+   for APTBAREBONES in\
+    'build-essential' 'bash' 'bc' 'binutils-aarch64-linux-gnu' 'binutils-arm-linux-gnueabi' 'bison' 'bleachbit' 'bzip2'\
+    'ca-certificates' 'ccache' 'cifs-utils' 'cmake' 'cpio' 'crunch' 'cryptsetup' 'cubic' 'curl'\
+    'deluge' 'dosfstools'\
+    'efitools'\
+    'ffmpeg' 'flatpak' 'flex'\
+    'gcc-12' 'gcc-aarch64-linux-gnu' 'gcc-arm-linux-gnueabihf' 'gcc-mingw-w64-x86-64' 'ghostscript' 'git' 'git-core' 'git-lfs' 'gparted' 'gzip'\
+    'htop'\
+    'inxi'\
+    'libelf-dev' 'libncurses-dev' 'libpam-pwquality' 'libreoffice' 'libssh-dev' 'libssl-dev' \
+    'macchanger' 'make' 'mdadm' 'mokutil' 'mtools'\
+    'net-tools' 'nmap'\
+    'openssl'\
+    'pigz' 'pip' 'p7zip-full'\
+    'qrencode'\
+    'rename'\
+    'sbsigntool' 'screen' 'sed' 'shc' 'solaar' 'sqlite3' 'squashfs-tools' 'ssh' 'sshfs' 'syslinux-common' 'syslinux-efi'\
+    'tpm2-tools' 'tree'\
+    'veracrypt' 'vim' 'vlc'\
+    'xclip'\
+    'zip'\
+   ;do if dig +short http://archive.ubuntu.com;then apt install "$APTBAREBONES";fi;done;
+  ;;
+  m|mega)wget https://mega.nz/linux/repo/xUbuntu_24.04/amd64/megacmd-xUbuntu_24.04_amd64.deb&&apt-get install -y "$PWD/megacmd-xUbuntu_24.04_amd64.deb"&&rm -fv megacmd*;;
+  libdvd-pkg)apt update;
+   for APTLIBDVDPKG in\
+    'libdvdcss-dev'\
+    'libdvdread-dev'\
+    'libdvdnav-dev'\
+    'libdvd-pkg'\
+   ;do DEBIAN_FRONTEND=noninteractive apt-get install -y "$APTLIBDVDPKG";done;dpkg-reconfigure libdvd-pkg;
+  ;;
+  vs|visualstudio)
+   apt-get install -y wget gpg apt-transport-https;
+   wget -qO- https://packages.microsoft.com/keys/microsoft.asc|gpg --dearmor>packages.microsoft.gpg;
+   install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg;
+   echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main"|tee /etc/apt/sources.list.d/vscode.list>/dev/null;
+   rm -f packages.microsoft.gpg;
+   apt update;apt install code;
+  ;;
+  lightdesktop)for FORAPTINSTALL in sudo xfce4 xfce4-terminal chromium lightdm htop;do if [ $(dpkg -l $FORAPTINSTALL) != '0' ];then apt install "$FORAPTINSTALL";fi;done;;
+  *)usage;;
+ esac;
+}; #JAPT
+jgit(){ export USAGE='USAGE: jgit ${ c | clean | commit | def | extra | origin | prune | push | rmhist }';
+ case "$1" in
+  c)export USAGE='USAGE: jgit c ${GIT REPO}';if [ ! -z "$2" ];then git clone -j"$NPROC" --recurse-submodules --depth=1 "$URLGITSSHJ1NH0"/"$2";else usage;fi;;
   clean)git fetch --all;git reset --hard "$ORIGINMAIN";git clean -fd;;
   commit)git commit -m "$DATE"."$TIME";;
   def)
@@ -306,188 +221,83 @@ jgit(){
     "diff.submodule log"\
     "pull.rebase false"\
     "pack.threads $NPROC"\
-   ;do git config --global $GITDEF;done
+   ;do git config --global $GITDEF;done;
   ;;
-  extra)
-   export USAGE='USAGE: jgit extra ${ lfs(uninstall) | l(icense) | r(eadme) }'
+  extra)export USAGE='USAGE: jgit extra ${ lfs(uninstall) | l(icense) | r(eadme) }';
    case "$2" in
-    lfs|lfsuninstall)
-     git lfs uninstall
-     git rm -r --cached *
-     if [ -f ./.gitattributes ];then rm -f ./.gitattributes;fi
-     if [ -d ./.git/ ];then rm -rf ./.git/*;fi
-    ;;
+    lfs|lfsuninstall)git lfs uninstall;git rm -r --cached *;if [ -f ./.gitattributes ];then rm -f ./.gitattributes;fi;if [ -d ./.git/ ];then rm -rf ./.git/*;fi;;
     l|license)wget -O LICENSE https://raw.githubusercontent.com/j1nh0/j1nh0/main/LICENSE;;
     r|readme)tree --du -h>README.md;;
     *)usage;;
-   esac
+   esac;
   ;;
-  jc) export USAGE='USAGE: gitcj ${JINHO URL}';if [ ! -z "$ARG2" ];then git clone "$URLGITJ1NH0SSH"/"$ARG2";else usage;fi;;
   origin)git remote show origin;;
   prune)git gc --aggressive --prune=now;git repack -Ad;git prune;git prune-packed;;
-  pull)
-   export USAGE='USAGE: gitpull ${ m(ain) | f(orce) }'
-   case "$2" in
-    m|main)git fetch --all;git pull origin main;;
-    f|force)git checkout $(git remote show origin|grep 'HEAD'|cut -d':' -f2)&&git pull --force;;
-    usage)usage;;
-    *)git fetch --all;git pull;;
-   esac
-  ;;
-  push) if [[ $(git -v) ]];then git add -A;git commit -m "$DATE.$TIME";git push --force;sync;else echo "$MESSCMDFAIL";fi;;
-  remote)
-   if [ ! -f ~/.ssh/j1nh0.github ];then echo 'Github token not found!'&&exit 1;else
-    TOKEN=$(cat ~/.ssh/j1nh0.github)
-    export USAGE='USAGE: gitremote ${ l(ist) || c(reate) [private || public] || d(elete) }'
-    case "$1" in
-     l|list)
-      curl -L\
-       -H "Accept: application/vnd.github+json"\
-       -H "Authorization: Bearer $TOKEN"\
-       -H "X-GitHub-Api-Version: 2022-11-28"\
-       https://api.github.com/users/j1nh0/repos?per_page=100|\
-       grep -w 'html_url'|\
-       grep -wv '"html_url": "https://github.com/j1nh0",'|\
-       cut -d' ' -f6|\
-       cut -c2-|\
-       sed -e 's/",$//g'
-     ;;
-     c|create)
-      export USAGE='USAGE: gitremote c ${ public | private }'
-      case "$2" in
-       public)
-        curl -L -X POST\
-         -H "Accept: application/vnd.github+json"\
-         -H "Authorization: Bearer $TOKEN"\
-         -H "X-GitHub-Api-Version: 2022-11-28"\
-         https://api.github.com/user/repos -d "{\"name\":\"$(basename $PWD)\"}";;
-       private)
-        curl -L -X POST\
-         -H "Accept: application/vnd.github+json"\
-         -H "Authorization: Bearer $TOKEN"\
-         -H "X-GitHub-Api-Version: 2022-11-28"\
-         https://api.github.com/user/repos -d "{\"name\":\"$(basename $PWD)\"}";;
-       *)usage;;
-      esac
-     ;;
-     d|delete)
-      curl -L -X DELETE\
-       -H "Accept: application/vnd.github+json"\
-       -H "Authorization: Bearer $TOKEN"\
-       -H "X-GitHub-Api-Version: 2022-11-28"\
-       https://api.github.com/repos/j1nh0/"$2";;
-     *)usage;;
-    esac
-   fi
-  ;;
-  rmhist)
-   rm -rf ./.git/
-   git init;git branch -m main
-   git remote add origin "ssh://git@github.com/j1nh0/${PWD##*/}.git"
-   git add -A;git commit -m $(date +%Y%m%d%H%M%S);git push -f -v origin main
-  ;;
+  push)if [[ $(git -v) ]];then git add -A;git commit -m "$DATE.$TIME";git push --force;sync;else echo "$MESSCMDFAIL";fi;;
+  rmhist)rm -rf ./.git/;git init;git branch -m main;git remote add origin "ssh://git@github.com/j1nh0/${PWD##*/}.git";git add -A;git commit -m $(date +%Y%m%d%H%M%S);git push -f -v origin main;;
   *)usage;;
  esac;
-};
-# #JMIR
-# jmir(){
-#  export USAGE='USAGE: mirror ${ i(so) | m(erge) | o(utline) | s(hip) | w(ebsite) | n(isol) } ${SOURCE} ${DEST}';
-#  case "$ARG1" in
-#   i|iso)rsync --recursive --whole-file --human-readable --verbose --update --delete /iso/ /j1nh0/;;
-#   m|merge)if [ ! -z $3 ];then rsync --recursive --whole-file --human-readable --verbose --update "$2" "$3";else usage;fi;;
-#   o|outline)if [ ! -z $2 ];then tree -dfi --noreport .|cut -c3-|xargs -I{} mkdir -vp "$2{}";else usage;fi;;
-#   s|ship)if [ ! -z $3 ];then rsync --recursive --whole-file --human-readable --verbose --update --remove-source-files "$ARG2" "$ARG3";else usage;fi;;
-#   w|website)if [ ! -z $2 ];then wget --random-wait -e robots=off --no-parent --page-requisites --mirror --convert-links --continue --recursive --user-agent='RIPPER PLUGIN' --show-progress "$2";else usage;fi;;
-#   usage)usage;;
-#   n|nisol)for NISOL in $(ls -d */);do mirror ~/"$NISOL" ./"$NISOL";done;;
-#   *)if [ ! -z $2 ];then rsync --recursive --whole-file --human-readable --verbose --update --delete "$1" "$2";else usage;fi;;
-#  esac;
-# };
-# #JNET
-# jnet(){
-#  export USAGE='USAGE: net ${ d(ns) | f(ip) | m(ip) | down | up }'
-#  case "$1" in
-#   d|dns)
-#    export USAGE='USAGE: dns ${t(est)}'
-#    export DNSD="
-# quad9.net
-# cloudflare.com
-# google.com
-# "
-#    export DNSI="
-# 9.9.9.9
-# 1.1.1.1
-# 8.8.8.8
-# 8.8.4.4
-# "
-#    case "$2" in
-#     usage)usage;;
-#     t|test)
-#      for IP in $DNSI;do echo -e -n "$IP\t\t\t";ping -c2 "$IP"|grep 'packet loss';done
-#      for DM in $DNSD;do echo -e -n "$DM\t\t";ping -c2 "$DM"|grep 'packet loss';done
-#     ;;
-#     *)for IP in $DNSI;do echo "nameserver $IP"|sudo tee -a /etc/resolv.conf;done;;
-#    esac
-#   ;;
-#   f|fip)
-#    export USAGE='USAGE: fip ${IP ADDRESS}'
-#    if [ ! -z $2 ];then
-#     hashtag 4
-#     trace -t "$2"|grep\
-#      -e 'IP Address'\
-#      -e 'Country'\
-#      -e 'Region'\
-#      -e 'City'\
-#      -e 'Zip code'\
-#      -e 'Time zone'\
-#      -e 'ISP'
-#     hashtag 4
-#     curl https://db-ip.com/"$2"|grep\
-#      -e 'ipAddress'\
-#      -e 'continentCode'\
-#      -e 'continentName'\
-#      -e 'countryCode'\
-#      -e 'countryName'\
-#      -e 'stateProv'\
-#      -e 'city'
-#     hashtag 4
-#    else usage;fi
-#   ;;
-#   m|mip)curl ifconfig.me;echo;;
-#   up)if [ ! -z $2 ];then sudo ip link set up "$2";else for LINK in $(ip addr|grep ^[0-99]|awk '{print substr($2, 1, length($2)-1)}');do sudo ip link set up "$LINK";done;fi;;
-#   down)if [ ! -z $2 ];then sudo ip link set down "$2";else for LINK in $(ip addr|grep ^[0-99]|awk '{print substr($2, 1, length($2)-1)}');do sudo ip link set down "$LINK";done;fi;;
-#   *)usage;;
-#  esac
-# };
-# #MODPROBEUSB
-# modprobeusb(){
-#  export USAGE='USAGE: modprobeusb #AS ROOT!#';
-#  if [ $(id -u) != '0' ];then usage;else
-#   modprobe --ignore-install usb_storage;
-#   modprobe uas;
-#  fi;
-# };
+}; #JGIT
+jmir(){ export USAGE='USAGE: mirror ${ i(so) | m(erge) | o(utline) | s(hip) | w(ebsite) | n(isol) } ${SOURCE} ${DEST}';
+ case "$1" in
+  i|iso)rsync --recursive --whole-file --human-readable --verbose --update --delete /iso/ /j1nh0/;;
+  m|merge)if [ ! -z $3 ];then rsync --recursive --whole-file --human-readable --verbose --update "$2" "$3";else usage;fi;;
+  o|outline)if [ ! -z $2 ];then tree -dfi --noreport .|cut -c3-|xargs -I{} mkdir -vp "$2{}";else usage;fi;;
+  s|ship)if [ ! -z $3 ];then rsync --recursive --whole-file --human-readable --verbose --update --remove-source-files "$2" "$3";else usage;fi;;
+  w|website)if [ ! -z $2 ];then wget --random-wait -e robots=off --no-parent --page-requisites --mirror --convert-links --continue --recursive --user-agent='RIPPER PLUGIN' --show-progress "$2";else usage;fi;;
+  n|nisol)for NISOL in $(ls -d */);do mirror ~/"$NISOL" ./"$NISOL";done;;
+  usage)usage;;
+  *)if [ ! -z $2 ];then rsync --recursive --whole-file --human-readable --verbose --update --delete "$1" "$2";else usage;fi;;
+ esac;
+}; #JMIR
+jnet(){ export USAGE='USAGE: jnet ${ d(ns) | f(ip) | m(ip) | down | up }'
+ case "$1" in
+  d|dns)export USAGE='USAGE: dns ${ t(est) }';
+   case "$2" in
+    usage)usage;;
+    t|test)
+     for LIST in ${DNSI[@]};do echo -e -n "$LIST\t\t\t";ping -c2 "$LIST"|grep 'packet loss';done;
+     for LIST in ${DNSD[@]};do echo -e -n "$LIST\t\t";ping -c2 "$LIST"|grep 'packet loss';done;
+    ;;
+    *)for LIST in ${DNSI[@]};do echo "nameserver $LIST"|sudo tee -a /etc/resolv.conf;done;;
+   esac;
+  ;;
+  f|fip)export USAGE='USAGE: fip ${ IP ADDRESS }'
+   if [ ! -z $2 ];then
+    hashtag 4;trace -t "$2"|grep\
+     -e 'IP Address'\
+     -e 'Country'\
+     -e 'Region'\
+     -e 'City'\
+     -e 'Zip code'\
+     -e 'Time zone'\
+     -e 'ISP';
+    hashtag 4;curl https://db-ip.com/"$2"|grep\
+     -e 'ipAddress'\
+     -e 'continentCode'\
+     -e 'continentName'\
+     -e 'countryCode'\
+     -e 'countryName'\
+     -e 'stateProv'\
+     -e 'city';
+    hashtag 4
+   else usage;fi;
+  ;;
+  m|mip)curl ifconfig.me;echo;;
+  up)if [ ! -z $2 ];then sudo ip link set up "$2";else for LINK in $(ip addr|grep ^[0-99]|awk '{print substr($2, 1, length($2)-1)}');do sudo ip link set up "$LINK";done;fi;;
+  down)if [ ! -z $2 ];then sudo ip link set down "$2";else for LINK in $(ip addr|grep ^[0-99]|awk '{print substr($2, 1, length($2)-1)}');do sudo ip link set down "$LINK";done;fi;;
+  *)usage;;
+ esac;
+}; #JNET
+modprobeusb(){ export USAGE='USAGE: modprobeusb #AS ROOT!#';If [ $(id -u) != '0' ];then usage;else modprobe --ignore-install usb_storage;modprobe uas;fi; }; #MODPROBEUSB
 mp42mp3(){ export USAGE='USAGE: mp42mp3 ####IN SONG REPO####';
  for MP4 in *mp4;do
   ffmpeg -n -i "$MP4" -vn -acodec libmp3lame -ac 2 -ab 320k -ar 48000 "${MP4%.*}.mp3"
   if [ "$1" == '-k' ];then echo "$MP4 to ${MP4%.*}.mp3 completed";else rm "$MP4";fi
  done;
 }; #MP42MP3
-# #MSC
-# msc(){
-#  export USAGE='msc ####IN MEGA REPO####'
-#  clear;mega-sync "$@"
-# };
-# #OBLIVIATE
-# obliviate(){
-#  find . -exec rm -rf {} \;&>"$NULL";
-# #  find -type f -exec rm -f {} \;&>/dev/null
-# #  find -type d -exec rm -rf {} \;&>/dev/null
-# };
-# #PDFREDUCE
-# pdfreduce(){
-#  find -type f -name "*pdf" -exec gs -sDEVICE=pdfwrite -dCompatabilityLevel=1.4 -dPDFSETTINGS=/ebook -dBATCH -dNOPAUSE -sOutputFile={}.pdf {} \; -exec mv -vf {}.pdf {} \;
-# };
+obliviate(){ find . -exec rm -rf {} \;&>"$NULL"; }; #OBLIVIATE
+pdfreduce(){ find -type f -name "*pdf" -exec gs -sDEVICE=pdfwrite -dCompatabilityLevel=1.4 -dPDFSETTINGS=/ebook -dBATCH -dNOPAUSE -sOutputFile={}.pdf {} \; -exec mv -vf {}.pdf {} \;; }; #PDFREDUCE
 # #PERM
 # perm(){
 #  export USAGE='USAGE: perm ${ l(ock) | p(rivate) | u(nlock) | x|e(x)ecute } .'
