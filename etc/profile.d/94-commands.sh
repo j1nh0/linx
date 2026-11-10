@@ -289,7 +289,7 @@ jnet(){ export USAGE='USAGE: jnet ${ d(ns) | f(ip) | m(ip) | down | up }'
   *)usage;;
  esac;
 }; #JNET
-modprobeusb(){ export USAGE='USAGE: modprobeusb #AS ROOT!#';If [ $(id -u) != '0' ];then usage;else modprobe --ignore-install usb_storage;modprobe uas;fi; }; #MODPROBEUSB
+modprobeusb(){ export USAGE='USAGE: modprobeusb #AS ROOT!#';if [ $(id -u) != '0' ];then usage;else modprobe --ignore-install usb_storage;modprobe uas;fi; }; #MODPROBEUSB
 mp42mp3(){ export USAGE='USAGE: mp42mp3 ####IN SONG REPO####';
  for MP4 in *mp4;do
   ffmpeg -n -i "$MP4" -vn -acodec libmp3lame -ac 2 -ab 320k -ar 48000 "${MP4%.*}.mp3"
