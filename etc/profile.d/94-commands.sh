@@ -56,7 +56,7 @@ engine(){ export USAGE='USAGE: engine ${SOME COMMAND ON REPEAT} ${INTERVAL IF NE
 fb(){ export USAGE='USAGE: fb ${ c(urrentslot) | r(eboot) | s(tock) }';
  case "$1" in
   c|currentslot)fastboot getvar current-slot;;
-  r|reboot)export USAGE="USAGE: fb reboot ${ b(ootloader) | d(ownload) | r(ecovery) }";
+  r|reboot)export USAGE='USAGE: fb reboot ${ b(ootloader) | d(ownload) | r(ecovery) }';
    case "$2" in
     b|bootloader)fastboot reboot bootloader;;
     d|download)fastboot reboot download;;
