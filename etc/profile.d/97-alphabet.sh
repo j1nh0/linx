@@ -47,7 +47,7 @@ o(){ export USAGE='\nUsage: o ${OBJECT} a/e/l/p/x\n\nPlease use:\n\ta\tto archiv
  if [ ! -z "$1" ];then
   export PACKAGE="${1%/}"
   case "$2" in
-   a)7z a "$PACKAGE"."$7Z" "$1";if [ "$?" == "$ZERO" ];then rm -rf "$1";else echo "$MESSERRCHK";read NULLVAR;fi;;
+   a)7z a "$PACKAGE".7z "$1";if [ "$?" == "$ZERO" ];then rm -rf "$1";else echo "$MESSERRCHK";read NULLVAR;fi;;
    e)7z e "$PACKAGE";;
    l)7z l "$PACKAGE";;
    p)

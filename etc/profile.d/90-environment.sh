@@ -1,5 +1,4 @@
 #90-ENVIRONMENT.SH
-7Z='7z'
 BCKP='bckp'
 BINLINX='.linx/etc/skel/.bin'
 BINLOCAL='.local/bin'
