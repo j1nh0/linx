@@ -7,13 +7,14 @@ hashtag(){ if [ ! -z "$1" ];then for INT in $(seq 1 "$1");do echo -n '#';done;ec
 freshenup(){
  if [ -d "$HOMELINX" ];then
   if [ -f "$KEYLINX" ];then
+   chmod 0600 "$KEYLINX";
    ssh-add "$KEYLINX";
    cd "$HOMELINX";
    git fetch --all;
    git reset --hard "$ORIGINMAIN";
    git clean -fd;
-   source "$HOMEBASHRC";
    chmod 0600 "$KEYLINX";
+   source "$HOMEBASHRC";
   else echo "No $KEYLINX!";fi;
  else echo 'No linx dir!';fi;
 }; #FRESHENUP
