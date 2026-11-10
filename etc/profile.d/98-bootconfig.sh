@@ -1,5 +1,5 @@
 #98-BOOTCONFIG.SH
-bootconfig(){ export USAGE='USAGE: bootconfig'
+bootconfig(){ export USAGE='USAGE: bootconfig';
 #grub.cfg#
  cat<<'EOF'>grub.cfg
 if loadfont /boot/grub/font.pf2 ; then
