@@ -329,164 +329,59 @@ remove(){ export USAGE='USAGE: remove ${ e(mpty) | s(pace) }';
   *)usage;;
  esac;
 }; #REMOVE
-# #REPOINITLIST
-# repoinitlist(){
-#  read -r -d '' REPOINITLIST<<EOM
-# repo init -u https://github.com/LineageOS/android.git -b lineage-21.0
-# repo init -u https://github.com/LineageOS/android.git -b lineage-20.0
-# repo init -u https://github.com/LineageOS/android.git -b lineage-19.1
-# repo init -u https://github.com/LineageOS/android.git -b lineage-19.0
-# repo init -u https://github.com/LineageOS/android.git -b lineage-18.1
-# repo init -u https://github.com/LineageOS/android.git -b lineage-18.0
-# repo init -u https://github.com/LineageOS/android.git -b lineage-17.1
-# repo init -u https://github.com/LineageOS/android.git -b lineage-17.0
-# repo init -u https://github.com/LineageOS/android.git -b lineage-16.0
-# repo init -u https://github.com/LineageOS/android.git -b lineage-15.1
-# repo init -u https://github.com/LineageOS/android.git -b lineage-15.0
-# repo init -u https://github.com/LineageOS/android.git -b cm-14.1
-# repo init -u https://github.com/LineageOS/android.git -b cm-14.0
-# repo init -u https://github.com/LineageOS/android.git -b cm-13.0
-# repo init -u https://github.com/LineageOS/android.git -b cm-12.1
-# repo init -u https://github.com/LineageOS/android.git -b cm-12.0
-# repo init -u https://github.com/LineageOS/android.git -b cm-11.0
-# EOM
-#  for REPOINIT in "$REPOINITLIST";do echo "$REPOINIT";done
-# };
-# #REPOSYNC
-# reposync(){
-#  export USAGE='USAGE: reposync ${ r(eset) | s(low) | i(nit) ${ USER/REPO } }'
-#  case "$1" in
-#   r|reset)repo forall -c 'git reset --hard ; git clean -fdx';;
-#   s|slow)repo sync -j1 --fail-fast;;
-#   i|init)repo init --depth=1 -u "https://github.com/$2";;
-#   usage)usage;;
-#   *)repo sync -j$NPROC --force-sync -c;;
-#  esac;
-# };
-# #RMSYMS
-# rmsyms(){
-#  find /etc/ -type l -exec sh -c 'file -b "$1"|grep -q "^broken"' sh {} \; -print
-# };
-# #ROOTLOCK
-# rootlock(){
-#  sudo passwd -d $ROOT;sudo usermod -L $ROOT
-#  if [ -d /$ROOT/ ];then find /$ROOT/ -type d -exec chmod 0700 {} \; -exec chown $ROOT:ROOT {} \;;fi
-#  if [ -d /$ROOT/ ];then find /$ROOT/ -type f -exec chmod 0600 {} \; -exec chown $ROOT:ROOT {} \;;fi
-# };
-# #SCRUB
-# scrub(){
-#  export USAGE='USAGE: scrub ${SOME FILE/DIR}'
-#  if [ ! -z $1 ];then exiftool -recurse -overwrite_original -all= "$1";else usage;fi
-# };
-# #SNAPC
-# snapc(){
-#  export USAGE='USAGE: snapc ${ i(nstall) | l(ist) | re(move) | r(efresh) | s(ave) }'
-#  case "$1" in
-#   i|install)export USAGE='USAGE: snapi ${SOME SNAP PROGRAM}';if [ ! -z $2 ];then sudo snap install "$2";else usage;fi;;
-#   l|list)export USAGE='USAGE: snac l';if [ -z $2 ];then sudo snap list "$2";else usage;fi;;
-#   re|remove)export USAGE='USAGE: snapre ${SNAP TO REMOVE}';if [ ! -z $2 ];then sudo snap remove "$2";else usage;fi;;
-#   r|refresh)sudo snap refresh;;
-#   s|save)sudo snap save;;
-#   *)usage;;
-#  esac
-# };
-# #SSHA
-# ssha(){
-#  export USAGE='USAGE: sshadd ${ SSH KEY }'
-#  export KEY="$1"
-#  if [ ! -z $1 ];then eval $(ssh-agent -k);eval $(ssh-agent -s);ssh-add -D;ssh-add "$KEY";else usage;fi
-# };
-# #SSHR
-# sshr(){
-#  export USAGE='USAGE: sshr ${ COMMAND } ${ SOMEONE@SOME IP }'
-#  if [ ! -z $1 ];then ssh -X -f "$2" "$1";else usage;fi
-# };
-# #SST
-# sst(){
-#  ss -tunlp
-# };
-# #TE
-# te(){
-#  if [ ! -z $1 ];then
-#   export ARG="$1"
-#   export SEVENZ="$(realpath -s $1)-$(date +%Y%m%d).7z"
-#   7z -v48m a "$SEVENZ" "$ARG"
-#   if [ "$?" == '0' ];then
-#    rm -rf "$ARG"
-#   else
-#    echo 'SOMETHING WENT WRONG AFTER 7Z!'
-#    hold
-#   fi
-#  else
-#   echo 'USAGE: t ${FILE}'
-#  fi
-# };
-# #TPMUNLOCK
-# tpmunlock(){
-#  export USAGE='USAGE: tpmunlock .'
-#  case "$1" in
-#   usage)usage;;
-#   *)
-#    for TPMUNLOCK in clevis clevis-tpm2 clevis-dracut clevis-luks;do
-# #clevis clevis-tpm2 clevis-luks clevis-initramfs initramfs-tools tss2;do
-#     if ! dpkg -s "$TPMUNLOCK" &>/dev/null;then apt-get -y install "$TPMUNLOCK";fi
-#    done
-#    echo -n 'Enter LUKS password:'&&read -s LUKSKEY&&echo
-# #export LUKSDEVICE=$(blkid -t TYPE=crypto_LUKS|awk -F: '{ print $1 }')
-#    echo -n 'Enter LUKS device:'&&read LUKSDEVICE&&echo
-#    echo "$LUKSKEY"|clevis luks bind -d "$LUKSDEVICE" tpm2 '{"pcr_bank":"sha256"}'
-# #update-initramfs -u -k all
-#    dracut -vf --regenerate-all
-#    clevis luks list -d "$LUKSDEVICE"
-#   ;;
-#  esac
-# };
-# #TS
-# ts(){
-#  export USAGE='USAGE: ts #STANDALONE TIMESTAMP# ${SOME FILE/DIR}'
-#  export TS="WHOAMI: $(whoami)\n\nPWD: $PWD\n\n$(date)"
-#  export STAMP='./time.stamp'
-#  export FILE=${1%.*}
-#  export EXT=${1##*.}
-#  if [ ! -z $1 ];then
-#   if [ -f $1 ];then
-#    mv $1 $FILE-$(date +%Y%m%d%H%M%S).$EXT
-#   else
-#    if [ -d $1 ];then export DIR=${1%/};mv $1 $DIR-$(date +%Y%m%d%H%M%S)/;else echo "$USAGE";fi
-#   fi;else echo -e "$TS"|tee "$STAMP";fi
-# };
-# #TURNKEY
-# turnkey(){
-#  export USAGE='USAGE: turnkey ${ l(ock) | u(nloc) | a(ll) } ${SOME FILE} ${KEY FILE}'
-#  if [ ! -z $2 ];then
-#   export TURNKEY="$2"
-#   export KEY="$3"
-#   export ENC="$TURNKEY.enc"
-#   export ORIG="${TURNKEY%.*}"
-#   export SHA="$TURNKEY.sha256"
-#   case "$1" in
-#    l|lock)
-#     sha256sum "$TURNKEY">"$SHA"&&\
-#     openssl enc -pbkdf2 -aes-256-cbc -in "$TURNKEY" -out "$ENC" -pass file:"$KEY"&&\
-#     sync&&\
-#     echo -n 'encrypted and '&&\
-#     rm -fv "$TURNKEY"
-#    ;;
-#    u|unlock)
-#     openssl enc -d -pbkdf2 -aes-256-cbc -in "$TURNKEY" -out "$ORIG" -pass file:"$KEY"&&\
-#     sha256sum --check "$ORIG".sha256&&\
-#     sync&&\
-#     rm -fv "$TURNKEY" "$ORIG".sha256
-#    ;;
-#    ####THIS NEEDS WORK####
-#    a|all)
-#     echo '####THIS NEEDS WORK####'
-#    ;;
-#    ####THIS NEEDS WORK####
-#    *)usage;;
-#   esac
-#  else usage;fi
-# };
+repoinitlist(){ echo "$LINEAGEOS"; }; #REPOINITLIST
+reposync(){ export USAGE='USAGE: reposync ${ r(eset) | s(low) | i(nit) ${ USER/REPO } }';
+ case "$1" in
+  r|reset)repo forall -c 'git reset --hard ; git clean -fdx';;
+  s|slow)repo sync -j1 --fail-fast;;
+  i|init)repo init --depth=1 -u "https://github.com/$2";;
+  usage)usage;;
+  *)repo sync -j$NPROC --force-sync -c;;
+ esac;
+}; #REPOSYNC
+rmsyms(){ find . -type l -exec sh -c 'file -b "$1"|grep -q "^broken"' sh {} \; -print; }; #RMSYMS
+rootlock(){
+ sudo passwd -d "$ROOT";sudo usermod -L "$ROOT";
+ if [ -d /"$ROOT"/ ];then find /"$ROOT"/ -type d -exec chmod 0700 {} \; -exec chown "$ROOT":"$ROOT" {} \;;fi;
+ if [ -d /"$ROOT"/ ];then find /"$ROOT"/ -type f -exec chmod 0600 {} \; -exec chown "$ROOT":"$ROOT" {} \;;fi;
+}; #ROOTLOCK
+scrub(){ export USAGE='USAGE: scrub ${SOME FILE/DIR}';if [ ! -z $1 ];then exiftool -recurse -overwrite_original -all= "$1";else usage;fi; }; #SCRUB
+snapc(){ export USAGE='USAGE: snapc ${ i(nstall) | l(ist) | re(move) | r(efresh) | s(ave) }'
+ case "$1" in
+  i|install)export USAGE='USAGE: snapi ${SOME SNAP PROGRAM}';if [ ! -z $2 ];then sudo snap install "$2";else usage;fi;;
+  l|list)export USAGE='USAGE: snac l';if [ -z $2 ];then sudo snap list "$2";else usage;fi;;
+  re|remove)export USAGE='USAGE: snapre ${SNAP TO REMOVE}';if [ ! -z $2 ];then sudo snap remove "$2";else usage;fi;;
+  r|refresh)sudo snap refresh;;
+  s|save)sudo snap save;;
+  *)usage;;
+ esac;
+}; #SNAPC
+ssha(){ export USAGE='USAGE: sshadd ${ SSH KEY }';if [ ! -z $1 ];then eval $(ssh-agent -k);eval $(ssh-agent -s);ssh-add -D;ssh-add "$1";else usage;fi; }; #SSHA
+sshr(){ export USAGE='USAGE: sshr ${ COMMAND } ${ SOMEONE@SOME IP }';if [ ! -z $1 ];then ssh -X -f "$2" "$1";else usage;fi; }; #SSHR
+sst(){ ss -tunlp; }; #SST
+tpmunlock(){ export USAGE='USAGE: tpmunlock';
+ for TPMUNLOCK in clevis clevis-tpm2 clevis-dracut clevis-luks;do if ! dpkg -s "$TPMUNLOCK"&>"$NULL";then apt install "$TPMUNLOCK";fi;done;
+ echo -n 'Enter LUKS password:'&&read -s LUKSKEY&&echo;
+ echo -n 'Enter LUKS device:'&&read LUKSDEVICE&&echo;
+ echo "$LUKSKEY"|clevis luks bind -d "$LUKSDEVICE" tpm2 '{"pcr_bank":"sha256"}';
+ dracut -vf --regenerate-all;clevis luks list -d "$LUKSDEVICE";
+}; #TPMUNLOCK
+ts(){ export USAGE='USAGE: ts #STANDALONE TIMESTAMP# ${ SOME FILE/DIR }';
+ export TS="WHOAMI: $(whoami)\n\nPWD: $PWD\n\n$(date)";
+ export FILE=${1%.*};
+ export EXT=${1##*.};
+ if [ ! -z $1 ];then if [ -f $1 ];then mv $1 $FILE-$(date +%Y%m%d%H%M%S).$EXT;
+ else if [ -d $1 ];then export DIR=${1%/};mv $1 $DIR-$(date +%Y%m%d%H%M%S)/;else echo "$USAGE";fi;
+ fi;else echo -e "$TS"|tee "$STAMP";fi;
+}; #TS
+xconfigure(){ export USAGE='USAGE: xconfigure ${32} ${SOME CROSS CONFIGURE SCRIPT}';
+ case "$1" in
+  usage)usage;;
+  32)./configure --build x86_64-pc-linux-gnu --host arm-linux-gnueabi LDFLAGS='-static -pthread';;
+  *)./configure --build x86_64-pc-linux-gnu --host aarch64-linux-gnu LDFLAGS='-static -pthread';;
+ esac
+}; #XCONFIGURE
+xmlviewer(){ export USAGE='USAGE: xmlviewer ${XML FILE}';if [ ! -z $1 ];then xmllint --format "$1"|highlight --syntax=xml --out-format=xterm256|less -RN;else usage;fi; }; #XMLVIEWER
 # #UPDATE
 # update(){
 #  export SKELBIN='/etc/skel/.bin'
@@ -521,13 +416,3 @@ remove(){ export USAGE='USAGE: remove ${ e(mpty) | s(pace) }';
 #   *)echo -e "\nUSAGE:\n\nupdate\n\tadb-sync\n\tplatform-tools\n\trepo\n\tyt-dlp\n\tsqlbrowser\n\tpayload-dumper\n\tqflipper\n\tfreecad\n\tcura\n\topenshot\n\tupscayl\n\twhisper\n\tiptracer\n\tcfg2html\n\ttorghost\n\tkatoolin\n\tinstall";;
 #  esac
 # };
-# #XCONFIGURE
-# xconfigure(){
-#  export USAGE='USAGE: xconfigure ${32} ${SOME CROSS CONFIGURE SCRIPT}'
-#  case "$1" in
-#   usage)usage;;
-#   32)./configure --build x86_64-pc-linux-gnu --host arm-linux-gnueabi LDFLAGS='-static -pthread';;
-#   *)./configure --build x86_64-pc-linux-gnu --host aarch64-linux-gnu LDFLAGS='-static -pthread';;
-#  esac
-# };
-xmlviewer(){ export USAGE='USAGE: xmlviewer ${XML FILE}';if [ ! -z $1 ];then xmllint --format "$1"|highlight --syntax=xml --out-format=xterm256|less -RN;else usage;fi; }; #XMLVIEWER

@@ -31,6 +31,7 @@ MP4='mp4'
 NPROC=$(nproc --ignore=2)
 NULL='/dev/null'
 ORIGINMAIN='origin/main'
+ROOT='root'
 TARGET='target'
 TGZ='tgz'
 TIME=$(date +%H%M%S)
@@ -38,3 +39,4 @@ TXT='txt'
 URLGITJ1NH0='https://github.com/j1nh0'
 URLGITJ1NH0SSH='ssh://git@github.com/j1nh0'
 ZERO='0'
+TSTAMP='time.stamp'
