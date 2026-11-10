@@ -13,6 +13,7 @@ freshenup(){
    git reset --hard "$ORIGINMAIN";
    git clean -fd;
    source "$HOMEBASHRC";
+   chmod 0600 "$KEYLINX";
   else echo "No $KEYLINX!";fi;
  else echo 'No linx dir!';fi;
 }; #FRESHENUP
