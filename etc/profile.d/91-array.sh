@@ -147,7 +147,7 @@ menuentry "memtest86plus" {
  linux16 /install/mt86plus
 }
 EOF
-)"
+)";
 LOOPBACKCFG="$(cat<<-EOF
 menuentry "ramCLI" {
  set gfxpayload=keep
@@ -193,4 +193,4 @@ menuentry "memtest86plus" {
  linux16 /install/mt86plus
 }
 EOF
-)"
+)";
