@@ -1,7 +1,7 @@
 #98-BOOTCONFIG.SH
 bootconfig(){ export USAGE='USAGE: bootconfig'
 #grub.cfg#
- cat<<EOF>grub.cfg
+ cat<<'EOF'>grub.cfg
 if loadfont /boot/grub/font.pf2 ; then
  set gfxmode=auto
  insmod efi_gop
@@ -57,7 +57,7 @@ menuentry "memtest86plus" {
 }
 EOF
 #loopback.cfg#
- cat<<EOF>loopback.cfg
+ cat<<'EOF'>loopback.cfg
 menuentry "ramCLI" {
  set gfxpayload=keep
  linux /casper/vmlinuz boot=casper file=/cdrom/preseed/$SEED.seed maybe-ubiquity iso-scan/filename=${iso_path} toram quiet splash noprompt --- 3
