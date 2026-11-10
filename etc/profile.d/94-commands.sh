@@ -298,21 +298,19 @@ mp42mp3(){ export USAGE='USAGE: mp42mp3 ####IN SONG REPO####';
 }; #MP42MP3
 obliviate(){ find . -exec rm -rf {} \;&>"$NULL"; }; #OBLIVIATE
 pdfreduce(){ find -type f -name "*pdf" -exec gs -sDEVICE=pdfwrite -dCompatabilityLevel=1.4 -dPDFSETTINGS=/ebook -dBATCH -dNOPAUSE -sOutputFile={}.pdf {} \; -exec mv -vf {}.pdf {} \;; }; #PDFREDUCE
-# #PERM
-# perm(){
-#  export USAGE='USAGE: perm ${ l(ock) | p(rivate) | u(nlock) | x|e(x)ecute } .'
-#  case "$1" in
-#   l|lock)export FPERM=0700;export DPERM=0700;;
-#   p|private)export FPERM=0664;export DPERM=0775;;
-#   u|unlock)export FPERM=0777;export DPERM=0777;;
-#   x|execute)export FPERM=0755;export DPERM=0755;;
-#   *)usage;exit 1;;
-#  esac
-#  find . -type d -exec chmod "$DPERM" {} \;
-#  find . -type f -exec chmod "$FPERM" {} \;
-#  find . -type d -exec chown 1001:65534 {} \;
-#  find . -type f -exec chown 1001:65534 {} \;
-# };
+perm(){ export USAGE='USAGE: perm ${ l(ock) | p(rivate) | u(nlock) | x|e(x)ecute } .';
+ case "$1" in
+  l|lock)export FPERM=0700;export DPERM=0700;;
+  p|private)export FPERM=0664;export DPERM=0775;;
+  u|unlock)export FPERM=0777;export DPERM=0777;;
+  x|execute)export FPERM=0755;export DPERM=0755;;
+  *)usage;exit 1;;
+ esac
+ find . -type d -exec chmod "$DPERM" {} \;;
+ find . -type f -exec chmod "$FPERM" {} \;;
+ find . -type d -exec chown 1001:65534 {} \;;
+ find . -type f -exec chown 1001:65534 {} \;;
+}; #PERM
 # #RAMDISK
 # ramdisk(){
 #  export USAGE='USAGE: ramdisk ${SIZE IN GIGABYTES}'
