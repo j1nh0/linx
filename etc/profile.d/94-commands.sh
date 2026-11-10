@@ -65,7 +65,7 @@ fb(){ export USAGE='USAGE: fb ${ c(urrentslot) | r(eboot) | s(tock) }';
     *)fastboot reboot;;
    esac;
   ;;
-  s|stock)export USAGE="USAGE: fb stock ${ l(emonadep) | i(nstantnoodle) }";
+  s|stock)export USAGE='USAGE: fb stock ${ l(emonadep) | i(nstantnoodle) }';
    case "$2" in
     l|lemonadep)for FLASH in ${LEMONADEP[@]};do fastboot flash --slot=all "$FLASH" "$FLASH.img";done;;
     i|instantnoodle)for FLASH in ${INSTANTNOODLE[@]};do fastboot flash --slot=all "$FLASH" "$FLASH.img";done;;
