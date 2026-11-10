@@ -1,0 +1,64 @@
+cfg2html (7.3.1) UNRELEASED; urgency=medium
+
+  * Having problem with the Debian build system/process
+  * Bumped version to 7.2.0 after massive commit by Ed (#200) and Ralph (#199)
+  * New upstream release. Fixes around SPEC files (#205, #204, #199, #197)
+  * Versionnumber bumped to 7.2.3
+  * Many upstream fixes, so its time to release it as 7.2.4
+  * Automated CI/CD build chain
+  * 
+
+ -- Ralph (ZOS 17) <ralph@p16s23z>  Sat, 11 Apr 2026 18:34:38 +0200
+
+cfg2html (7.1.3) unstable; urgency=low
+
+  * Bumped version number to 7.0.0 - details see git changelog
+  * 7.0-4 - Debian build for www.cfg2html.com
+  * 7.0.1-12-g842835d@(master)
+  * Build on Debian 12 from 7.1.0 sources
+  * Build on Debian 12 (7.1.1)
+
+  [ Ralph (ZOS 17.1) ]
+  * Build on ZorinOS 17.1, small cosmetic changes (7.1.2)
+
+  [ Ralph Roth ]
+  * 7.1.2 (trimmed a bit the changelog)....
+
+  [ Ralph (ZOS 17) ]
+  * 7.1.3 See for details the git ChangeLog
+  * Bumped version number to 7.1.3
+
+ -- Ralph (ZOS 17) <cfg2html@hotmail.com>  Sat, 15 Feb 2025 23:03:14 +0100
+
+cfg2html (6.41) unstable; urgency=low
+
+  * Bumped version number of the Debian ChangeLog using dch (Debian8) to 6.34.2. Build on upstream version: 6.34.2-2-g85ba063@(master)
+  * Applied upstream changes. Upstream is at 6.34.8
+  * Upstream (github) is now at 6.35.1
+  * small fixes
+  * Bumped version to 6.41.1 (all fixes and enhancements applied from github)
+  * Bumped version to 6.44.1 (all fixes and enhancements applied from github) - Jan. 2022
+
+ -- Ralph Issue 199 <cfg2html@hotmail.com>  Sat, 18 Jun 2020 21:03:14 +0100
+
+cfg2html (6.13) unstable; urgency=low
+
+  [ Ralph Roth ]
+  * 6.13 upstream
+  * debian/compat
+    This file should contain the number 9. This is a magic number. Do not put any other number in there.
+    debian/compat specifies the "compatibility level" for the debhelper tool. We don't need to go into what that means, right now.
+  * This is 6.26 upstream
+  * Bumped version number from 6.12 to 6.26
+  * Bumped version number from 6.26 to 6.30
+  * Bumped Version number from 6.30 to 6.31 (github)
+  * Bumped to 6.31/6.33
+  * tagged as 6.33 release. Changed DH_COMPAT from 5 to 9
+
+ -- Ralph Issue 199 <cfg2html@hotmail.com>  Sat, 18 Jun 2015 21:03:14 +0100
+
+cfg2html (6.11) unstable; urgency=low
+
+  * test release
+
+ -- Gratien Dhaese <gratien.dhaese@gmail.com>  Wed, 09 Oct 2013 16:35:30 +0100

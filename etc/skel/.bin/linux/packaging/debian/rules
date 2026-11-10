@@ -1,0 +1,172 @@
+#!/usr/bin/make -f
+
+# @(#) $Id: rules,v 6.20 2020/06/17 19:56:53 ralph Exp $
+# -------------------------------------------------------------------------
+# vim:ts=8:sw=4:sts=4 
+# -*- coding: utf-8 -*- http://rose.rult.at/ - Ralph Roth
+
+# Sample debian/rules that uses debhelper.
+# GNU copyright 1997 to 1999 by Joey Hess.
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+# This is the debhelper compatibility version to use.
+# export DH_COMPAT=10
+
+# dh_installdeb: Compatibility levels before 4 are deprecated.
+
+ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -g
+endif
+ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
+	INSTALL_PROGRAM += -s
+endif
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+	# Add here commands to configure the package.
+
+	touch configure-stamp
+
+
+build: build-stamp
+
+build-stamp: configure-stamp
+	dh_testdir
+
+	# Add here commands to compile the package.
+	# comment the make doc stuff for OBS (asciidoc is not present)
+	#$(MAKE) -C linux/doc
+	#/usr/bin/docbook-to-man debian/cfg2html-linux.sgml > cfg2html-linux.1
+
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp
+
+	# Add here commands to clean up after the build process.
+	#-$(MAKE) clean
+
+	## <c/m/a>  08.01.2009 - Ralph Roth
+	dh_clean
+
+# Build architecture-independent files here.
+binary-indep: build
+	dh_testdir
+	dh_testroot
+	#dh_clean -k
+	dh_prep
+	dh_installdirs tmp
+
+	#  The DESTDIR Has To Be Exactly debian/cfg2html
+	mkdir -vp -m0755 \
+		debian/cfg2html/etc/cfg2html/ \
+		debian/cfg2html/etc/cron.d/ \
+		debian/cfg2html/usr/sbin/ \
+		debian/cfg2html/usr/share/cfg2html/etc/ \
+		debian/cfg2html/var/log/cfg2html/
+# 		debian/cfg2html/usr/share/cfg2html/etc/cfg2html  # last cfg2html directory removed as it is not used # modified on 20250221 by edrulrd
+
+
+	if [ $$(basename $$(pwd)) = "BUILD" ]; then \
+		cd linux ; \
+		ln -s ../debian . ; \
+		ls -l ; \
+		ls -lR etc/ ; cd .. ; \
+	fi
+
+	# copy cfg2html components into directories (on OBS pwd=/usr/src/packages/BUILD)
+	pwd
+
+       # This triggers issue #35 on the SUSE OBS environment ....
+       # [   77s] cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/cfg2html/
+       # [   77s] cp: cannot stat `etc/default.conf': No such file or directory
+       # This still appears to be broken, as on Ubuntu systems, it should go into # modified on 20201114 by edrulrd # fixed above on 20250221 by edrulrd
+       # /usr/share/cfg2html/etc when installed and not into /usr/share/cfg2html/etc/cfg2html
+       # If SUSE needs it where it was, we can put it in both places
+	#cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/cfg2html
+       # I assume this introduced a regression, see issue #171, 11.10.23
+	if [ $$(basename $$(pwd)) = "BUILD" ]; then \
+	    cp -av linux/etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/ ; \
+	    cp -av linux/systeminfo     debian/cfg2html/etc/cfg2html/ ; \
+	    cp -av linux/etc/local.conf debian/cfg2html/usr/share/cfg2html/etc/ ; \
+	    cp -av ./cfg2html debian/cfg2html/usr/sbin/ ; \
+	    cp -av linux/cfg2html-linux.sh debian/cfg2html/usr/share/cfg2html/ ; \
+	    cp -avLr linux/lib debian/cfg2html/usr/share/cfg2html/ ; \
+	    cp -av linux/plugins debian/cfg2html/usr/share/cfg2html/ ; \
+	    cp -avr linux/contrib debian/cfg2html/usr/share/cfg2html/ ; \
+	else  \
+	    cp -av etc/default.conf debian/cfg2html/usr/share/cfg2html/etc/ ; \
+	    cp -av systeminfo       debian/cfg2html/etc/cfg2html/ ; \
+	    cp -av etc/local.conf   debian/cfg2html/usr/share/cfg2html/etc/ ; \
+	    cp -av ../cfg2html debian/cfg2html/usr/sbin/ ; \
+	    cp -av cfg2html-linux.sh debian/cfg2html/usr/share/cfg2html/ ; \
+	    cp -avLr lib debian/cfg2html/usr/share/cfg2html/ ; \
+	    cp -av plugins debian/cfg2html/usr/share/cfg2html/ ; \
+	    cp -avr contrib debian/cfg2html/usr/share/cfg2html/ ; \
+	fi
+
+	#find debian/cfg2html/usr/share/cfg2html -name '.gitignore' -exec rm -rf {} \;
+
+	# patch cfg2html main script with correct locations for cfg2html components
+	sed -i \
+		-e 's#^CONFIG_DIR=.*#CONFIG_DIR="/etc/cfg2html"#' \
+		-e 's#^SHARE_DIR=.*#SHARE_DIR="/usr/share/cfg2html"#' \
+		-e 's#^VAR_DIR=.*#VAR_DIR="/var/log/cfg2html"#' \
+		debian/cfg2html/usr/sbin/cfg2html
+
+	# update man page with correct locations
+	if [ $$(basename $$(pwd)) = "BUILD" ]; then \
+	    install -Dp -m0644 linux/doc/cfg2html.8 debian/cfg2html/usr/share/man/man8/cfg2html.8 ; \
+	else  \
+	    install -Dp -m0644 doc/cfg2html.8 debian/cfg2html/usr/share/man/man8/cfg2html.8 ; \
+	fi
+	sed -i \
+		-e 's#/usr/share/doc/packages#/usr/share/doc#' \
+		debian/cfg2html/usr/share/man/man8/cfg2html.8
+
+	# --- end custom part for installing
+	#
+
+#	dh_installdebconf
+	dh_installdocs
+#	dh_installexamples
+#	dh_installmenu
+#	dh_installlogrotate
+#	dh_installemacsen
+#	dh_installpam
+#	dh_installmime
+#	dh_installinit
+	dh_installcron
+	echo "#$$((RANDOM % 55)) $$((RANDOM % 5)) * * $$((RANDOM % 5)) root /usr/sbin/cfg2html -2\%Y\%m\%d > /dev/null 2>&1" >./cfg2html.cron
+	install -Dp -m0644 ./cfg2html.cron debian/cfg2html/etc/cron.d/cfg2html
+#	dh_installman
+#	dh_installinfo
+#	dh_undocumented
+	dh_installchangelogs ## Changelog upstream
+	find debian/cfg2html -name ".git*" -exec rm {} \;
+	dh_link
+#	dh_strip
+	dh_compress
+	dh_fixperms
+#	dh_makeshlibs
+#	dh_installdeb
+#	dh_perl
+	dh_shlibdeps
+	dh_gencontrol
+#   The next 2 statements set up the post install procedure.  # added on 20250222 by edrulrd
+	cp -av linux/cfg2html.postinst debian/cfg2html/DEBIAN/postinst 2>/dev/null || \
+	cp -av cfg2html.postinst       debian/cfg2html/DEBIAN/postinst
+	dh_md5sums
+	dh_builddeb
+
+# Build architecture-dependent files here.
+binary-arch: build
+
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary configure

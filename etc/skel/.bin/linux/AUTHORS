@@ -1,0 +1,54 @@
+For details see cfg2html.html and  git shortlog -sn
+
+@(#)$Id: AUTHORS,v 6.15 2016/04/13 06:32:54 ralph Exp $
+---------------------------------------------------------------------------
+    _         _   _
+Co / \  _   _| |_| |__   ___  _ __ ___
+  / _ \| | | | __| '_ \ / _ \| '__/ __|
+ / ___ \ |_| | |_| | | | (_) | |  \__ \
+/_/   \_\__,_|\__|_| |_|\___/|_|  |___/ for the Linux port
+---------------------------------------------------------------------------
+
+
+Ralph Roth <cfg2html@hotmail.com>
+        wrote the initial HP-UX version, wrote the 1.12-x Debian Linux stream
+        wrote SecurePath and ServiceGuard collectors etc.
+        maintains the 1.18++, 2.xx Linux stream
+        major work on the cfg2html next generation version (cfg2html 6.xx) on github
+
+Michael Meifert 
+        ported the HP-UX version to Debian Linux
+
+Harry (Amateur-Radio callsign dd2xt)
+        some SUSE testing
+
+Steve Meifert <smeifert@comlineag.de>
+        first LVM code
+
+Jeff Mikaelian LBDIS Boeing
+        added RedHat distribution test and RedHat packages list
+
+Gratien D'haese
+        use /etc/xinetd.d directory, bugfixes, xdpyinfo command changed
+        major work on the cfg2html next generation version (cfg2html 6.xx)
+
+Urs Frey:
+        all marked in cfg2html-linux with his signature "it233 U. Frey"
+        boot logging, crontabs, boot.local, HP OpenView, Veritas Netbackup,
+        Display Oracle configuration
+
+Michael Meyer:
+        look for "MiMe" in cfg2html-linux
+        patch for UnitedLinux and SuSe, many bugfixes and new code for
+        sysconfig, sensors, kernel params, iptables, awk's grep's, LVM
+        and other changes.
+
+Alexander De Bernardi (AB)
+        SUSE stuff an other enhancements.
+        SUSE: zypper, chkconfig: -l --deps
+
+Dusan Baljevic (dusan.baljevic@ieee.org)
+        Added checks for Puppet, Chef, CFengine, HP3PARInfo, evainfo, and ors
+
+You?
+

@@ -1,0 +1,156 @@
+# @(#) $Id: cfg2html,v 6.50 2026/04/10 07:16:58 ralph Exp $
+# shellcheck disable=SC1073,SC2034,SC2148,SC2154
+
+# -------------------------------------------------------------------------
+# This is the wrapper for cfg2html for LINUX; *NIX and HP-UX - therefore no SheBang!
+# CFG2HTML - license: see GPL v3
+# -------------------------------------------------------------------------
+# The cfg2html is developed on https://github.com/cfg2html/cfg2html
+# The main download area/web site is http://www.cfg2html.com
+# SUSE open build service (OBS): https://build.opensuse.org/package/show/home:gdha/cfg2html
+# -------------------------------------------------------------------------
+# Further modified by Joe Wulf:  20200323@0929.
+
+PRGNAME=$0
+MY_OS="$(uname -s)"
+args=$@
+
+if [ ! -f /tmp/cfg2html.respawn ]; then # re-added the not "!" operator so we re-execute ourself with the proper shell and options # modified on 20201031 by edrulrd
+    touch /tmp/cfg2html.respawn; sync
+    case ${MY_OS} in
+                              "AIX" ) exec /usr/bin/ksh ${PRGNAME} ${args}         2>&1 ;;
+     " $(echo ${MY_OS} | grep BSD)" ) exec /usr/local/bin/bash ${PRGNAME} ${args}  2>&1 ;;
+                            "HP-UX" ) exec /usr/bin/ksh ${PRGNAME} ${args}         2>&1 ;;
+                            "Linux" ) exec /bin/bash -O extglob ${PRGNAME} ${args} 2>&1 ;;
+                            "SunOS" ) exec /usr/bin/ksh ${PRGNAME} ${args}         2>&1 ;;
+                                 *  ) echo "WARNING: Unsupported Operating System, continuing anyway" # prior code just continued on # modified on 20201031 by edrulrd
+                                        ;;
+    esac
+fi
+
+# [20200321] {jcw} Obviously the 'exec' continues through to here.
+STARTTIME="${SECONDS}"
+rm -f /tmp/cfg2html.respawn # get rid of the temporary lock as soon as possible
+
+# this CVS id is also used by the Makefiles to get the version number!
+# may be obsoleted by git tag --describe or git describe handling?
+# -----------------------------------------------------------------------------
+PRODUCT="Config to HTML - cfg2html"
+CVS="$Identifier: cfg2html,v 7.3.1 ralph Exp $"     ## Hardcoded..... yet, any ideas? Linux Makefile uses field #3 for version number. -> _VERSION_
+#PROGRAM=$(echo ${CVS}|cut -f2 -d" "|cut -f1 -d,)
+PROGRAM="cfg2html"
+#VERSION=$(echo ${CVS}|cut -f3 -d" ")
+VERSION="7.3.1"     ## _VERSION_  (can be incremented by verinc)
+RELEASE_DATE="2026-04-10"	## YYYY-MM-DD ?!
+# -----------------------------------------------------------------------------
+
+
+CFG_CMDLINE=$*
+COPYRIGHT="Copyright (C) 1999-2026 by ROSE SWE, Dipl.-Ing. Ralph Roth"
+LANG="C"
+LANG_ALL="C"            # [20200310] {jcw} added LC_COLLATE.
+LC_COLLATE="POSIX"
+LC_MESSAGE="C"
+OS="$(uname)"
+OS="$(echo ${OS} | tr 'A-Z' 'a-z' | sed -e 's/-//')"  ## see also mr/issue #196
+## maybe we should skip the root check if the command line option -h or -? is passed?
+if  [ "$(whoami)" != "root" -a "$1" != "-h" ]
+then
+    echo "$(whoami) - You must be root to run the script ${PROGRAM}"
+    exit 42 ## 1 -> 42 for better return code handling
+fi
+
+# introduce trap to make sure the temporary directories get cleaned up
+trap "DoExitTasks" 0 1 2 3 6 11 15
+
+# initialize defaults
+# [20200310] {jcw} Should manage the TMP_DIR assignment, based on the configuration file, and or cmd-line option.
+case ${MY_OS} in
+    HP-UX) TMP_DIR="$(mktemp -d /tmp -p cfg2html_)" ;;
+    Linux|SunOS) TMP_DIR="$(mktemp -d /tmp/cfg2html.XXXXXXXXXXXXXXX)" ;;
+    *) TMP_DIR="/tmp/${PROGRAM}_${RANDOM}" ;;	## hopefully AIX and SUN have $RANDOM too - why not using mktemp too, its safer! RR
+esac
+
+export TMP_DIR # be on the safe side?
+
+# SHARE_DIR will be redefined (to /opt/${PROGRAM}) by 'make depot' not by 'make rpm/deb'
+SHARE_DIR="/usr/share/${PROGRAM}"
+# /etc/${PROGRAM} may contain local.conf (hpux), default.conf always under SHARE_DIR/etc/
+CONFIG_DIR="/etc/${PROGRAM}"
+# VAR_DIR can be overruled in default.conf or local.conf file (or by -o option)
+VAR_DIR="/var/log/${PROGRAM}"
+
+VERBOSE=
+[[ -n "${DEBUG}" ]] || DEBUG=  # don't turn off DEBUG if we've turned it on externally (eg. cron) # modified on 20250215 by edrulrd
+
+# If cfg2html is installed in a directory not in the PATH ## menguyj@yahoo.fr add 06.03.2012
+MYPATH=$(dirname $(type $0 | awk '{print $NF}')) # see issue #18
+
+# define our BASE_DIR according the location of our SHARE_DIR
+[[ -d ${SHARE_DIR} ]] && BASE_DIR="${SHARE_DIR}" || BASE_DIR="${MYPATH}/${OS}"
+
+# check the CONFIG_DIR and redefine when running from current dir (conf dir renamed to etc)
+[[ ! -d ${CONFIG_DIR} ]] && CONFIG_DIR="${BASE_DIR}/etc"
+
+# source of configuration file(s) - important: treat these as scripts
+[[ -f ${BASE_DIR}/etc/default.conf ]] && . ${BASE_DIR}/etc/default.conf
+# source your own configuration file which overrides settings in the default.conf
+# in the local.conf you could define OUTPUT_URL settings
+[[ -f ${BASE_DIR}/etc/local.conf ]] && . ${BASE_DIR}/etc/local.conf
+# your personal config file if present will be read as last one (overrule previous settings!)
+[[ -f ${CONFIG_DIR}/local.conf ]] && . ${CONFIG_DIR}/local.conf
+
+### new date check ###
+
+YEAR=$(date +%Y)    ## current year, e.g. 2016, for debugging set it into the future
+OLD=""
+i=2030
+# date sanity check. complains if cfg2html is too old, must be adjusted every year to fit
+#
+
+while [ ${i} -gt 2026 ]   ## where we want to stop, complains if older than two years
+do
+    [ ${YEAR} -gt ${i} ] && OLD=${OLD}" very"
+    # echo ${i} - ${OLD}
+    ((i=(i-1)))
+    [ "${OLD}" != "" ] && echo "WARNING! This version of cfg2html is${OLD} old!  Update ASAP!"
+done
+
+
+# source the include functions
+for script in ${BASE_DIR}/lib/*.sh ; do
+    [[ -f ${script} ]] && . ${script}
+done
+
+# source the main program, e.g. cfg2html-hpux.sh
+if [ "$(echo ${MY_OS} | grep BSD)" ]; then
+    . ${BASE_DIR}/${PROGRAM}-bsd.sh
+else
+    if [[ -f ${BASE_DIR}/${PROGRAM}-${OS}.sh ]]; then
+        . ${BASE_DIR}/${PROGRAM}-${OS}.sh
+    elif [[ -f ${BASE_DIR}/bin/${PROGRAM}-${OS}.sh ]]; then
+        . ${BASE_DIR}/bin/${PROGRAM}-${OS}.sh
+    else
+        echo "ERROR: Could not find ${BASE_DIR}/[bin/]${PROGRAM}-${OS}.sh"
+        exit 43 # 1 -> 43
+    fi
+fi
+RETCODE=$?
+
+# define OUTPUT_URL in your local.conf file
+CopyFilesAccordingOutputUrl
+
+if [ ${RETCODE} -eq 0 ]
+then
+    echo "No errors reported."
+else
+    echo "Returncode=${RETCODE} (see file $ERROR_LOG)"
+fi
+
+# cleanup
+rm -f /tmp/cfg2html.respawn $LOCK
+rm -rf "${TMP_DIR}"
+rm -rf "/tmp//tmp/cfg2html.*"  ## issue #167 | [20200312] {jcw} Pattern of seemingly hangers-on directories after a run.
+
+sync;sync;sync
+exit ${RETCODE}

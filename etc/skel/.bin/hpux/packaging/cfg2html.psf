@@ -1,0 +1,168 @@
+# @(#) $Id: cfg2html.psf,v 6.11 2013-10-07 07:13:36 ralph Exp $
+# -------------------------------------------------------------------------
+
+# Version history:
+# gdhaese1 - 25/Apr/2013 - initial psf file
+# gdhaese1 - 07/Nov/2013 - update the doc relocation
+#
+
+    tag cfg2html
+    title Config To HTML System Documentation Tool (cfg2html) for HP-UX
+    description Config To HTML System Documentation Tool (cfg2html) for HP-UX
+    copyright (c)Copyright GPL v3
+    number C.06.13
+
+product
+    tag cfg2html
+    title Config To HTML System Documentation Tool (cfg2html) for HP-UX
+    description Config To HTML System Documentation Tool (cfg2html) for HP-UX
+    copyright (c)Copyright GPL v3
+    revision C.06.13
+    architecture HP-UX_B.11_32/64
+    machine_type *
+    os_name HP-UX
+    os_release ?.11.*
+    os_version *
+    is_locatable false
+    is_patch false
+    vendor_tag GPL
+    readme < doc/README_hpux.txt
+    preinstall packaging/preinstall.sh
+    postinstall packaging/postinstall.sh
+    configure packaging/configure.sh
+    postremove packaging/postremove.sh
+
+    fileset
+	tag CFG2HTML-BIN
+	title cfg2html scripts
+	revision C.06.13
+	description cfg2html scripts
+	directory .. = /opt/cfg2html/bin
+	file_permissions -o root -g bin -m 755
+	file -m 750 -o root -g sys cfg2html
+	directory . = /opt/cfg2html/bin
+	file -m 750 -o root -g sys cfg2html-hpux.sh
+    end
+
+    fileset
+	tag CFG2HTML-PLUGINS
+	title cfg2html plugin scripts
+	revision C.06.13
+	description cfg2html plugin scripts
+
+	directory ./plugins = /opt/cfg2html/plugins
+	file_permissions -o root -g sys -m 755
+	file -m 755 -o root -g sys HORCM_overview.sh
+	file -m 755 -o root -g sys VxVM_collect.sh
+	file -m 755 -o root -g sys bdf_collect.sh
+	file -m 755 -o root -g sys bdfmegs.sh
+	file -m 755 -o root -g sys check_elroy.sh
+	file -m 755 -o root -g sys check_space.sh
+	file -m 755 -o root -g sys crontab_collect.sh
+	file -m 755 -o root -g sys custom
+	file -m 755 -o root -g sys dumplvmtab.hppa
+	file -m 755 -o root -g sys find_non_inq_luns.sh
+	file -m 755 -o root -g sys find_non_lvm_luns.sh
+	file -m 755 -o root -g sys getVAlogs.sh
+	file -m 755 -o root -g sys get_bootdisk.sh
+	file -m 755 -o root -g sys get_cellinfo.sh
+	file -m 755 -o root -g sys get_cissinfo.sh
+	file -m 755 -o root -g sys get_cpu_speed.hppa
+	file -m 755 -o root -g sys get_cputype.sh
+	file -m 755 -o root -g sys get_disk_data.sh
+	file -m 755 -o root -g sys get_diskfirmware.sh
+	file -m 755 -o root -g sys get_drd.sh
+	file -m 755 -o root -g sys get_efi.sh
+	file -m 755 -o root -g sys get_emcluns.sh
+	file -m 755 -o root -g sys get_emcsum.sh
+	file -m 755 -o root -g sys get_fc.sh
+	file -m 755 -o root -g sys get_fcold.sh
+	file -m 755 -o root -g sys get_hpvm.sh
+	file -m 755 -o root -g sys get_lan_desc.sh
+	file -m 755 -o root -g sys get_lvm_info.sh
+	file -m 755 -o root -g sys get_ministat.sh
+	file -m 755 -o root -g sys get_mirror_missmatch.sh
+	file -m 755 -o root -g sys get_mptinfo.sh
+	file -m 755 -o root -g sys get_path_1131.sh
+        file -m 755 -o root -g sys get_qlan.sh
+        file -m 755 -o root -g sys get_qlan_details.sh
+	file -m 755 -o root -g sys get_san_ns.sh
+	file -m 755 -o root -g sys get_sap.sh
+	file -m 755 -o root -g sys get_sasinfo.sh
+	file -m 755 -o root -g sys get_sptool.sh
+	file -m 755 -o root -g sys get_superdome2info.sh
+	file -m 755 -o root -g sys get_superdomeinfo.sh
+	file -m 755 -o root -g sys get_vg.sh
+	file -m 755 -o root -g sys get_vparinfo.sh
+	file -m 755 -o root -g sys get_xpluns.sh
+	file -m 755 -o root -g sys get_xpsum.sh
+	file -m 755 -o root -g sys getlp.sh
+	file -m 755 -o root -g sys head01.html
+	file -m 755 -o root -g sys head02.html
+	file -m 755 -o root -g sys head03.html
+	file -m 755 -o root -g sys ixostool.sh
+	file -m 755 -o root -g sys list_filesystems.sh
+	file -m 755 -o root -g sys meminfo.hppa
+	file -m 755 -o root -g sys memory_summary.sh
+	file -m 755 -o root -g sys oracle_collect.sh
+	file -m 755 -o root -g sys pvgfilter.sh
+	file -m 755 -o root -g sys syssmall.hppa
+	file -m 755 -o root -g sys get_active_lan_info.sh
+    end
+    
+    fileset
+	tag CFG2HTML-LIB
+	title cfg2html library scripts
+	revision C.06.13
+	description cfg2html library scripts
+
+	directory ./lib-tmp = /opt/cfg2html/lib
+	file_permissions -o root -g sys -m 755
+	file -m 755 -o root -g sys global-functions.sh
+	file -m 755 -o root -g sys help-functions.sh
+	file -m 755 -o root -g sys hpux-functions.sh
+	file -m 755 -o root -g sys html-functions.sh
+	file -m 755 -o root -g sys input-output-functions.sh
+	file -m 755 -o root -g sys shell-functions.sh
+    end
+
+    fileset
+	tag CFG2HTML-CONFIG
+	title cfg2html configuration files
+	description cfg2html configuration files
+	revision C.06.13
+
+	directory ./etc = /opt/cfg2html/etc
+	file_permissions -o root -g sys -m 755
+	file -m 640 -o root -g sys default.conf
+
+	directory ./etc = /opt/cfg2html/newconfig
+	file_permissions -o root -g sys -m 755
+	file -m 640 -o root -g sys local.conf
+    end
+
+    fileset
+	tag CFG2HTML-DOC
+	title cfg2html documentation
+	description cfg2html documentation
+	revision C.06.13
+
+	directory doc = /opt/cfg2html/doc
+	file_permissions -o root -g sys -m 755
+	file -m 644 -o root -g sys FAQ_hpux.txt
+	file -m 644 -o root -g sys README_hpux.txt
+	file -m 644 -o root -g sys ToDo_hpux.txt
+	file -m 644 -o root -g sys cfg2html.html
+	file -m 644 -o root -g sys cfg2html_Development_Tree.jpg
+	file -m 644 -o root -g sys history_hpux.txt
+	file -m 644 -o root -g sys history_hpux_v1.txt
+	file -m 644 -o root -g sys history_hpux_v2.txt
+	file -m 644 -o root -g sys history_hpux_v3.txt
+	file -m 644 -o root -g sys history_hpux_v4.txt
+	file -m 644 -o root -g sys COPYING
+
+	#directory doc = /usr/share/man/man8.Z
+        file -m 644 -o root -g sys cfg2html.8
+    end
+
+end # of product

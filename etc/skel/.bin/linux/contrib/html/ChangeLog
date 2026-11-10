@@ -1,0 +1,40 @@
+2025-02-20  Ralph (ZOS 17)  <ralph@p16s23z>
+
+	* allhosts.htm, info.htm, make_index.sh:
+	Version 7.1.4 - updates for modern browsers
+
+2023-02-18  Ralph (ZOS 17)  <ralph@p16s23z>
+
+	* make_index.sh: Shell
+
+	* allhosts.htm, info.htm, make_index.sh: allhosts_shellchecked
+
+2022-12-28  Ralph (ZOS 17)  <ralph@p16s23z>
+
+	* make_index.sh: copyright bumped
+
+2020-10-29  Ralph (ZOS 17)  <ralph@p16s23z>
+
+	* allhosts.htm, info.htm, make_index.sh:
+	Fixes for make_index.sh (see issue #144)
+	Fixes for regression in cfg2html-linux and crontab collecting
+
+2020-06-17  Ralph (ZOS 17)  <ralph@p16s23z>
+
+	* make_index.sh: Freezde before merging JW changes
+
+2018-01-04  Ralph (ZOS 17)  <ralph@p16s23z>
+
+	* allhosts.htm, info.htm, make_index.sh: all_hosts
+
+2013-11-29  Ralph (ZOS 17)  <ralph@p16s23z>
+
+	* allhosts.htm, info.htm, make_index.sh: Checked in
+
+2013-09-12  Ralph (ZOS 17)  <ralph@p16s23z>
+
+	* allhosts.htm, info.htm, make_index.sh:
+	Initial 6.10.1 import from GIT Hub, 12.09.2013
+
+	* allhosts.htm, info.htm, make_index.sh: New file.
+

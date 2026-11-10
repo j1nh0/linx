@@ -1,0 +1,119 @@
+@(#) $Id: ToDo_hpux.txt,v 1.3 2018/03/16 16:04:22 ralph Exp $
+// atom:set fenc=utf8 ff=unix ft=plain ts=2 et:
+
+Cleanup: 13.03.2018 by Ralph Roth - As HP-UX can be considered to be dead, we
+won't fix the bugs/issues by our one, git pull requests highly appreciated!
+________________________________________________________________________
+
+ _____     ____                  ____
+|_   _|__ |  _ \  ___      _    | __ ) _   _  __ _ ___
+  | |/ _ \| | | |/ _ \   _| |_  |  _ \| | | |/ _` / __|
+  | | (_) | |_| | (_) | |_   _| | |_) | |_| | (_| \__ \
+  |_|\___/|____/ \___/    |_|   |____/ \__,_|\__, |___/
+                                             |___/
+
+ToDo's or NiceToHave for Config2HTML/HPUX
+________________________________________________________________________
+
+T = ToDo
+N = Nice to Have
+D = Done
+B = Bug
+? = Unknown, need more information
+W = Won't do/fix
+
+- remove qlan.sh from plugins dir & main driver script (D), rr-18.03.2013
+- # cpu's is incorrect on vPars (B)
+- lvmdump from Dietmar Konerman (DN)
+- shell script wrapper for cfg2html:  testserver.sh, prodserver.sh (D -> cmd line options), (D?)
+- SAP/ABAP collector (N, see issue #??)
+- Veritas VxFS collector (T)
+- New FibreChannel collector, tdlist (N)
+- UPS collector (N) (arjo/lli) -> (W)
+- frames (left headlines, right info. - Victor Gattegno) (N)
+- DataProtector 5.0/5.1 fixes (??) -> (W, which ones?)
+- enhanced log files (T) -> Joel Cortez
+  - syslog.log/dmesg
+  - /etc/passwd, /etc/group
+- Are there any known problems executing cfg2html on an HP-UX 11.00 system while Postgres 7.2 is running on the system? (B?)
+
+________________________________________________________________________
+ ___    _                  _          _
+|_ _|__| | ___  __ _      | |    __ _| |__
+ | |/ _` |/ _ \/ _` |_____| |   / _` | '_ \
+ | | (_| |  __/ (_| |_____| |__| (_| | |_) |
+|___\__,_|\___|\__,_|     |_____\__,_|_.__/
+
+/opt/xppa/HostAgent.properties
+
+ listusers, cat /etc/passwd
+ /etc/dmesg
+ tdlist
+ ipcs -mob                                                      ok
+ ps -aef | wc -l
+ echo total_lockable_mem/D | adb -k /stand/vmunix  /dev/mem
+ ps -eaf
+ ps -eal
+ sar -Mu 10 9
+ sar -v 10  9           (if you have not already added it)      ok
+ vgdisplay -v | grep Name | pvg_checker
+                        (check PVG for misconfiguration)
+
+-z, -Z	compress/move all files into a ZIP archive, -Z add. uplaod them
+to a ftp/ssh server /etc/opt/cfg2html/ftp_settings
+
+________________________________________________________________________
+
+External requests:
+
+An interesting information you could add also to that section, is the network
+tcp configuration ndd list, it can be listed through the following loop :
+
+  for i in `ndd -get /dev/tcp ? | awk '{print $1}'`
+   do
+    echo $i
+    ndd -get /dev/tcp $i
+   done
+
+________________________________________________________________________
+
+
+-         include /opt/hpvm/bin into the PATH
+
+-         Use improved plugin firmware_collect.sh (see attached)
+
+-         include "list_filesystems.sh" (was commented out)
+exec_command $PLUGINS/list_filesystems.sh "List of Filesystems in CSV Format"
+
+-         include lvmtab (was commented out) AND lvmtab_p (for LVM V.2) info:
+        exec_command "strings /etc/lvmtab | grep dev" "strings /etc/lvmtab"
+        exec_command "strings /etc/lvmtab_p | grep dev" "strings /etc/lvmtab_p"
+
+-         include new plugin hpvm.sh (see attached)
+        exec_command $PLUGINS/hpvm.sh "HPVM Virtual Machine Overview"
+
+Dein cfg2html ist und bleibt einfach spitze!
+________________________________________________________________________
+
+cfg2html: cmpdisks?
+cfg2html - LVM collector extern
+
+________________________________________________________________________
+
+http://ktools.france.hp.com/~ktools/cgi-bin/p4ooshop.cgi
+-->     # kmeminfo -pid 1
+        # kmeminfo -static          #  02.02.2006, 09:18 modified by Ralph Roth
+
+------------------------------------------------------------------------------
+
+PSF:
+----
+
+       * Reading the bundle "CFG2HTML" at line 8.
+WARNING: Invalid value defined for the keyword "architecture", at line
+         18.  Valid values for this keyword are:  One-line strings
+         containing a subset of ASCII characters.  No white space
+         characters, except for space and tab, are allowed.  The
+         maximum length of a one-line string is 64 characters.
+       * Reading the product "cfg2html" at line 26.
+       * Reading the fileset "cfg2html" at line 45.

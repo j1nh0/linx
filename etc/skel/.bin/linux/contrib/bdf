@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# @(#) $Id: bdf,v 6.17 2025/02/20 09:07:13 ralph Exp $
+# --=-----------------------------------------------------------------------=---
+# (c) 1997-2025 by Ralph Roth  -*- http://rose.rult.at -*-
+
+
+## not sure if this ever worked on Linux? 24.05.2017 by Ralph
+## maybe add -l and/or grep for tmpfs and virtual file systems?
+
+my_bdf() {
+    # bdf summary for HPUX, Ralph Roth, 5-feb-2001
+    #                 Linux, Michael Meifert
+
+    df -k |grep ^/|awk '
+    {
+        alloc += $2;
+        used  += $3;
+        avail += $4;
+    }
+
+    END {
+        print  "Allocated\tUsed \t \tAvailable\tUsed (%)";
+        printf "%ld \t%ld \t%ld \t%3.1f\n", alloc, used, avail, (used*100.0/alloc);
+    }'
+}
+
+my_bdf

@@ -1,0 +1,339 @@
+.\" Copyright (c) 2003-2023 by MIchael MEifert, Gratien D'haese and Ralph Roth
+.\"$Id: cfg2html.8,v 6.15 2018/01/04 22:26:55 ralph Exp $
+
+.TH cfg2html-linux 8 "13.03.2018" "gdh/mime/rar"
+
+.B cfg2html
+is a little utility program that can be used to collect the necessary system configuration files and system set-up information to both an ASCII and an HTML file. Simple to use and very helpful when preparing for disaster recovery situations.  This program only provides information about the system it is being run on; it does not make any changes.
+
+.SH NAME
+cfg2html \- creates nice HTML and plain ASCII documentation of your GNU/Linux
+systems.
+.TP
+.B WARNING, use this script AT YOUR OWN RISK.
+.SH SYNOPSIS
+
+.B cfg2html
+.RB [ \-hvsOxkHnflzcSaVAeLwWpPo210T]
+.IR option ...
+.br
+
+.SH DESCRIPTION
+
+.B cfg2html
+collects the system configuration details into a webpage and a text file. cfg2html is the “Swiss army knife” for sysadmins. It was written to get the necessary information to plan an update, to perform basic troubleshooting or do performance analysis.
+
+This includes the collection of Cron and At jobs, installed Hardware, installed Software, Filesystems, Dump- and Swap-configuration, LVM, Network Settings, Kernel, System enhancements and Applications, and Subsystems.
+
+.br
+If you like, you can add a
+description of the system into
+.B /etc/cfg2html/systeminfo
+
+example:
+.TP
+  Main database server using special software.
+.TP
+  Contact: Micky Mouse <admin@foo.bar>
+.TP
+  Location: Mars Moon
+.TP
+and so on.
+.P
+If file
+.B /etc/cfg2html/files
+exists, you can add your own list of files to collect - see example included.
+
+.SS Switches
+The following switches are available from the command line:
+.TP
+.B \-h
+output usage information and exit
+
+.TP
+.B \-v
+output cfg2html version information, kernel information and exit
+
+.TP
+.B \-o
+.IR dir
+.br
+Override the default Logfile output location for the generated HTML and text output (e.g.
+.B /var/log/cfg2html
+) to the specified directory
+.br
+Alternatively, you can specify the location of the logfile by setting the environment
+variable
+.B OUTDIR="/path/to/dir"
+.br
+Specifying the
+.B \-o
+option supercedes the definition of the OUTDIR environment variable
+
+.TP
+.B \-0
+append the datestamp to the Logfile (OUTDIR) with format Day-Month-Year-HourMinute, e.g. 28-Oct-2020-2212
+
+.TP
+.B \-1
+append the datestamp to the Logfile (OUTDIR) with format Day-Month-Year, e.g. 28-Oct-2020
+
+.TP
+.B \-2
+append the datestamp to the Logfile (OUTDIR) with the date format of your own choosing. e.g specifying
+.B %Y%m%d-%H%M
+would append the date with a format of 20201028-2212 to the log file name.
+
+.P
+By default, information in each of the following categories will be collected.  Use the following options to disable the collection of the indicated configuration information:
+
+.TP
+.B \-s
+disable: System
+.TP
+.B \-O
+disable listing open files that have been deleted
+.br
+This switch has no effect if -s is specified.
+.TP
+.B \-x
+disable listing the executable files in the PATH (or LOCALPATH if specified)
+.br
+This switch has no effect if -s is specified.
+.TP
+.B \-k
+disable: Kernel
+.TP
+.B \-n
+disable: Network
+.TP
+.B \-H
+disable: Hardware
+.TP
+.B \-f
+disable: Filesystem
+.TP
+.B \-l
+disable: LVM
+.TP
+.B \-z
+disable: ZFS filesystem information collection
+.TP
+.B \-S
+disable: Software
+.TP
+.B \-c
+disable: Cron
+.TP
+.B \-a
+disable: Applications
+.TP
+.B \-V
+disable: collecting VMware settings and log files 
+.TP
+.B \-A
+disable: collecting the Altiris ADL Agent files, if present
+.TP
+.B \-e
+disable: Enhancements
+
+.P
+Other options
+
+.TP
+.B \-L
+By default, the command that was executed in each section to generate the information will be shown in the generated HTML and ASCII file.  This option provides the ability to  disable showing the command.  For the html file, the issued command will become visible if you hover over the section title with a mouse.
+.TP
+.B \-w
+By default, the section separators in the generated text file is 74 characters long.  Since many commands generate output wider than this, this option allows the separator width to be adjusted.  In addition, specifying this option allows some columnar output to use the specified width to obtain more columns of output, shortening the report.
+During testing, an optimal screen width was found to be approximately 300 to 350.  e.g. -w 350
+.TP
+.B \-W
+Most of the commands needed by cfg2html to generate useful information are installed by default on all Linux systems.
+Inevitably, some commands may not be available because they might have been considered optional.
+The program generally just bypasses and ignores commands that are not installed on the system.
+Activating this option will generate a list of the commands that attempt to be found using the "which" command but did not find installed.
+This option provides systems administrators the ability to evaluate the need or desire to install any missing software.
+The list will be found in the Error log.
+
+If systems administrators decide that they do not wish to be reminded of particular commands being missing, they can be added to an exclusion list in /etc/cfg2html/local.conf.  This file is not over-written when cfg2html is re-installed.
+Hint:  If cfg2html is planned to be installed on multiple systems and you have site-wide default settings, you could do the following:
+1) Untar the source file to your preferred location, eg. /usr/local/src/.
+2) Define the settings you desire in the default.conf file or the local.conf file residing in .../cfg2html/linux/etc/default.conf, or in .../cfg2html/linux/etc/local.conf, respectively, (with the latter being preferable).  Note, that both of these files are re-set back to their original settings when the program is untar'ed again, so you may want to save a separate copy of your default settings.
+[Extra hint: you may wish to include your tailored config files in /etc/cfg2html/files.  See above.]
+3) Next, run the make command, followed by the package manager's installation program (apt, dnf, zypper, ...) to install cfg2html with your systems'-wide defaults.
+4) Then, you will only need to make any additional, specific-system adjustments in /etc/cfg2html/local.conf on each host.
+.TP
+.B \-p
+enable collecting the system's Log files.  If running on an HP PROLIANT SERVER, collect additional relevant logs.
+.TP
+.B \-P
+enable the processing of the custom plugins that you may have configured
+.TP
+.B \-T
+enable showing performance information regarding the execution of cfg2html
+
+.SH VARIABLES
+
+.TP
+.B OUTDIR
+defines the folder where the generated reports are saved.  The -o switch
+overrides the setting of this environment variable.
+.br
+A useful technique is to specify it on the command line when executed. E.g.
+.br
+OUTDIR=/path/to/dir ./cfg2html
+.br
+Note that using the -0 -1 or -2 switches append the indicated date stamp to the log files created in OUTDIR.
+
+.TP
+.B LOCALPATH
+If not specified, cfg2html will by default display all of the executable files in the deemed to be optimal
+PATH as stated in
+.br
+.I http://security.stackexchange.com/questions/117535/ordering-of-the-path-environment-variable
+.br
+The PATH variable will be set to this optimal value.  Then, specific additional directories that cfg2html found on the system during execution will be appended to this default PATH.
+The program will generate a list of the executable files found in this PATH.  The program will only execute programs that are found within this PATH, whether or not LOCALPATH
+is specified.
+.br
+
+.B LOCALPATH
+provides a means for the Sysadmin to specify a different set of directories for which they want to see the contents.  If defined, the variable should
+be set to a colon-separated list of directories, which do not need to exist.  Note that defining this variable in no way affects which system programs that cfg2html will use
+to generate its reports.
+.br
+
+e.g. LOCALPATH=/operator/bin:/sbin:/bin:/usr/sbin:/usr/bin
+.br
+The best location for setting this variable is in
+.br
+/etc/cfg2html/local.conf
+.br
+but like
+.B OUTDIR,
+can also be specified on the command line, if so desired.
+
+.SH FILES
+After installation, the following files will exist:
+
+.TP
+.B /usr/sbin/cfg2html
+The main program wrapper script
+
+.TP
+.B /usr/share/cfg2html
+Contains the main linux script along with other supporting files
+
+.TP
+.B /etc/cfg2html/systeminfo
+The system description you can update
+
+.TP
+.B /usr/share/cfg2html/etc/default.conf
+Is the master configuration file that sets the default settings.
+
+.TP
+.B /usr/share/cfg2html/etc/local.conf
+Overrides settings in the master configuration file.  This file and the master config file are over-written each time cfg2html is re-installed.
+
+.TP
+.B /etc/cfg2html/local.conf
+Can contain local switch over-rides and local variable definitions.  This file will not be over-written when cfg2html is re-installed, if present.
+
+.TP
+.B /etc/cfg2html/files
+The uncommented contents of the files listed will be collected into the report
+
+.TP
+.B /usr/share/man/man8/cfg2html.8.gz
+The man page.
+
+.TP
+After cfg2html is run, the following files will be generated in OUTDIR:
+.br
+
+.TP
+.B <hostname>.html
+the generated documentation in HTML form
+
+.TP
+.B <hostname>.txt
+the generated documentation in ASCII form
+
+.TP
+.B <hostname>.err
+error logfile (if any errors are generated).  It will also contain output from the -W option if used.
+
+.TP
+.B <hostname>.partitions.save
+Disk Partition definitions that can be used to redefine them in the event that they become corrupted
+
+.TP
+.B <hostname>._xpinfo.csv
+(only on systems connected to HP Disk Arrays): the output of the xpinfo command
+
+.br
+.TP
+Other files:
+
+.TP
+.B README
+Additional documentation and installation instructions.
+
+.TP
+.B changelog
+Revision history for cfg2html and associated files.  Also, see the git log.
+
+.SH "SEE ALSO"
+
+.B README, License.txt
+and
+.B changelog
+files in the source directory.
+
+.SH NOTES
+Only
+.B root
+can run the
+.B cfg2html
+wrapper script.
+.br
+For security reasons, it is best to store the HTML and ASCII
+files in a safe place where only the root user has access, or remove the files from
+your file system.
+
+.SH CONTACTING
+If you like the script, want to learn more about it, or want to
+see a feature added to it that isn't already here, then please subscribe to the
+project mailing list. The project web page is at
+.B http://www.cfg2html.com
+and the source code is hosted on github at:
+.B https://github.com/cfg2html/cfg2html
+
+.SH WARNINGS
+use the
+.B cfg2html
+script at your own risk! See the file License.txt for details!
+.SH DIAGNOSTICS
+
+.B cfg2html
+writes errors to <hostname>.err
+
+.SH BUGS
+There are probably a lot of bugs.  We are currently using this script
+successfully on our own systems, but there are many features included
+that we don't have any way to test right now. If you find a bug or have a
+comment or suggestion about the script, please submit an issue at
+.I https://github.com/cfg2html/cfg2html/issues
+or you can also email bugs and issues to the authors. You can find the address in the
+.I AUTHORS
+section. We'd love to hear from you. :-)
+
+.SH AUTHORS
+Original cfg2html HP-UX version written by Ralph Roth <cfg2html@hotmail.com>
+and ported to Linux by Michael Meifert, maintained by Gratien D'haese and
+Ralph Roth on github.com.
+
+
+See the source code and ChangeLog file for the complete history and credits.
