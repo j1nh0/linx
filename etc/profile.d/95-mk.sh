@@ -1,4 +1,5 @@
-#!/bin/bash -
+#95-MK.SH
+mk(){
  export USAGE='USAGE: mk ${posting|android|c|cl|dj|h|i|iso|j|jc|k|licenseplate|mac|p|qr|repo|sh|vc|workbench|usage'
  case "$1" in
   posting)
@@ -271,4 +272,4 @@ EOF
   usage)usage;;
   *)make -j$NPROC;;
  esac
-exit 0
+};

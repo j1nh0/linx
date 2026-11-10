@@ -1,4 +1,5 @@
-#!/bin/bash -
+#99-DB2VCF.SH
+db2vcf(){
  if [ "$#" -ne 1 ];then
   echo -e "Dumps contacts from an Android contacts2.db to stdout in vCard format\n"
   echo -e "Usage:  dump-contacts2db.sh path/to/contacts2.db > path/to/output-file.vcf\n"
@@ -116,4 +117,4 @@
  cur_vcard=$cur_vcard"END:VCARD"
  echo $cur_vcard
  IFS=$ORIG_IFS
-exit 0
+}; #DB2VCF

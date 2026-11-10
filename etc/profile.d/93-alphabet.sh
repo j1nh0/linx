@@ -1,4 +1,4 @@
-#97-ALPHABET.SH
+#93-ALPHABET.SH
 a(){ if [ ! -z "$1" ];then find "$1" -print0|sort -z|tar --use-compress-program=pigz -cvf "$(realpath -s $ARG1)"-"$DATE""$TIME"."$TGZ" --null --no-recursion -T -;else echo "$MESSARG";fi; }; #ARCHIVE
 b(){ if [ ! -z "$1" ];then cp -rf "$1" "${ARG1##*/}"-"$DATE.$TIME.$BCKP";else echo "$MESSARG";fi; }; #BACKUP
 alias c='clear' #CLEAR

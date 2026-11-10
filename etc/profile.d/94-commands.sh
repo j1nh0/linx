@@ -1,4 +1,4 @@
-#99-COMMANDS.SH
+#94-COMMANDS.SH
 bleach(){ for BLEACH in $(bleachbit --list-cleaners|grep -v 'free_disk_space'|grep -v 'memory');do bleachbit --clean --overwrite "$BLEACH";done; }; #BLEACH
 bytearray(){ export USAGE='USAGE: bytearray ${ SOME FILE }';
  if [ ! -z "$1" ];then

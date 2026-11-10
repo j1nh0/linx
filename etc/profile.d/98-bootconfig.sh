@@ -1,5 +1,6 @@
-#!/bin/bash -
-export USAGE='USAGE: bootconfig'
+#98-BOOTCONFIG.SH
+bootconfig(){ export USAGE='USAGE: bootconfig'
+#grub.cfg#
  cat<<EOF>grub.cfg
 if loadfont /boot/grub/font.pf2 ; then
  set gfxmode=auto
@@ -101,4 +102,4 @@ menuentry "memtest86plus" {
  linux16 /install/mt86plus
 }
 EOF
-exit 0
+};
